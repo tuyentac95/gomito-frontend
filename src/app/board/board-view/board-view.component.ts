@@ -12,15 +12,21 @@ export class BoardViewComponent implements OnInit {
     'Get to work',
     'Pick up groceries',
     'Go home',
-    'Fall asleep'
+    'Fall asleep',
+    'Check e-mail',
+    'Walk dog'
+  ];
+
+  doing = [
+    'Write letter',
+    'Cooking'
   ];
 
   done = [
     'Get up',
     'Brush teeth',
     'Take a shower',
-    'Check e-mail',
-    'Walk dog'
+    'Eat breakfast'
   ];
 
   constructor() { }
