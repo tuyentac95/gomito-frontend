@@ -1,1 +1,49 @@
 <app-header></app-header>
+
+<mat-drawer-container>
+  <mat-drawer mode="side" opened>
+    <mat-nav-list>
+      <div class="profile-card">
+        <img src="https://civilcode.ge/images/2/24/Blank-avatar.png" alt="">
+        <div>
+          <h2 class="user-name">Tuyen Pham</h2>
+          <h4 class="user-email">tuyentac95@gmail.com</h4>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <h2 matSubheader>Personal</h2>
+
+      <a mat-list-item routerLinkActive="list-item-active" routerLink="/dashboard">
+        <mat-icon>assignment</mat-icon>
+        Board
+      </a>
+      <a mat-list-item routerLinkActive="list-item-active" routerLink="/dashboard">
+        <mat-icon>person</mat-icon>
+        Template
+      </a>
+      <a mat-list-item routerLinkActive="list-item-active" routerLink="/dashboard">
+        <mat-icon>person</mat-icon>
+        Profile
+      </a>
+
+      <mat-divider></mat-divider>
+
+      <h2 matSubheader>Groups</h2>
+
+      <a mat-list-item routerLinkActive="list-item-active" routerLink="/contacts">
+        <mat-icon>groups</mat-icon>
+        Contacts
+      </a>
+
+      <a mat-list-item routerLinkActive="list-item-active" routerLink="/contacts">
+        <mat-icon>groups</mat-icon>
+        Leads
+      </a>
+    </mat-nav-list>
+  </mat-drawer>
+<!--  <mat-drawer-content>-->
+<!--    <router-outlet></router-outlet>-->
+<!--  </mat-drawer-content>-->
+</mat-drawer-container>
