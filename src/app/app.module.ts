@@ -12,7 +12,9 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatListModule} from '@angular/material/list';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { MainComponent } from './main/main.component';
+import { MainComponent } from './dashboard/components/main/main.component';
+import {MatCardModule} from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { MainComponent } from './main/main.component';
     MatIconModule,
     MatMenuModule,
     MatToolbarModule,
-    MatListModule
+    MatListModule,
+    MatCardModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
