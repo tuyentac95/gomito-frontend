@@ -1,0 +1,13 @@
+ul li {
+  list-style: none;
+}
+
+.brand-name {
+  margin-right: 10px;
+  font-size: larger;
+}
+
+mat-form-field {
+  font-size: 13px;
+  padding-top: 12px;
+}
