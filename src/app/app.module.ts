@@ -15,12 +15,15 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { MainComponent } from './dashboard/components/main/main.component';
 import {MatCardModule} from '@angular/material/card';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { BoardViewComponent } from './board/board-view/board-view.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    MainComponent
+    MainComponent,
+    BoardViewComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatToolbarModule,
     MatListModule,
     MatCardModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]
