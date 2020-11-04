@@ -22,8 +22,11 @@ export class BoardCreateComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   createBoard() {
-    this.newBoard.name = this.boardName;
-    this.boardService.createBoard(this.newBoard);
+    this.newBoard.boardName = this.boardName;
+    this.boardService.createBoard(this.newBoard).subscribe(data => {
+      console.log(data);
+      alert('Created');
+    });
     this.dialogRef.close();
   }
 }
