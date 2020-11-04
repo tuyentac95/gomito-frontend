@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {BoardCreateComponent} from '../board-create/board-create.component';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(public createForm: MatDialog) { }
 
   ngOnInit(): void {
   }
 
+  openCreateForm(): void {
+    const dialogRef = this.createForm.open(BoardCreateComponent, {
+      width: '500px'
+    });
+  }
 }
