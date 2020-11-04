@@ -29,6 +29,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import {NgxWebstorageModule} from 'ngx-webstorage';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     MatButtonModule,
     MatSelectModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgxWebstorageModule.forRoot()
   ],
   // providers: [],
   providers: [

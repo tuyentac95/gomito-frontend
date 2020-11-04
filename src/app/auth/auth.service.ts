@@ -4,6 +4,7 @@ import {SignupRequest} from './signup/signup-request';
 import {Observable} from 'rxjs';
 import {LoginRequest} from './login/login-request';
 import {ChangePasswordRequest} from '../change-password/change-password-request';
+import {LoginRespponse} from './login/login-respponse';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,8 +16,8 @@ export class AuthService {
     return this.http.post('http://localhost:8080/auth/signup', signupRequest);
   }
 
-  login(loginRequest: LoginRequest): Observable<Object> {
-    return  this.http.post('http://localhost:8080/auth/login', loginRequest);
+  login(loginRequest: LoginRequest): Observable<LoginRespponse> {
+    return this.http.post<LoginRespponse>('http://localhost:8080/auth/login', loginRequest);
   }
 
   changePassword(changePwRequest: ChangePasswordRequest) {
