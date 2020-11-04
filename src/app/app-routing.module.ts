@@ -5,6 +5,7 @@ import {MainComponent} from './dashboard/components/main/main.component';
 import {BoardViewComponent} from './board/board-view/board-view.component';
 import {ChangePasswordComponent} from './change-password/change-password.component';
 import {ResetPasswordComponent} from './reset-password/reset-password.component';
+import {SignupComponent} from './auth/signup/signup.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent,
@@ -14,7 +15,8 @@ const routes: Routes = [
   },
   {path: 'board/1', component: BoardViewComponent},
   {path: 'change-password', component: ChangePasswordComponent},
-  {path: 'reset-password', component: ResetPasswordComponent}
+  {path: 'reset-password', component: ResetPasswordComponent},
+  {path: 'signup', component: SignupComponent}
 ];
 
 @NgModule({
