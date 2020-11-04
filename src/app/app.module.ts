@@ -17,13 +17,20 @@ import {MatCardModule} from '@angular/material/card';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { BoardViewComponent } from './board/board-view/board-view.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { SignupComponent } from './signup/signup.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatOptionModule} from '@angular/material/core';
+import {MatButtonModule} from '@angular/material/button';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     MainComponent,
-    BoardViewComponent
+    BoardViewComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +45,12 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatListModule,
     MatCardModule,
     FlexLayoutModule,
-    DragDropModule
+    DragDropModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
+    MatButtonModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
