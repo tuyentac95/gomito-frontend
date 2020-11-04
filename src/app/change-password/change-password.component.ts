@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import {AuthService} from '../auth/auth.service';
+import {ChangePasswordRequest} from './change-password-request';
+
+
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
@@ -7,18 +11,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChangePasswordComponent implements OnInit {
 
-  constructor( ) { }
-  hide = true;
-  // model: any = {};
+  changePasswordRequest: ChangePasswordRequest = {
+    oldpassword : '',
+    newpassword: ''
+  };
 
-  oldPassword = '';
-  newPassword = '';
+  constructor(private authService: AuthService) { }
+  hide = true;
+
 
   ngOnInit(): void {
   }
 
-  // tslint:disable-next-line:typedef
-  changePassword() {
-
+  changePassword(): void {
+    this.authService.changePassword(this.changePasswordRequest);
   }
 }
