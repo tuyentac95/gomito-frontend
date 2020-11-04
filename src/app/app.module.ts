@@ -26,6 +26,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { LoginComponent } from './auth/login/login.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,9 @@ import { LoginComponent } from './auth/login/login.component';
     MainComponent,
     BoardViewComponent,
     SignupComponent,
-    LoginComponent
+    LoginComponent,
+    ChangePasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +63,10 @@ import { LoginComponent } from './auth/login/login.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  // providers: [],
+  providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
