@@ -17,13 +17,21 @@ import {MatCardModule} from '@angular/material/card';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { BoardViewComponent } from './board/board-view/board-view.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import {FormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     MainComponent,
-    BoardViewComponent
+    BoardViewComponent,
+    ChangePasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -38,9 +46,17 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatListModule,
     MatCardModule,
     FlexLayoutModule,
-    DragDropModule
+    DragDropModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule,
+    MatButtonModule,
+
   ],
-  providers: [],
+  // providers: [],
+  providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

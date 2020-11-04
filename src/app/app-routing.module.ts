@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {MainComponent} from './dashboard/components/main/main.component';
 import {BoardViewComponent} from './board/board-view/board-view.component';
+import {ChangePasswordComponent} from './change-password/change-password.component';
+import {ResetPasswordComponent} from './reset-password/reset-password.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent,
@@ -10,7 +12,9 @@ const routes: Routes = [
     path: '', component: MainComponent
     }]
   },
-  {path: 'board/1', component: BoardViewComponent}
+  {path: 'board/1', component: BoardViewComponent},
+  {path: 'change-password', component: ChangePasswordComponent},
+  {path: 'reset-password', component: ResetPasswordComponent}
 ];
 
 @NgModule({
