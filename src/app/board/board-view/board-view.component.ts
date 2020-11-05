@@ -6,6 +6,7 @@ import {ListService} from "../../list/list.service";
 import {ActivatedRoute} from '@angular/router';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {ListModel} from "../../list-model";
+import {CardService} from '../../card/card.service';
 
 export class GList{
   name: string;
@@ -78,7 +79,8 @@ export class BoardViewComponent implements OnInit {
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
               public createList: MatDialog,
-              private listService: ListService) {
+              private listService: ListService,
+              private cardService: CardService) {
     console.log(this.route.snapshot.params['boardId']);
   }
 
@@ -125,11 +127,18 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
+  // tslint:disable-next-line:typedef
   private getList(){
     const id = this.route.snapshot.params['boardId'];
-    this.listService.getListList(id).subscribe(data =>{
+    this.listService.getListList(id).subscribe(data => {
       this.listModels = data;
-    })
+      const service = this.cardService;
+      for (const model of data) {
+        service.getAllCards(model.listId).subscribe(listCard => {
+          this.listModels[model.listId].cards = listCard;
+        });
+      }
+    });
   }
 
 }
