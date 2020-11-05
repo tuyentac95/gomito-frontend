@@ -4,9 +4,9 @@ import {SignupRequest} from './signup/signup-request';
 import {Observable} from 'rxjs';
 import {LoginRequest} from './login/login-request';
 import {ChangePasswordRequest} from '../change-password/change-password-request';
-import {LoginRespponse} from './login/login-respponse';
+import {LoginResponse} from './login/login-respponse';
 import {LocalStorageService} from 'ngx-webstorage';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -26,15 +26,8 @@ export class AuthService {
       {responseType: 'text'});
   }
 
-  login(loginRequest: LoginRequest): Observable<boolean> {
-    return this.http.post<LoginRespponse>('http://localhost:8080/auth/login', loginRequest)
-      .pipe(map(data => {
-        this.localStorage.store('authenticationToken', data.authenticationToken);
-        this.localStorage.store('username', data.username);
-        this.localStorage.store('refreshToken', data.refreshToken);
-        this.localStorage.store('expiresAt', data.expiresAt);
-        return true;
-      }));
+  login(loginRequest: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>('http://localhost:8080/auth/login', loginRequest);
   }
 
   // tslint:disable-next-line:typedef
@@ -42,9 +35,17 @@ export class AuthService {
     return this.localStorage.retrieve('authenticationToken');
   }
 
-  // refresfToken() {
-  //   return this.http.post<LoginRespponse>()
-  // }
+  // tslint:disable-next-line:typedef
+  refreshToken() {
+    return this.http.post<LoginResponse>('http://localhost:8080/auth/refresh/token',
+      this.refreshToken())
+      .pipe(tap(response => {
+        this.localStorage.clear('authenticationToken');
+        this.localStorage.clear('expiresAt');
+        this.localStorage.store('authenticationToken', response.authenticationToken);
+        this.localStorage.store('expiresAt', response.expiresAt);
+      }));
+  }
 
   // tslint:disable-next-line:typedef
   changePassword(changePwRequest: ChangePasswordRequest) {
