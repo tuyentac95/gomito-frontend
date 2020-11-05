@@ -1,0 +1,6 @@
+<mat-form-field appearance="standard">
+  <mat-label>List name: </mat-label>
+  <input matInput placeholder="Name" [(ngModel)]="listName">
+  <mat-icon matSuffix>assignment</mat-icon>
+</mat-form-field>
+  <div fxLayoutAlign="flex-end"><button mat-raised-button color="primary" (click)="createList()">Create</button></div>

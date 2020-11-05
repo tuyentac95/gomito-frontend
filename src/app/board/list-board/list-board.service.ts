@@ -9,7 +9,7 @@ import {LocalStorageService} from "ngx-webstorage";
   providedIn: 'root'
 })
 export class ListBoardService {
-  private baseURL = 'http://localhost:8080/api/users/'
+  private baseURL = 'http://localhost:8080/api/users/';
   constructor(private httpClient: HttpClient,
               private router: Router,
               private localStorage: LocalStorageService) {}
