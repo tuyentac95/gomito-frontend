@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
 import {BoardModel} from './board-model';
 import {BoardService} from '../../board/board.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-board-create',
@@ -9,11 +10,12 @@ import {BoardService} from '../../board/board.service';
   styleUrls: ['./board-create.component.css']
 })
 export class BoardCreateComponent implements OnInit {
-  boardName: string;
+  boardName: '';
   newBoard: BoardModel;
 
   constructor(public dialogRef: MatDialogRef<BoardCreateComponent>,
-              private boardService: BoardService) { }
+              private boardService: BoardService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.boardName = '';
@@ -24,6 +26,8 @@ export class BoardCreateComponent implements OnInit {
   createBoard() {
     this.newBoard.boardName = this.boardName;
     this.boardService.createBoard(this.newBoard).subscribe(data => {
+      // @ts-ignore
+      this.router.navigateByUrl('redirect');
       console.log(data);
       alert('Created');
     });
