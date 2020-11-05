@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
       this.router.navigateByUrl('/dashboard');
       this.localStorage.store('authenticationToken', data.authenticationToken);
       this.localStorage.store('username', data.username);
+      this.localStorage.store('userId', data.userId);
       this.localStorage.store('refreshToken', data.refreshToken);
       this.localStorage.store('expiresAt', data.expiresAt);
     }, error => {

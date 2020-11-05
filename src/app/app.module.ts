@@ -30,6 +30,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import {NgxWebstorageModule} from 'ngx-webstorage';
+// import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {NgxWebstorageModule} from 'ngx-webstorage';
     SignupComponent,
     LoginComponent,
     ChangePasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    // GBoardComponent
   ],
   imports: [
     BrowserModule,
