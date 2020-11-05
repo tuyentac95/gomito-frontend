@@ -5,6 +5,7 @@ import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {ListService} from "../../list/list.service";
 import {ActivatedRoute} from '@angular/router';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
+import {ListModel} from "../../list-model";
 
 export class GList{
   name: string;
@@ -72,6 +73,7 @@ export class BoardViewComponent implements OnInit {
     this.REVIEW,
     this.DONE
   ];
+  listModels: ListModel[];
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
@@ -124,8 +126,7 @@ export class BoardViewComponent implements OnInit {
   private getList(){
     const id = this.route.snapshot.params['boardId'];
     this.listService.getListList(id).subscribe(data =>{
-      // this.listModels = data;
-      console.log(data);
+      this.listModels = data;
     })
   }
 
