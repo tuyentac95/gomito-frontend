@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
+import {ListService} from "../../list/list.service";
 
 export class GList{
   name: string;
@@ -14,6 +15,7 @@ export class GList{
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
+
   US: GList = {
     name: 'US',
     data: [
@@ -69,7 +71,8 @@ export class BoardViewComponent implements OnInit {
     this.DONE
   ];
 
-  constructor(public createList: MatDialog) { }
+  constructor(public createList: MatDialog,
+              private listService: ListService) { }
 
   ngOnInit(): void {
   }
@@ -98,4 +101,12 @@ export class BoardViewComponent implements OnInit {
       width: '250px'
     });
   }
+
+  private getList(){
+    this.listService.getListList(id).subscribe(data =>{
+      // this.listModels = data;
+      console.log(data);
+    })
+  }
+
 }
