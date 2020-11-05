@@ -89,7 +89,9 @@ export class BoardViewComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   dropList(event: CdkDragDrop<GList[]>) {
+    console.log(event);
     console.log(event.container);
+    console.log(event.container.data);
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
   }
 
