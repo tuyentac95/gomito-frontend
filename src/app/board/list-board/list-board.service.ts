@@ -9,15 +9,13 @@ import {LocalStorageService} from "ngx-webstorage";
   providedIn: 'root'
 })
 export class ListBoardService {
-  private baseURL = 'http://localhost:8080/api/users/';
   constructor(private httpClient: HttpClient,
               private router: Router,
               private localStorage: LocalStorageService) {}
 
   getBoardList(): Observable<GBoard[]>{
     const id = this.localStorage.retrieve('userId');
-    const header = new HttpHeaders().set('Authorization', 'Bearer ' + this.localStorage.retrieve('authenticationToken'));
-    return this.httpClient.get<GBoard[]>('http://localhost:8080/api/users/' + id, {headers: header});
+    return this.httpClient.get<GBoard[]>('http://localhost:8080/api/users/' + id);
   }
 
 }

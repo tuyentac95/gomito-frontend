@@ -24,7 +24,6 @@ export class MainComponent implements OnInit {
   private getBoard(){
     // @ts-ignore
     this.listBoardService.getBoardList().subscribe(data => {
-      // console.log(data[0]);
       this.gboards = data;
     })
   }
