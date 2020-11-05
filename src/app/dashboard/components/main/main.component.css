@@ -14,3 +14,8 @@ mat-card {
   color: #FAFBFC;
   margin-bottom: 15px;
 }
+
+mat-card {
+  float: left;
+  margin: 5px 10px;
+}
