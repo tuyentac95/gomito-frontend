@@ -4,23 +4,60 @@ import {SignupRequest} from './signup/signup-request';
 import {Observable} from 'rxjs';
 import {LoginRequest} from './login/login-request';
 import {ChangePasswordRequest} from '../change-password/change-password-request';
-import {LoginRespponse} from './login/login-respponse';
+import {LoginResponse} from './login/login-respponse';
+import {LocalStorageService} from 'ngx-webstorage';
+import {map, tap} from 'rxjs/operators';
+
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
 
-  constructor(private http: HttpClient) { }
+export class AuthService {
+  refreshTokenPayload = {
+    refreshToken: this.getRefreshToken(),
+    username: this.getUserName()
+  };
+
+  constructor(private http: HttpClient,
+              private localStorage: LocalStorageService) { }
 
   signup(signupRequest: SignupRequest): Observable<any> {
-    return this.http.post('http://localhost:8080/auth/signup', signupRequest);
+    return this.http.post('http://localhost:8080/auth/signup', signupRequest,
+      {responseType: 'text'});
   }
 
-  login(loginRequest: LoginRequest): Observable<LoginRespponse> {
-    return this.http.post<LoginRespponse>('http://localhost:8080/auth/login', loginRequest);
+  login(loginRequest: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>('http://localhost:8080/auth/login', loginRequest);
   }
 
+  // tslint:disable-next-line:typedef
+  getJwtToken(){
+    return this.localStorage.retrieve('authenticationToken');
+  }
+
+  // tslint:disable-next-line:typedef
+  refreshToken() {
+    return this.http.post<LoginResponse>('http://localhost:8080/auth/refresh/token',
+      this.refreshToken())
+      .pipe(tap(response => {
+        this.localStorage.clear('authenticationToken');
+        this.localStorage.clear('expiresAt');
+        this.localStorage.store('authenticationToken', response.authenticationToken);
+        this.localStorage.store('expiresAt', response.expiresAt);
+      }));
+  }
+
+  // tslint:disable-next-line:typedef
   changePassword(changePwRequest: ChangePasswordRequest) {
     console.log(changePwRequest);
+  }
+  // tslint:disable-next-line:typedef
+  getUserName() {
+    return this.localStorage.retrieve('username');
+  }
+
+  // tslint:disable-next-line:typedef
+  private getRefreshToken() {
+    return this.localStorage.retrieve('refreshToken');
   }
 }

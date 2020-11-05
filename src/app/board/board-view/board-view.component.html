@@ -1,6 +1,5 @@
 <app-header></app-header>
 <mat-drawer-container>
-
   <div cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="dropList($event)" [cdkDropListData]="test">
     <div cdkDropListGroup>
       <div class="example-container" *ngFor="let list of test; index as i" cdkDrag>
@@ -17,7 +16,7 @@
         </div>
         <div class="add-card-box" *ngIf="list.data.length > 0"> + Add new card</div>
       </div>
-      <div class="add-list-box"> + Add new list</div>
+      <div class="add-list-box" (click)="openCreateList()"> + Add new list</div>
     </div>
   </div>
 </mat-drawer-container>
