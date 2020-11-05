@@ -33,7 +33,7 @@ import {NgxWebstorageModule} from 'ngx-webstorage';
 import {TokenInterceptor} from './token-interceptor';
 import {ListUpdateComponent} from './list/list-update/list-update.component';
 import { CreatListComponent } from './list/creat-list/creat-list.component';
-import { DisplayAllListComponent } from './list/display-all-list/display-all-list.component';
+import { CreateCardComponent } from './card/create-card/create-card.component';
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -48,7 +48,7 @@ import { DisplayAllListComponent } from './list/display-all-list/display-all-lis
     ResetPasswordComponent,
     ListUpdateComponent,
     CreatListComponent,
-    DisplayAllListComponent,
+    CreateCardComponent,
     // GBoardComponent
   ],
   imports: [
