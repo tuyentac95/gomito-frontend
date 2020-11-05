@@ -5,7 +5,6 @@
     <div cdkDropListGroup>
       <div class="example-container" *ngFor="let list of test; index as i" cdkDrag>
         <h2>{{list.name}}</h2>
-
         <div
           cdkDropList
           [cdkDropListData]="list.data"
@@ -20,9 +19,6 @@
       </div>
       <div class="add-list-box"> + Add new list</div>
     </div>
-
   </div>
-
-
 </mat-drawer-container>
 

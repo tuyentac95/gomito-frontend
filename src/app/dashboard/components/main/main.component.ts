@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {ListBoardService} from "../../../list-board.service";
+import {ListBoardService} from "../../../board/list-board/list-board.service";
 import {GBoard} from "../../../gboard";
+import {LocalStorageService} from "ngx-webstorage";
 
 @Component({
   selector: 'app-main',
@@ -13,7 +14,8 @@ export class MainComponent implements OnInit {
   private userId: number;
   gboards: GBoard[];
   constructor(private listBoardService: ListBoardService,
-              private router: Router) {}
+              private router: Router,
+              private localStorage: LocalStorageService) {}
 
   ngOnInit(): void {
     this.getBoard();
@@ -25,5 +27,9 @@ export class MainComponent implements OnInit {
       // console.log(data[0]);
       this.gboards = data;
     })
+  }
+
+  navigateToList(boardId: number){
+    this.router.navigateByUrl("/board/" + boardId);
   }
 }
