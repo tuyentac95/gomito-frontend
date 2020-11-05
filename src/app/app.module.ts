@@ -17,13 +17,15 @@ import {MatCardModule} from '@angular/material/card';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { BoardViewComponent } from './board/board-view/board-view.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { ListUpdateComponent } from './list/list-update/list-update.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     MainComponent,
-    BoardViewComponent
+    BoardViewComponent,
+    ListUpdateComponent
   ],
   imports: [
     BrowserModule,
