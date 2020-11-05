@@ -32,8 +32,7 @@ export class CreatListComponent implements OnInit {
     this.listService.creatList(this.newList).subscribe(data => {
       console.log(data);
       alert('Created');
-    })
-    ;
+    });
     this.dialogRef.close();
   }
 }
