@@ -46,7 +46,7 @@ import { CreatListComponent } from './list/creat-list/creat-list.component';
     ChangePasswordComponent,
     ResetPasswordComponent,
     ListUpdateComponent,
-    CreatListComponent
+    CreatListComponent,
     // GBoardComponent
   ],
   imports: [

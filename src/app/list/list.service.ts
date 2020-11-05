@@ -14,7 +14,4 @@ export class ListService {
     console.log(newList);
     return this.httpClient.post('http://localhost:8080/api/lists/', newList);
   }
-
-
-
 }
