@@ -1,17 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
-import {ListService} from "../../list/list.service";
+import {ListService} from '../../list/list.service';
 import {ActivatedRoute} from '@angular/router';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
-import {ListModel} from "../../list-model";
+import {ListModel} from '../../list-model';
 import {CardService} from '../../card/card.service';
-
-export class GList{
-  name: string;
-  data: string[];
-}
+import {GCard} from '../../gCard';
 
 @Component({
   selector: 'app-board-view',
@@ -20,60 +16,6 @@ export class GList{
 })
 export class BoardViewComponent implements OnInit {
 
-  US: GList = {
-    name: 'US',
-    data: [
-      'Get to work',
-      'Pick up groceries',
-      'Go home',
-    ]
-  };
-
-  TODO: GList = {
-    name: 'TO DO',
-    data: [
-      'Get to work',
-      'Pick up groceries',
-      'Go home',
-      'Fall asleep',
-      'Check e-mail',
-      'Walk dog'
-    ]
-  };
-
-  DOING: GList = {
-    name: 'DOING',
-    data: [
-      'Write letter',
-      'Cooking'
-    ]
-  };
-
-  REVIEW: GList = {
-    name: 'REVIEW',
-    data: [
-      'Write letter',
-      'Cooking'
-    ]
-  };
-
-  DONE: GList = {
-    name: 'DONE',
-    data: [
-      'Get up',
-      'Brush teeth',
-      'Take a shower',
-      'Eat breakfast'
-    ]
-  };
-
-  test = [
-    this.US,
-    this.TODO,
-    this.DOING,
-    this.REVIEW,
-    this.DONE
-  ];
   listModels: ListModel[];
 
   constructor(public create: MatDialog,
@@ -81,15 +23,16 @@ export class BoardViewComponent implements OnInit {
               public createList: MatDialog,
               private listService: ListService,
               private cardService: CardService) {
-    console.log(this.route.snapshot.params['boardId']);
+    console.log(this.route.snapshot.params.boardId);
   }
 
   ngOnInit(): void {
     this.getList();
+    this.listModels = [];
   }
 
   // tslint:disable-next-line:typedef
-  dropCard(event: CdkDragDrop<string[]>) {
+  dropCard(event: CdkDragDrop<GCard[]>) {
     if (event.previousContainer === event.container) {
       console.log(event.container);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -102,7 +45,7 @@ export class BoardViewComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef
-  dropList(event: CdkDragDrop<GList[]>) {
+  dropList(event: CdkDragDrop<ListModel[]>) {
     console.log(event);
     console.log(event.container);
     console.log(event.container.data);
@@ -128,17 +71,40 @@ export class BoardViewComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef
-  private getList(){
-    const id = this.route.snapshot.params['boardId'];
+  private getList() {
+    // Lấy boardId từ URL
+    const id = this.route.snapshot.params.boardId;
+
+    // Gọi ra tất cả list có trong board theo boardId
     this.listService.getListList(id).subscribe(data => {
-      this.listModels = data;
-      const service = this.cardService;
+
+      // gán this là đối tượng hiện tại cho $this vì trong quá trình bên dưới this có thể được hiểu là một thằng khác
+      const $this = this;
+
+      // Data trả về 1 mảng ListModel, vậy duyệt qua từng phần tử để lấy listId
       for (const model of data) {
-        service.getAllCards(model.listId).subscribe(listCard => {
-          this.listModels[model.listId].cards = listCard;
+        console.log(model);
+
+        // Với mỗi listId, gọi ra tất cả card có trong list đó
+        $this.cardService.getAllCards(model.listId).subscribe(listCard => {
+          console.log(listCard);
+
+          // Khởi tạo 1 ListModel mới với cards là listCard của API trả về
+          const newListModel: ListModel = {
+            boardId: id,
+            cards: listCard,
+            listId: model.listId,
+            listName: model.listName
+          };
+
+          // Thêm ListModel mới vào mảng chính thức
+          $this.listModels.push(newListModel);
         });
       }
     });
   }
 
+  viewCard(cardId: number): void {
+    console.log('Selected Card: ' + cardId);
+  }
 }
