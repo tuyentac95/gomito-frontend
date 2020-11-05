@@ -1,7 +1,7 @@
 export class LoginRespponse {
   authenticationToken: string;
   username: string;
-  userId: number;
+  userId?: number;
   refreshToken: string;
   expiresAt: Date;
 }
