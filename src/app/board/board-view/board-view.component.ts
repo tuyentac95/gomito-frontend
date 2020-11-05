@@ -3,6 +3,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import {MatDialog} from '@angular/material/dialog';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {ActivatedRoute} from '@angular/router';
+import {CreateCardComponent} from '../../card/create-card/create-card.component';
 
 export class GList{
   name: string;
@@ -70,7 +71,7 @@ export class BoardViewComponent implements OnInit {
     this.DONE
   ];
 
-  constructor(public createList: MatDialog, private route: ActivatedRoute) {
+  constructor(public create: MatDialog, private route: ActivatedRoute) {
     console.log(this.route.snapshot.params['boardId']);
   }
 
@@ -97,7 +98,16 @@ export class BoardViewComponent implements OnInit {
   }
 
   openCreateList(): void {
-    const createList = this.createList.open(CreatListComponent, {
+    const createList = this.create.open(CreatListComponent, {
+      data: {
+        route: this.route
+      },
+      width: '250px'
+    });
+  }
+
+  openCreateCard(): void {
+    const createCard = this.create.open(CreateCardComponent, {
       data: {
         route: this.route
       },

@@ -11,10 +11,10 @@
           (cdkDropListDropped)="dropCard($event)">
           <div class="example-box" *ngFor="let item of list.data" cdkDrag>{{item}}</div>
           <div *ngIf="list.data.length == 0">
-            <div class="example-box">Add new card</div>
+            <div class="example-box" >Add new card</div>
           </div>
         </div>
-        <div class="add-card-box" *ngIf="list.data.length > 0"> + Add new card</div>
+        <div class="add-card-box" *ngIf="list.data.length > 0" (click)="openCreateCard()"> + Add new card</div>
       </div>
       <div class="add-list-box" (click)="openCreateList()"> + Add new list</div>
     </div>
