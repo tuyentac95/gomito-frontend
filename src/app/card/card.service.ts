@@ -14,4 +14,8 @@ export class CardService {
     console.log(newCard);
     return this.httpClient.post('http://localhost:8080/api/cards/', newCard);
   }
+
+  getAllCards(listId: number): Observable<GCard[]> {
+    return this.httpClient.get<GCard[]>('http://localhost:8080/api/lists/' + listId);
+  }
 }
