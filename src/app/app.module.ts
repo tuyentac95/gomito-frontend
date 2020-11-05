@@ -32,6 +32,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import {NgxWebstorageModule} from 'ngx-webstorage';
 import {TokenInterceptor} from './token-interceptor';
 import {ListUpdateComponent} from './list/list-update/list-update.component';
+import { CreatListComponent } from './list/creat-list/creat-list.component';
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -44,7 +45,8 @@ import {ListUpdateComponent} from './list/list-update/list-update.component';
     LoginComponent,
     ChangePasswordComponent,
     ResetPasswordComponent,
-    ListUpdateComponent
+    ListUpdateComponent,
+    CreatListComponent
     // GBoardComponent
   ],
   imports: [

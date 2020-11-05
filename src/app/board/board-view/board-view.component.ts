@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {MatDialog} from '@angular/material/dialog';
+import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 
 export class GList{
   name: string;
@@ -49,7 +51,7 @@ export class BoardViewComponent implements OnInit {
     this.done
   ];
 
-  constructor() { }
+  constructor(public createList: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -71,5 +73,11 @@ export class BoardViewComponent implements OnInit {
   dropList(event: CdkDragDrop<GList[]>) {
     console.log(event.container);
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  }
+
+  openCreateList(): void {
+    const createList = this.createList.open(CreatListComponent, {
+      width: '250px'
+    });
   }
 }
