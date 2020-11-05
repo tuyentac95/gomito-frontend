@@ -14,9 +14,17 @@ export class GList{
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
+  US: GList = {
+    name: 'US',
+    data: [
+      'Get to work',
+      'Pick up groceries',
+      'Go home',
+    ]
+  };
 
-  todo: GList = {
-    name: 'To do',
+  TODO: GList = {
+    name: 'TO DO',
     data: [
       'Get to work',
       'Pick up groceries',
@@ -27,16 +35,24 @@ export class BoardViewComponent implements OnInit {
     ]
   };
 
-  doing: GList = {
-    name: 'Doing',
+  DOING: GList = {
+    name: 'DOING',
     data: [
       'Write letter',
       'Cooking'
     ]
   };
 
-  done: GList = {
-    name: 'Done',
+  REVIEW: GList = {
+    name: 'REVIEW',
+    data: [
+      'Write letter',
+      'Cooking'
+    ]
+  };
+
+  DONE: GList = {
+    name: 'DONE',
     data: [
       'Get up',
       'Brush teeth',
@@ -46,9 +62,11 @@ export class BoardViewComponent implements OnInit {
   };
 
   test = [
-    this.todo,
-    this.doing,
-    this.done
+    this.US,
+    this.TODO,
+    this.DOING,
+    this.REVIEW,
+    this.DONE
   ];
 
   constructor(public createList: MatDialog) { }
