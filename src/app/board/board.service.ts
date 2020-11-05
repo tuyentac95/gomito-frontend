@@ -17,4 +17,6 @@ export class BoardService {
     // const header = new HttpHeaders().set('Authorization', 'Bearer ' + this.localStorage.retrieve('authenticationToken'));
     return this.http.post('http://localhost:8080/api/boards/', newBoard);
   }
+
+  listCard
 }

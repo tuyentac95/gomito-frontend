@@ -6,6 +6,7 @@ import {ListService} from "../../list/list.service";
 import {ActivatedRoute} from '@angular/router';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {ListModel} from "../../list-model";
+import {GCard} from '../../gCard';
 
 export class GList{
   name: string;
@@ -87,7 +88,7 @@ export class BoardViewComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef
-  dropCard(event: CdkDragDrop<string[]>) {
+  dropCard(event: CdkDragDrop<GCard[], any>) {
     if (event.previousContainer === event.container) {
       console.log(event.container);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -100,6 +101,7 @@ export class BoardViewComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef
+  // list: any;
   dropList(event: CdkDragDrop<GList[]>) {
     console.log(event.container);
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -123,11 +125,13 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
-  private getList(){
+  // tslint:disable-next-line:typedef
+  getList(){
     const id = this.route.snapshot.params['boardId'];
-    this.listService.getListList(id).subscribe(data =>{
+    this.listService.getListList(id).subscribe(data => {
       this.listModels = data;
-    })
+      console.log(data);
+    });
   }
 
 }
