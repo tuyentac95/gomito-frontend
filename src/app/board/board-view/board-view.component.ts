@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
+import {ActivatedRoute} from '@angular/router';
 
 export class GList{
   name: string;
@@ -69,7 +70,9 @@ export class BoardViewComponent implements OnInit {
     this.DONE
   ];
 
-  constructor(public createList: MatDialog) { }
+  constructor(public createList: MatDialog, private route: ActivatedRoute) {
+    console.log(this.route.snapshot.params['boardId']);
+  }
 
   ngOnInit(): void {
   }
@@ -95,6 +98,9 @@ export class BoardViewComponent implements OnInit {
 
   openCreateList(): void {
     const createList = this.createList.open(CreatListComponent, {
+      data: {
+        route: this.route
+      },
       width: '250px'
     });
   }
