@@ -14,7 +14,7 @@ const routes: Routes = [
     path: '', component: MainComponent
     }]
   },
-  {path: 'board/1', component: BoardViewComponent},
+  {path: 'board/:boardId', component: BoardViewComponent},
   {path: 'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
   {path: 'change-password', component: ChangePasswordComponent},
