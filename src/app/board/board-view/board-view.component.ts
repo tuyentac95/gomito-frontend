@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
+import {ListService} from "../../list/list.service";
+import {ActivatedRoute} from '@angular/router';
+import {CreateCardComponent} from '../../card/create-card/create-card.component';
+import {ListModel} from "../../list-model";
 
 export class GList{
   name: string;
@@ -14,6 +18,7 @@ export class GList{
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
+
   US: GList = {
     name: 'US',
     data: [
@@ -68,10 +73,17 @@ export class BoardViewComponent implements OnInit {
     this.REVIEW,
     this.DONE
   ];
+  listModels: ListModel[];
 
-  constructor(public createList: MatDialog) { }
+  constructor(public create: MatDialog,
+              private route: ActivatedRoute,
+              public createList: MatDialog,
+              private listService: ListService) {
+    console.log(this.route.snapshot.params['boardId']);
+  }
 
   ngOnInit(): void {
+    this.getList();
   }
 
   // tslint:disable-next-line:typedef
@@ -96,8 +108,28 @@ export class BoardViewComponent implements OnInit {
   }
 
   openCreateList(): void {
-    const createList = this.createList.open(CreatListComponent, {
+    const createList = this.create.open(CreatListComponent, {
+      data: {
+        route: this.route
+      },
       width: '250px'
     });
   }
+
+  openCreateCard(): void {
+    const createCard = this.create.open(CreateCardComponent, {
+      data: {
+        route: this.route
+      },
+      width: '250px'
+    });
+  }
+
+  private getList(){
+    const id = this.route.snapshot.params['boardId'];
+    this.listService.getListList(id).subscribe(data =>{
+      this.listModels = data;
+    })
+  }
+
 }

@@ -1,3 +1,3 @@
 export class BoardModel {
-  boardName: string;
+  boardName: Object;
 }
