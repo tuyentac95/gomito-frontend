@@ -90,7 +90,8 @@ export class BoardViewComponent implements OnInit {
           boardId: id,
           cards: [],
           listId: model.listId,
-          listName: model.listName
+          listName: model.listName,
+          listIndex: model.listIndex
         };
 
         // Thêm ListModel mới vào mảng chính thức
