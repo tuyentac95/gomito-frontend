@@ -16,24 +16,14 @@ export class CreatListComponent implements OnInit {
   newList: ListModel;
 
   constructor(public dialogRef: MatDialogRef<CreatListComponent>,
-              private listService: ListService,
-              @Inject(MAT_DIALOG_DATA) data: {route: ActivatedRoute}) {
-    this.newList = new ListModel();
-    this.newList.boardId = Number(data.route.snapshot.params['boardId']);
+              @Inject(MAT_DIALOG_DATA) public data: ListModel) {
+    this.newList = data;
+    console.log('check data list');
+    console.log(this.newList);
   }
 
   ngOnInit(): void {
     this.listName = '';
-  }
-
-  // tslint:disable-next-line:typedef
-  createList() {
-    this.newList.listName = this.listName;
-    this.listService.creatList(this.newList).subscribe(data => {
-      console.log(data);
-      alert('Created');
-    });
-    this.dialogRef.close();
   }
 
 }
