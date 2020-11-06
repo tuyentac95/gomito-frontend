@@ -61,11 +61,20 @@ export class BoardViewComponent implements OnInit {
   }
 
   openCreateList(): void {
+    const newList: ListModel = {
+      listName: '',
+      boardId: this.route.snapshot.params['boardId'],
+      cards: []
+    };
     const createList = this.create.open(CreatListComponent, {
-      data: {
-        route: this.route
-      },
+      data: newList,
       width: '250px'
+    });
+    createList.afterClosed().subscribe(result => {
+      this.listService.creatList(result).subscribe(data => {
+        newList.listIndex = data.listIndex;
+        this.listModels.push(newList);
+      });
     });
   }
 

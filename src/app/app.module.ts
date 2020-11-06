@@ -34,6 +34,7 @@ import {TokenInterceptor} from './token-interceptor';
 import {ListUpdateComponent} from './list/list-update/list-update.component';
 import { CreatListComponent } from './list/creat-list/creat-list.component';
 import { CreateCardComponent } from './card/create-card/create-card.component';
+import {MatDialogModule} from '@angular/material/dialog';
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -51,29 +52,30 @@ import { CreateCardComponent } from './card/create-card/create-card.component';
     CreateCardComponent,
     // GBoardComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    SharedModule,
-    MatSidenavModule,
-    MatDividerModule,
-    MatIconModule,
-    MatMenuModule,
-    MatToolbarModule,
-    MatListModule,
-    MatCardModule,
-    FlexLayoutModule,
-    DragDropModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatOptionModule,
-    MatButtonModule,
-    MatSelectModule,
-    HttpClientModule,
-    FormsModule,
-    NgxWebstorageModule.forRoot()
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        SharedModule,
+        MatSidenavModule,
+        MatDividerModule,
+        MatIconModule,
+        MatMenuModule,
+        MatToolbarModule,
+        MatListModule,
+        MatCardModule,
+        FlexLayoutModule,
+        DragDropModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatOptionModule,
+        MatButtonModule,
+        MatSelectModule,
+        HttpClientModule,
+        FormsModule,
+        NgxWebstorageModule.forRoot(),
+        MatDialogModule
+    ],
   // providers: [],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },

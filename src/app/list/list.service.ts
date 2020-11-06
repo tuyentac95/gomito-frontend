@@ -14,9 +14,9 @@ export class ListService {
               private router: Router,
               private localStorage: LocalStorageService) {}
 
-  creatList(newList: ListModel): Observable<Object>{
+  creatList(newList: ListModel): Observable<ListModel>{
     console.log(newList);
-    return this.httpClient.post('http://localhost:8080/api/lists/', newList);
+    return this.httpClient.post<ListModel>('http://localhost:8080/api/lists/', newList);
   }
 
   editList(updateList: ListModel): Observable<Object>{
