@@ -15,6 +15,6 @@ export class BoardService {
   // tslint:disable-next-line:typedef
   createBoard(newBoard: BoardModel): Observable<Object> {
     // const header = new HttpHeaders().set('Authorization', 'Bearer ' + this.localStorage.retrieve('authenticationToken'));
-    return this.http.post('http://localhost:8080/api/boards/', newBoard);
+    return this.http.post('http://10.30.0.75:8080/api/boards/', newBoard);
   }
 }

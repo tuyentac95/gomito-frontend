@@ -12,7 +12,7 @@
 
 <!--      Duyệt qua các list trong mảng listModels-->
       <div class="example-container" *ngFor="let list of listModels; index as i" cdkDrag>
-        <h2>{{list.listName}}</h2>
+        <h2>{{list.listName}}: index {{i}}</h2>
 
 <!--        Lấy ra danh sách các card từ cards của từng list đưa vào data của DropList con-->
         <div

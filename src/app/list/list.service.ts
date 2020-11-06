@@ -16,11 +16,11 @@ export class ListService {
 
   creatList(newList: ListModel): Observable<Object>{
     console.log(newList);
-    return this.httpClient.post('http://localhost:8080/api/lists/', newList);
+    return this.httpClient.post('http://10.30.0.75:8080/api/lists/', newList);
   }
 
   // @ts-ignore
   getListList(id: number): Observable<ListModel[]>{
-    return this.httpClient.get<ListModel[]>('http://localhost:8080/api/boards/' +id);
+    return this.httpClient.get<ListModel[]>('http://10.30.0.75:8080/api/boards/' + id);
   }
 }

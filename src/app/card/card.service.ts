@@ -12,10 +12,10 @@ export class CardService {
 
   creatCard(newCard: GCard): Observable<Object>{
     console.log(newCard);
-    return this.httpClient.post('http://localhost:8080/api/cards/', newCard);
+    return this.httpClient.post('http://10.30.0.75:8080/api/cards/', newCard);
   }
 
   getAllCards(listId: number): Observable<GCard[]> {
-    return this.httpClient.get<GCard[]>('http://localhost:8080/api/lists/' + listId);
+    return this.httpClient.get<GCard[]>('http://10.30.0.75:8080/api/lists/' + listId);
   }
 }

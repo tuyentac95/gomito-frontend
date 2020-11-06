@@ -22,12 +22,12 @@ export class AuthService {
               private localStorage: LocalStorageService) { }
 
   signup(signupRequest: SignupRequest): Observable<any> {
-    return this.http.post('http://localhost:8080/auth/signup', signupRequest,
+    return this.http.post('http://10.30.0.75:8080/auth/signup', signupRequest,
       {responseType: 'text'});
   }
 
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('http://localhost:8080/auth/login', loginRequest);
+    return this.http.post<LoginResponse>('http://10.30.0.75:8080/auth/login', loginRequest);
   }
 
   // tslint:disable-next-line:typedef
@@ -37,7 +37,7 @@ export class AuthService {
 
   // tslint:disable-next-line:typedef
   refreshToken() {
-    return this.http.post<LoginResponse>('http://localhost:8080/auth/refresh/token',
+    return this.http.post<LoginResponse>('http://10.30.0.75:8080/auth/refresh/token',
       this.refreshToken())
       .pipe(tap(response => {
         this.localStorage.clear('authenticationToken');

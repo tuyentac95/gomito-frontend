@@ -5,4 +5,5 @@ export class ListModel {
   listId?: number;
   boardId?: number;
   cards?: GCard[];
+  listIndex?: number;
 }
