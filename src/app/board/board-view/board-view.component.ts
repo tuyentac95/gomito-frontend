@@ -78,16 +78,22 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
-  openCreateCard(id: number): void {
+  openCreateCard(id: number, index: number): void {
     const newCard: GCard = {
       cardName: '',
       listId: id
     };
     const createCard = this.create.open(CreateCardComponent, {
-      data: {
-        card: newCard
-      },
+      data: newCard,
       width: '250px'
+    });
+    createCard.afterClosed().subscribe(result => {
+      this.cardService.creatCard(result).subscribe(data => {
+        console.log('check data card');
+        console.log(data);
+        newCard.cardIndex = data.cardIndex;
+        this.listModels[index].cards.push(newCard);
+      });
     });
   }
 
