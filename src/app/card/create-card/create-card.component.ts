@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './create-card.component.html',
   styleUrls: ['./create-card.component.css']
 })
-export class CreateCardComponent implements OnInit {
+export class  CreateCardComponent implements OnInit {
   cardName: any;
 
   constructor() { }
@@ -14,6 +14,6 @@ export class CreateCardComponent implements OnInit {
   }
 
   createcard() {
-    
+
   }
 }
