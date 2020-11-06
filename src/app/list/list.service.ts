@@ -23,4 +23,17 @@ export class ListService {
   getListList(id: number): Observable<ListModel[]>{
     return this.httpClient.get<ListModel[]>('http://10.30.0.75:8080/api/boards/' + id);
   }
+
+  updateIndex(data: ListModel[]): Observable<Object> {
+    const updateLists: ListModel[] = [];
+    for(const list of data){
+      const newList: ListModel = {
+        listId: list.listId,
+        listIndex: list.listIndex
+      };
+      updateLists.push(newList);
+    }
+    // console.log(updateLists);
+    return this.httpClient.post('http://10.30.0.75:8080/api/lists/updateIndex', updateLists);
+  }
 }

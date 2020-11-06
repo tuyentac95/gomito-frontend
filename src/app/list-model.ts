@@ -1,7 +1,7 @@
 import {GCard} from './gCard';
 
 export class ListModel {
-  listName: string;
+  listName?: string;
   listId?: number;
   boardId?: number;
   cards?: GCard[];
