@@ -52,11 +52,11 @@ export class BoardViewComponent implements OnInit {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     // console.log(event.container.data);
     this.listService.updateIndex(event.container.data)
-    //   .subscribe(data => {
-    //   console.log('Update Index OK');
-    // }, error => {
-    //   throwError(error);
-    // })
+      .subscribe(data => {
+      console.log('Update Index OK');
+    }, error => {
+      throwError(error);
+    })
     ;
   }
 
