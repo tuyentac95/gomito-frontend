@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
-import {CreatListComponent} from '../../list/creat-list/creat-list.component';
-import {ListService} from '../../list/list.service';
-import {ActivatedRoute} from '@angular/router';
-import {CreateCardComponent} from '../../card/create-card/create-card.component';
+import {ListUpdateComponent} from '../../list/list-update/list-update.component';
 import {ListModel} from '../../list-model';
+import {ActivatedRoute} from '@angular/router';
+import {ListService} from '../../list/list.service';
 import {CardService} from '../../card/card.service';
 import {GCard} from '../../gCard';
-import {throwError} from "rxjs";
+import {throwError} from 'rxjs';
+import {CreatListComponent} from '../../list/creat-list/creat-list.component';
+import {CreateCardComponent} from '../../card/create-card/create-card.component';
 
 @Component({
   selector: 'app-board-view',
@@ -24,6 +25,7 @@ export class BoardViewComponent implements OnInit {
               public createList: MatDialog,
               private listService: ListService,
               private cardService: CardService) {
+    console.log(this.route.snapshot.params.boardId);
   }
 
   ngOnInit(): void {
@@ -80,6 +82,19 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
+  openEditList(id: number, name: string): void {
+      const updateList: ListModel = {
+        listId: id,
+        listName: name
+      };
+      const editList = this.create.open(ListUpdateComponent, {
+        data: {
+          list: updateList
+        },
+        width: '250px'
+      });
+  }
+
   // tslint:disable-next-line:typedef
   private getList() {
     // Lấy boardId từ URL
@@ -93,6 +108,7 @@ export class BoardViewComponent implements OnInit {
 
       // Data trả về 1 mảng ListModel, vậy duyệt qua từng phần tử để lấy listId
       for (const model of data) {
+        console.log(model);
 
         // Khởi tạo 1 ListModel mới với cards là listCard của API trả về
         const newListModel: ListModel = {
@@ -112,7 +128,6 @@ export class BoardViewComponent implements OnInit {
           $this.listModels[index].cards = listCard;
         });
       }
-
     });
   }
 

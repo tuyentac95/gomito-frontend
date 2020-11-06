@@ -16,12 +16,17 @@ export class ListService {
 
   creatList(newList: ListModel): Observable<Object>{
     console.log(newList);
-    return this.httpClient.post('http://10.30.0.75:8080/api/lists/', newList);
+    return this.httpClient.post('http://localhost:8080/api/lists/', newList);
+  }
+
+  editList(updateList: ListModel): Observable<Object>{
+    console.log('check4: ' + updateList);
+    return this.httpClient.put('http://localhost:8080/api/lists/update/', updateList);
   }
 
   // @ts-ignore
   getListList(id: number): Observable<ListModel[]>{
-    return this.httpClient.get<ListModel[]>('http://10.30.0.75:8080/api/boards/' + id);
+    return this.httpClient.get<ListModel[]>('http://localhost:8080/api/boards/' + id);
   }
 
   updateIndex(data: ListModel[]): void {
@@ -34,6 +39,7 @@ export class ListService {
       updateLists.push(newList);
     }
     console.log(updateLists);
-    // return this.httpClient.post('http://10.30.0.75:8080/api/lists/updateIndex', updateLists);
+    // return this.httpClient.post('http://localhost:8080/api/lists/updateIndex', updateLists);
   }
+
 }

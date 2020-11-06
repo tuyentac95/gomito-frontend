@@ -1,1 +1,9 @@
-<p>list-update works!</p>
+<mat-form-field appearance="standard">
+  <mat-label>List Name: </mat-label>
+  <label>
+    <input matInput placeholder="List name" [(ngModel)]="listName">
+  </label>
+  <mat-icon matSuffix>assignment</mat-icon>
+</mat-form-field>
+<div fxLayoutAlign="flex-end"><button mat-raised-button color="primary" (click)="editListName()">Create</button></div>
+

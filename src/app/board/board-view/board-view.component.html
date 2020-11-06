@@ -11,8 +11,8 @@
     <div cdkDropListGroup>
 
 <!--      Duyệt qua các list trong mảng listModels-->
-      <div class="example-container" *ngFor="let list of listModels; index as i" cdkDrag>
-        <h2>{{list.listName}}: index {{i}}</h2>
+      <div class="example-container" *ngFor="let list of listModels" cdkDrag>
+        <h2 (click)="openEditList(list.listId, list.listName)">{{list.listName}}</h2>
 
 <!--        Lấy ra danh sách các card từ cards của từng list đưa vào data của DropList con-->
         <div
