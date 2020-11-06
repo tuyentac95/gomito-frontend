@@ -16,9 +16,9 @@ export class CreateCardComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<CreateCardComponent>,
               private cardService: CardService,
-              @Inject(MAT_DIALOG_DATA) data: {route: ActivatedRoute}) {
-    this.newCard = new GCard();
-    this.newCard.listId = Number(data.route.snapshot.params.listId);
+              @Inject(MAT_DIALOG_DATA) data: {card: GCard}) {
+    this.newCard = data.card;
+    console.log('check1: ' + this.newCard);
   }
 
   ngOnInit(): void {
@@ -28,6 +28,7 @@ export class CreateCardComponent implements OnInit {
   // tslint:disable-next-line:typedef
   createcard() {
     this.newCard.cardName = this.cardName;
+    console.log('check2: ' + this.newCard);
     this.cardService.creatCard(this.newCard).subscribe(data => {
       console.log(data);
       alert('Created');
