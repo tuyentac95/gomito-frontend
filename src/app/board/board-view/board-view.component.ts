@@ -25,13 +25,11 @@ export class BoardViewComponent implements OnInit {
               public createList: MatDialog,
               private listService: ListService,
               private cardService: CardService) {
-    console.log(this.route.snapshot.params.boardId);
   }
 
   ngOnInit(): void {
     this.listModels = [];
     this.getList();
-    console.log(this.listModels);
   }
 
   // tslint:disable-next-line:typedef
@@ -87,12 +85,11 @@ export class BoardViewComponent implements OnInit {
       data: newCard,
       width: '250px'
     });
+    const $this = this;
     createCard.afterClosed().subscribe(result => {
-      this.cardService.creatCard(result).subscribe(data => {
-        console.log('check data card');
-        console.log(data);
+      $this.cardService.creatCard(result).subscribe(data => {
         newCard.cardIndex = data.cardIndex;
-        this.listModels[index].cards.push(newCard);
+        $this.listModels[index].cards.push(newCard);
       });
     });
   }
@@ -123,7 +120,6 @@ export class BoardViewComponent implements OnInit {
 
       // Data trả về 1 mảng ListModel, vậy duyệt qua từng phần tử để lấy listId
       for (const model of data) {
-        console.log(model);
 
         // Khởi tạo 1 ListModel mới với cards là listCard của API trả về
         const newListModel: ListModel = {

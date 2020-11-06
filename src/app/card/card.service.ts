@@ -11,7 +11,6 @@ export class CardService {
   constructor(private httpClient: HttpClient) { }
 
   creatCard(newCard: GCard): Observable<GCard>{
-    console.log(newCard);
     return this.httpClient.post<GCard>('http://localhost:8080/api/cards/', newCard);
   }
 
