@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ListModel} from '../list-model';
 import {Observable} from 'rxjs';
-import {Router} from "@angular/router";
-import {LocalStorageService} from "ngx-webstorage";
+import {Router} from '@angular/router';
+import {LocalStorageService} from 'ngx-webstorage';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,20 @@ export class ListService {
 
   // @ts-ignore
   getListList(id: number): Observable<ListModel[]>{
-    return this.httpClient.get<ListModel[]>('http://localhost:8080/api/boards/' +id);
+    return this.httpClient.get<ListModel[]>('http://localhost:8080/api/boards/' + id);
+  }
+
+  updateIndex(data: ListModel[]): void {
+    const updateLists: ListModel[] = [];
+    for (const list of data){
+      const newList: ListModel = {
+        listId: list.listId,
+        listIndex: data.indexOf(list) + 1
+      };
+      updateLists.push(newList);
+    }
+    console.log(updateLists);
+    // return this.httpClient.post('http://localhost:8080/api/lists/updateIndex', updateLists);
   }
 
 }

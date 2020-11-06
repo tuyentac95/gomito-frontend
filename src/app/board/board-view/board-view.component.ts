@@ -7,6 +7,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ListService} from '../../list/list.service';
 import {CardService} from '../../card/card.service';
 import {GCard} from '../../gCard';
+import {throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 
@@ -30,12 +31,13 @@ export class BoardViewComponent implements OnInit {
   ngOnInit(): void {
     this.listModels = [];
     this.getList();
+    console.log(this.listModels);
   }
 
   // tslint:disable-next-line:typedef
   dropCard(event: CdkDragDrop<GCard[]>) {
     if (event.previousContainer === event.container) {
-      console.log(event.container);
+      console.log(event.container.data);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
@@ -47,10 +49,15 @@ export class BoardViewComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   dropList(event: CdkDragDrop<ListModel[]>) {
-    console.log(event);
-    console.log(event.container);
-    console.log(event.container.data);
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    // console.log(event.container.data);
+    this.listService.updateIndex(event.container.data)
+    //   .subscribe(data => {
+    //   console.log('Update Index OK');
+    // }, error => {
+    //   throwError(error);
+    // })
+    ;
   }
 
   openCreateList(): void {
@@ -108,7 +115,8 @@ export class BoardViewComponent implements OnInit {
           boardId: id,
           cards: [],
           listId: model.listId,
-          listName: model.listName
+          listName: model.listName,
+          listIndex: model.listIndex,
         };
 
         // Thêm ListModel mới vào mảng chính thức
@@ -117,7 +125,6 @@ export class BoardViewComponent implements OnInit {
 
         // Với mỗi listId, gọi ra tất cả card có trong list đó
         $this.cardService.getAllCards(model.listId).subscribe(listCard => {
-          console.log(listCard);
           $this.listModels[index].cards = listCard;
         });
       }
@@ -127,6 +134,4 @@ export class BoardViewComponent implements OnInit {
   viewCard(cardId: number): void {
     console.log('Selected Card: ' + cardId);
   }
-
-
 }
