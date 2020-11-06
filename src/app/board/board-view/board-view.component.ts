@@ -1,13 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
-import {CreatListComponent} from '../../list/creat-list/creat-list.component';
-import {ListService} from '../../list/list.service';
-import {ActivatedRoute} from '@angular/router';
-import {CreateCardComponent} from '../../card/create-card/create-card.component';
+import {ListUpdateComponent} from '../../list/list-update/list-update.component';
 import {ListModel} from '../../list-model';
+import {ActivatedRoute} from '@angular/router';
+import {ListService} from '../../list/list.service';
 import {CardService} from '../../card/card.service';
 import {GCard} from '../../gCard';
+import {throwError} from 'rxjs';
+import {CreatListComponent} from '../../list/creat-list/creat-list.component';
+import {CreateCardComponent} from '../../card/create-card/create-card.component';
 
 @Component({
   selector: 'app-board-view',
@@ -29,12 +31,13 @@ export class BoardViewComponent implements OnInit {
   ngOnInit(): void {
     this.listModels = [];
     this.getList();
+    console.log(this.listModels);
   }
 
   // tslint:disable-next-line:typedef
   dropCard(event: CdkDragDrop<GCard[]>) {
     if (event.previousContainer === event.container) {
-      console.log(event.container);
+      console.log(event.container.data);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
@@ -46,10 +49,15 @@ export class BoardViewComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   dropList(event: CdkDragDrop<ListModel[]>) {
-    console.log(event);
-    console.log(event.container);
-    console.log(event.container.data);
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    // console.log(event.container.data);
+    this.listService.updateIndex(event.container.data)
+      .subscribe(data => {
+      console.log('Update Index OK');
+    }, error => {
+      throwError(error);
+    })
+    ;
   }
 
   openCreateList(): void {
@@ -74,6 +82,19 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
+  openEditList(id: number, name: string): void {
+      const updateList: ListModel = {
+        listId: id,
+        listName: name
+      };
+      const editList = this.create.open(ListUpdateComponent, {
+        data: {
+          list: updateList
+        },
+        width: '250px'
+      });
+  }
+
   // tslint:disable-next-line:typedef
   private getList() {
     // Lấy boardId từ URL
@@ -95,7 +116,7 @@ export class BoardViewComponent implements OnInit {
           cards: [],
           listId: model.listId,
           listName: model.listName,
-          listIndex: model.listIndex
+          listIndex: model.listIndex,
         };
 
         // Thêm ListModel mới vào mảng chính thức
@@ -104,7 +125,6 @@ export class BoardViewComponent implements OnInit {
 
         // Với mỗi listId, gọi ra tất cả card có trong list đó
         $this.cardService.getAllCards(model.listId).subscribe(listCard => {
-          console.log(listCard);
           $this.listModels[index].cards = listCard;
         });
       }

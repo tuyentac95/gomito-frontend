@@ -19,12 +19,11 @@ export class SignupComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-
   }
 
-  signup(){
+  signup(): void{
     this.authService.signup(this.signupRequest).subscribe((data) => {
-      // this.router.navigate(['']);
+      this.router.navigateByUrl('login');
       console.log(data);
     });
   }
