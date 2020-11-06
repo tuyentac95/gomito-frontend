@@ -27,8 +27,8 @@ export class BoardViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getList();
     this.listModels = [];
+    this.getList();
   }
 
   // tslint:disable-next-line:typedef
@@ -85,20 +85,22 @@ export class BoardViewComponent implements OnInit {
       for (const model of data) {
         console.log(model);
 
+        // Khởi tạo 1 ListModel mới với cards là listCard của API trả về
+        const newListModel: ListModel = {
+          boardId: id,
+          cards: [],
+          listId: model.listId,
+          listName: model.listName
+        };
+
+        // Thêm ListModel mới vào mảng chính thức
+        $this.listModels.push(newListModel);
+        const index = $this.listModels.indexOf(newListModel);
+
         // Với mỗi listId, gọi ra tất cả card có trong list đó
         $this.cardService.getAllCards(model.listId).subscribe(listCard => {
           console.log(listCard);
-
-          // Khởi tạo 1 ListModel mới với cards là listCard của API trả về
-          const newListModel: ListModel = {
-            boardId: id,
-            cards: listCard,
-            listId: model.listId,
-            listName: model.listName
-          };
-
-          // Thêm ListModel mới vào mảng chính thức
-          $this.listModels.push(newListModel);
+          $this.listModels[index].cards = listCard;
         });
       }
     });
