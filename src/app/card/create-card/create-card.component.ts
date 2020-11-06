@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {GCard} from '../../gCard';
+
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {ListService} from '../../list/list.service';
-import {ActivatedRoute} from '@angular/router';
 import {CardService} from '../card.service';
+import {GCard} from '../../gCard';
+
 
 @Component({
   selector: 'app-create-card',
