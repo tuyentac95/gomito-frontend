@@ -1,5 +1,6 @@
 export class GCard {
   listId?: number;
-  cardName: string;
+  cardName?: string;
   cardId?: number;
+  cardIndex?: number;
 }

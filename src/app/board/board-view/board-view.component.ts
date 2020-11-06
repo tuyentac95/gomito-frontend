@@ -35,7 +35,7 @@ export class BoardViewComponent implements OnInit {
   // tslint:disable-next-line:typedef
   dropCard(event: CdkDragDrop<GCard[]>) {
     if (event.previousContainer === event.container) {
-      console.log(event.container);
+      console.log(event.container.data);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
@@ -49,11 +49,13 @@ export class BoardViewComponent implements OnInit {
   dropList(event: CdkDragDrop<ListModel[]>) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     // console.log(event.container.data);
-    this.listService.updateIndex(event.container.data).subscribe(data => {
-      console.log('Update Index OK');
-    }, error => {
-      throwError(error);
-    });
+    this.listService.updateIndex(event.container.data)
+    //   .subscribe(data => {
+    //   console.log('Update Index OK');
+    // }, error => {
+    //   throwError(error);
+    // })
+    ;
   }
 
   openCreateList(): void {
@@ -65,10 +67,14 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
-  openCreateCard(id): void {
+  openCreateCard(id: number): void {
+    const newCard: GCard = {
+      cardName: '',
+      listId: id
+    };
     const createCard = this.create.open(CreateCardComponent, {
       data: {
-        route: this.route
+        card: newCard
       },
       width: '250px'
     });
@@ -106,6 +112,7 @@ export class BoardViewComponent implements OnInit {
           $this.listModels[index].cards = listCard;
         });
       }
+
     });
   }
 
