@@ -10,7 +10,7 @@ import {GCard} from '../../gCard';
 import {throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
-import {error} from "@angular/compiler/src/util";
+import {error} from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-board-view',
@@ -38,10 +38,10 @@ export class BoardViewComponent implements OnInit {
     if (event.previousContainer === event.container) {
       console.log(event.container.data);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      this.cardService.updateIndx(event.container.data).subscribe(data => {
+      this.cardService.updateIndex(event.container.data).subscribe(data => {
         console.log('Update Card Index Success');
-      }, error => {
-        throwError(error);
+      }, err => {
+        throwError(err);
       });
     } else {
       console.log('check previous: ');
@@ -51,10 +51,19 @@ export class BoardViewComponent implements OnInit {
       console.log('check list id: ');
       const containerId = Number(event.container.id.substring(14)) - 1;
       console.log(this.listModels[containerId].listId);
+
       transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex);
+
+      this.cardService.updateIndex(event.previousContainer.data).subscribe(data => {
+        console.log('Update Previous List Card OK');
+      }, err => {
+        throwError(err);
+      });
+
+      this.cardService.moveCard(event.container.data, containerId);
     }
   }
 
@@ -64,10 +73,10 @@ export class BoardViewComponent implements OnInit {
     // console.log(event.container.data);
     this.listService.updateIndex(event.container.data)
       .subscribe(data => {
-      console.log('Update Index OK');
-    }, error => {
-      throwError(error);
-    })
+        console.log('Update Index OK');
+      }, err => {
+        throwError(err);
+      })
     ;
   }
 
@@ -110,16 +119,16 @@ export class BoardViewComponent implements OnInit {
   }
 
   openEditList(id: number, name: string): void {
-      const updateList: ListModel = {
-        listId: id,
-        listName: name
-      };
-      const editList = this.create.open(ListUpdateComponent, {
-        data: {
-          list: updateList
-        },
-        width: '250px',
-      });
+    const updateList: ListModel = {
+      listId: id,
+      listName: name
+    };
+    const editList = this.create.open(ListUpdateComponent, {
+      data: {
+        list: updateList
+      },
+      width: '250px',
+    });
   }
 
   // tslint:disable-next-line:typedef
