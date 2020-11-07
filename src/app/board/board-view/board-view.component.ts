@@ -44,6 +44,13 @@ export class BoardViewComponent implements OnInit {
         throwError(error);
       });
     } else {
+      console.log('check previous: ');
+      console.log(event.previousContainer.data);
+      console.log('check: ');
+      console.log(event.container.data);
+      console.log('check list id: ');
+      const containerId = Number(event.container.id.substring(14)) - 1;
+      console.log(this.listModels[containerId].listId);
       transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,
@@ -145,6 +152,9 @@ export class BoardViewComponent implements OnInit {
         // Với mỗi listId, gọi ra tất cả card có trong list đó
         $this.cardService.getAllCards(model.listId).subscribe(listCard => {
           $this.listModels[index].cards = listCard;
+          for (const card of $this.listModels[index].cards) {
+            card.listId = model.listId;
+          }
         });
       }
     });
