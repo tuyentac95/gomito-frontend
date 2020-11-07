@@ -18,4 +18,7 @@ export class CardService {
   getAllCards(listId: number): Observable<GCard[]> {
     return this.httpClient.get<GCard[]>('http://localhost:8080/api/lists/' + listId);
   }
+  getCard(id:number): Observable<GCard[]> {
+    return this.httpClient.get.GCard[]>('http://localhost:8080/api/')
+  }
 }

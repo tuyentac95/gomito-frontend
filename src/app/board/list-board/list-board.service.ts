@@ -15,7 +15,7 @@ export class ListBoardService {
 
   getBoardList(): Observable<GBoard[]>{
     const id = this.localStorage.retrieve('userId');
-    return this.httpClient.get<GBoard[]>('http://10.30.0.75:8080/api/users/' + id);
+    return this.httpClient.get<GBoard[]>('http://localhost:8080/api/users/' + id);
   }
 
 }

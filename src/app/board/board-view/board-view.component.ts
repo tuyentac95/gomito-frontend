@@ -19,6 +19,7 @@ import {CreateCardComponent} from '../../card/create-card/create-card.component'
 export class BoardViewComponent implements OnInit {
 
   listModels: ListModel[];
+  gCard: GCard[];
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
@@ -32,19 +33,23 @@ export class BoardViewComponent implements OnInit {
     this.listModels = [];
     this.getList();
     console.log(this.listModels);
+    this.gCard = [];
+    this.getCard();
+    console.log(this.gCard);
   }
 
   // tslint:disable-next-line:typedef
   dropCard(event: CdkDragDrop<GCard[]>) {
-    if (event.previousContainer === event.container) {
-      console.log(event.container.data);
+    // if (event.previousContainer === event.container) {
+    //   console.log(event.container.data);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
-    }
+      this.cardService.updateIndx(event.container.data);
+    // } else {
+    //   transferArrayItem(event.previousContainer.data,
+    //     event.container.data,
+    //     event.previousIndex,
+    //     event.currentIndex);
+    // }
   }
 
   // tslint:disable-next-line:typedef
@@ -127,6 +132,23 @@ export class BoardViewComponent implements OnInit {
         $this.cardService.getAllCards(model.listId).subscribe(listCard => {
           $this.listModels[index].cards = listCard;
         });
+      }
+    });
+  }
+
+  private getCard() {
+    const id = this.route.snapshot.params.listId;
+    this.cardService.getCard(id).subscribe(=> {
+      const $this = this;
+      for(const model of data) {
+        console.log(model);
+        const newCardModel: GCard = {
+          listId: id,
+          cardId: model.cardId,
+          cardIndex: model.cardIndex,
+        };
+        $this.gCard.push(newCardModel);
+        const index = $this.gCard.indexOf(newCardModel);
       }
     });
   }
