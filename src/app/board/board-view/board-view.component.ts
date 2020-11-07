@@ -71,6 +71,7 @@ export class BoardViewComponent implements OnInit {
     createList.afterClosed().subscribe(result => {
       this.listService.creatList(result).subscribe(data => {
         newList.listIndex = data.listIndex;
+        newList.listId = data.listId;
         this.listModels.push(newList);
       });
     });
