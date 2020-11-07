@@ -27,11 +27,14 @@ export class SignupComponent implements OnInit {
     this.signupForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(50)]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required)
+      password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(50)])
     });
   }
 
   signup(): void{
+    this.signupRequest.username = this.signupForm.get('username').value;
+    this.signupRequest.email = this.signupForm.get('email').value;
+    this.signupRequest.password = this.signupForm.get('password').value;
     this.authService.signup(this.signupRequest).subscribe((data) => {
       this.router.navigateByUrl('login');
       console.log(data);
