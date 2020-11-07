@@ -7,6 +7,7 @@ import {ChangePasswordRequest} from '../change-password/change-password-request'
 import {LoginResponse} from './login/login-respponse';
 import {LocalStorageService} from 'ngx-webstorage';
 import {map, tap} from 'rxjs/operators';
+import {RefreshTokenRequest} from './refresh-token-request';
 
 @Injectable({
   providedIn: 'root'
@@ -59,5 +60,14 @@ export class AuthService {
   // tslint:disable-next-line:typedef
   private getRefreshToken() {
     return this.localStorage.retrieve('refreshToken');
+  }
+
+  logout(): Observable<any> {
+    const logoutReq: RefreshTokenRequest = {
+      username: this.localStorage.retrieve('username'),
+      refreshToken: this.localStorage.retrieve('refreshToken')
+    };
+    console.log(logoutReq);
+    return this.http.post('http://localhost:8080/auth/logout', logoutReq);
   }
 }

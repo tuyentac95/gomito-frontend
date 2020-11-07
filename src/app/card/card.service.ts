@@ -10,15 +10,23 @@ export class CardService {
 
   constructor(private httpClient: HttpClient) { }
 
-  creatCard(newCard: GCard): Observable<Object>{
-    console.log(newCard);
-    return this.httpClient.post('http://localhost:8080/api/cards/', newCard);
+  creatCard(newCard: GCard): Observable<GCard>{
+    return this.httpClient.post<GCard>('http://localhost:8080/api/cards/', newCard);
   }
 
   getAllCards(listId: number): Observable<GCard[]> {
     return this.httpClient.get<GCard[]>('http://localhost:8080/api/lists/' + listId);
   }
-  getCard(id:number): Observable<GCard[]> {
-    return this.httpClient.get.GCard[]>('http://localhost:8080/api/')
-  }
+updateIndx(data: GCard[]): Observable<any> {
+    const updateCards: GCard[] = [];
+    for(const card of data) {
+      const newCard: GCard = {
+        cardId: card.cardId,
+        cardIndex: data.indexOf(card)
+      };
+      updateCards.push(newCard);
+    }
+    console.log(updateCards);
+    return  this.httpClient.post('http://localhost:8080/api/cards/updateIndex', updateCards);
+}
 }

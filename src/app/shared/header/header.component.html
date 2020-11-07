@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span class="brand-name">GOMITO </span>
+    <span class="brand-name" (click)="toDashboard()">GOMITO </span>
 
     <mat-form-field appearance="outline" fxFlex="225px">
       <mat-icon matPrefix>search</mat-icon>
@@ -24,7 +24,7 @@
             <mat-icon>account_circle</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item>
+            <button mat-menu-item (click)="logout()">
               <mat-icon>exit_to_app</mat-icon>
               Sign out
             </button>

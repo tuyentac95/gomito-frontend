@@ -10,6 +10,7 @@ import {GCard} from '../../gCard';
 import {throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
+import {error} from "@angular/compiler/src/util";
 
 @Component({
   selector: 'app-board-view',
@@ -19,37 +20,35 @@ import {CreateCardComponent} from '../../card/create-card/create-card.component'
 export class BoardViewComponent implements OnInit {
 
   listModels: ListModel[];
-  gCard: GCard[];
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
               public createList: MatDialog,
               private listService: ListService,
               private cardService: CardService) {
-    console.log(this.route.snapshot.params.boardId);
   }
 
   ngOnInit(): void {
     this.listModels = [];
     this.getList();
-    console.log(this.listModels);
-    this.gCard = [];
-    this.getCard();
-    console.log(this.gCard);
   }
 
   // tslint:disable-next-line:typedef
   dropCard(event: CdkDragDrop<GCard[]>) {
-    // if (event.previousContainer === event.container) {
-    //   console.log(event.container.data);
+    if (event.previousContainer === event.container) {
+      console.log(event.container.data);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      this.cardService.updateIndx(event.container.data);
-    // } else {
-    //   transferArrayItem(event.previousContainer.data,
-    //     event.container.data,
-    //     event.previousIndex,
-    //     event.currentIndex);
-    // }
+      this.cardService.updateIndx(event.container.data).subscribe(data => {
+        console.log('Update Card Index Success');
+      }, error => {
+        throwError(error);
+      });
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
   }
 
   // tslint:disable-next-line:typedef
@@ -57,33 +56,49 @@ export class BoardViewComponent implements OnInit {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     // console.log(event.container.data);
     this.listService.updateIndex(event.container.data)
-    //   .subscribe(data => {
-    //   console.log('Update Index OK');
-    // }, error => {
-    //   throwError(error);
-    // })
+      .subscribe(data => {
+      console.log('Update Index OK');
+    }, error => {
+      throwError(error);
+    })
     ;
   }
 
   openCreateList(): void {
+    const newList: ListModel = {
+      listName: '',
+      boardId: this.route.snapshot.params['boardId'],
+      cards: []
+    };
     const createList = this.create.open(CreatListComponent, {
-      data: {
-        route: this.route
-      },
+      data: newList,
       width: '250px'
+    });
+    createList.afterClosed().subscribe(result => {
+      this.listService.creatList(result).subscribe(data => {
+        newList.listIndex = data.listIndex;
+        newList.listId = data.listId;
+        this.listModels.push(newList);
+      });
     });
   }
 
-  openCreateCard(id: number): void {
+  openCreateCard(id: number, index: number): void {
     const newCard: GCard = {
       cardName: '',
       listId: id
     };
     const createCard = this.create.open(CreateCardComponent, {
-      data: {
-        card: newCard
-      },
+      data: newCard,
       width: '250px'
+    });
+    const $this = this;
+    createCard.afterClosed().subscribe(result => {
+      $this.cardService.creatCard(result).subscribe(data => {
+        newCard.cardIndex = data.cardIndex;
+        newCard.cardId = data.cardId;
+        $this.listModels[index].cards.push(newCard);
+      });
     });
   }
 
@@ -113,7 +128,6 @@ export class BoardViewComponent implements OnInit {
 
       // Data trả về 1 mảng ListModel, vậy duyệt qua từng phần tử để lấy listId
       for (const model of data) {
-        console.log(model);
 
         // Khởi tạo 1 ListModel mới với cards là listCard của API trả về
         const newListModel: ListModel = {
@@ -132,23 +146,6 @@ export class BoardViewComponent implements OnInit {
         $this.cardService.getAllCards(model.listId).subscribe(listCard => {
           $this.listModels[index].cards = listCard;
         });
-      }
-    });
-  }
-
-  private getCard() {
-    const id = this.route.snapshot.params.listId;
-    this.cardService.getCard(id).subscribe(=> {
-      const $this = this;
-      for(const model of data) {
-        console.log(model);
-        const newCardModel: GCard = {
-          listId: id,
-          cardId: model.cardId,
-          cardIndex: model.cardIndex,
-        };
-        $this.gCard.push(newCardModel);
-        const index = $this.gCard.indexOf(newCardModel);
       }
     });
   }
