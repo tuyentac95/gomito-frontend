@@ -17,4 +17,16 @@ export class CardService {
   getAllCards(listId: number): Observable<GCard[]> {
     return this.httpClient.get<GCard[]>('http://localhost:8080/api/lists/' + listId);
   }
+updateIndx(data: GCard[]): Observable<any> {
+    const updateCards: GCard[] = [];
+    for(const card of data) {
+      const newCard: GCard = {
+        cardId: card.cardId,
+        cardIndex: data.indexOf(card)
+      };
+      updateCards.push(newCard);
+    }
+    console.log(updateCards);
+    return  this.httpClient.post('http://localhost:8080/api/cards/updateIndex', updateCards);
+}
 }

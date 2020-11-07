@@ -10,6 +10,7 @@ import {GCard} from '../../gCard';
 import {throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
+import {error} from "@angular/compiler/src/util";
 
 @Component({
   selector: 'app-board-view',
@@ -37,6 +38,11 @@ export class BoardViewComponent implements OnInit {
     if (event.previousContainer === event.container) {
       console.log(event.container.data);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.cardService.updateIndx(event.container.data).subscribe(data => {
+        console.log('Update Card Index Success');
+      }, error => {
+        throwError(error);
+      });
     } else {
       transferArrayItem(event.previousContainer.data,
         event.container.data,
@@ -90,6 +96,7 @@ export class BoardViewComponent implements OnInit {
     createCard.afterClosed().subscribe(result => {
       $this.cardService.creatCard(result).subscribe(data => {
         newCard.cardIndex = data.cardIndex;
+        newCard.cardId = data.cardId;
         $this.listModels[index].cards.push(newCard);
       });
     });
