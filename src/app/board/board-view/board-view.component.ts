@@ -84,7 +84,7 @@ export class BoardViewComponent implements OnInit {
         data: {
           list: updateList
         },
-        width: '250px'
+        width: '250px',
       });
   }
 
