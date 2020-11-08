@@ -3,6 +3,7 @@ import {SignupRequest} from './signup-request';
 import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {throwError} from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -13,6 +14,7 @@ export class SignupComponent implements OnInit {
 
   signupRequest: SignupRequest;
   signupForm: FormGroup;
+  message: string;
 
   constructor(private authService: AuthService,
               private router: Router) {
@@ -25,7 +27,7 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(50)]),
+      username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(50)])
     });
@@ -38,6 +40,11 @@ export class SignupComponent implements OnInit {
     this.authService.signup(this.signupRequest).subscribe((data) => {
       this.router.navigateByUrl('login');
       console.log(data);
+    }, err => {
+      if (err.status == 400) {
+        this.message = 'User is exist';
+      }
+      throwError(err);
     });
   }
 }

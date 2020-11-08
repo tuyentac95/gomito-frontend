@@ -4,6 +4,9 @@
       <mat-card-title>Register</mat-card-title>
     </mat-card-header>
 
+    <mat-divider></mat-divider>
+    <span *ngIf="message">{{message}}</span>
+
     <form class="example-form" [formGroup]="signupForm" (ngSubmit)="signup()">
 
       <mat-card-content>

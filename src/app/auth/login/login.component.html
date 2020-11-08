@@ -12,16 +12,16 @@
             <input matInput placeholder="Username" [formControlName]="'username'" name="username">
           </label>
         </mat-form-field>
-        <div *ngIf="messageUsername">
+        <span *ngIf="messageUsername">
           <p class="text-danger">{{ messageUsername }}</p>
-        </div>
+        </span>
 
         <mat-form-field class="example-full-width">
           <input type="password" matInput placeholder="Password" [formControlName]="'password'" name="password">
         </mat-form-field>
-        <div *ngIf="messagePassword">
+        <span *ngIf="messagePassword">
           <p class="text-danger">{{ messagePassword }}</p>
-        </div>
+        </span>
       </mat-card-content>
       <button mat-stroked-button color="accent" class="btn-block" type="submit">Log in</button>
     </form>
