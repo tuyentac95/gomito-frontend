@@ -4,6 +4,7 @@ import {BoardCreateComponent} from '../board-create/board-create.component';
 import {AuthService} from '../../auth/auth.service';
 import {throwError} from 'rxjs';
 import {Router} from '@angular/router';
+import {LocalStorageService} from 'ngx-webstorage';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(public createForm: MatDialog,
               private authService: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private localStorage: LocalStorageService) { }
 
   ngOnInit(): void {
   }
@@ -31,10 +33,15 @@ export class HeaderComponent implements OnInit {
     }, error => {
       throwError(error);
     });
+    this.localStorage.clear();
     this.router.navigateByUrl('login');
   }
 
   toDashboard(): void {
     this.router.navigateByUrl('dashboard');
+  }
+
+  changePw(): void {
+    this.router.navigateByUrl('dashboard/change-password');
   }
 }

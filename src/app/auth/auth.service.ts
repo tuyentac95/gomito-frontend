@@ -8,6 +8,7 @@ import {LoginResponse} from './login/login-respponse';
 import {LocalStorageService} from 'ngx-webstorage';
 import {tap} from 'rxjs/operators';
 import {RefreshTokenRequest} from './refresh-token-request';
+import {GUser} from './GUser';
 
 @Injectable({
   providedIn: 'root'
@@ -49,8 +50,9 @@ export class AuthService {
   }
 
   // tslint:disable-next-line:typedef
-  changePassword(changePwRequest: ChangePasswordRequest) {
+  changePassword(changePwRequest: ChangePasswordRequest): Observable<any> {
     console.log(changePwRequest);
+    return this.http.post('http://localhost:8080/api/users/change-password', changePwRequest);
   }
   // tslint:disable-next-line:typedef
   getUserName() {
@@ -69,5 +71,9 @@ export class AuthService {
     };
     console.log(logoutReq);
     return this.http.post('http://localhost:8080/auth/logout', logoutReq);
+  }
+
+  getUserInfo(): Observable<GUser> {
+    return this.http.get<GUser>('http://localhost:8080/api/users');
   }
 }

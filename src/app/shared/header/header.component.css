@@ -7,6 +7,10 @@ ul li {
   font-size: larger;
 }
 
+.brand-name :hover {
+  cursor: pointer;
+}
+
 mat-form-field {
   font-size: 13px;
   padding-top: 12px;

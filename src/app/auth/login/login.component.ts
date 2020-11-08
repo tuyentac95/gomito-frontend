@@ -18,7 +18,8 @@ export class LoginComponent implements OnInit {
     password: ''
   };
     loginForm: FormGroup;
-  message: string;
+  messageUsername: string;
+  messagePassword: string;
 
 
   constructor( private fb: FormBuilder,
@@ -35,28 +36,25 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    // this.loginRequest.username = this.loginForm.get('username').value;
-    // this.loginRequest.password = this.loginForm.get('password').value;
+    this.loginRequest.username = this.loginForm.get('username').value;
+    this.loginRequest.password = this.loginForm.get('password').value;
+    console.log(this.loginRequest);
     this.authService.login(this.loginRequest).subscribe((data) => {
-      // if (data.status === 200){
+      if (data.status === 200){
         this.router.navigateByUrl('/dashboard');
         this.localStorage.store('authenticationToken', data.authenticationToken);
         this.localStorage.store('username', data.username);
         this.localStorage.store('userId', data.userId);
         this.localStorage.store('refreshToken', data.refreshToken);
         this.localStorage.store('expiresAt', data.expiresAt);
-      // } else if (data.status === 301) {
-      //   this.message = 'Tài khoản không đúng!';
-      //   this.router.navigate(['login']);
-      // } else if (data.status === 302) {
-      //   this.message = 'Mật khẩu không đúng!';
-      //   this.router.navigate(['login']);
-      // } else if (data.status === 303) {
-      //   this.message = 'Tài khoản hoặc mất khẩu không đúng!';
-      //   this.router.navigate(['login']);
-      // }
-
+      } else if (data.status === 404) {
+        this.messageUsername = 'Tài khoản không tìm thấy!';
+        this.router.navigate(['login']);
+      }
     }, error => {
+      if (error.status === 403) {
+        this.messagePassword = 'Mật khẩu không đúng!';
+      }
       throwError(error);
     });
   }
