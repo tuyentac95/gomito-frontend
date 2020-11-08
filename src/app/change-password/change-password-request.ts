@@ -1,4 +1,4 @@
 export class ChangePasswordRequest{
-  'oldpassword': string;
-  'newpassword': string;
+  'oldPassword': string;
+  'newPassword': string;
 }

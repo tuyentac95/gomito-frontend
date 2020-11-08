@@ -37,4 +37,8 @@ export class HeaderComponent implements OnInit {
   toDashboard(): void {
     this.router.navigateByUrl('dashboard');
   }
+
+  changePw(): void {
+    this.router.navigateByUrl('dashboard/change-password');
+  }
 }
