@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {GCard} from '../gCard';
 import {Observable} from 'rxjs';
@@ -8,18 +8,20 @@ import {Observable} from 'rxjs';
 })
 export class CardService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+  }
 
-  creatCard(newCard: GCard): Observable<GCard>{
+  creatCard(newCard: GCard): Observable<GCard> {
     return this.httpClient.post<GCard>('http://localhost:8080/api/cards/', newCard);
   }
 
   getAllCards(listId: number): Observable<GCard[]> {
     return this.httpClient.get<GCard[]>('http://localhost:8080/api/lists/' + listId);
   }
-updateIndx(data: GCard[]): Observable<any> {
+
+  updateIndex(data: GCard[]): Observable<any> {
     const updateCards: GCard[] = [];
-    for(const card of data) {
+    for (const card of data) {
       const newCard: GCard = {
         cardId: card.cardId,
         cardIndex: data.indexOf(card)
@@ -27,6 +29,14 @@ updateIndx(data: GCard[]): Observable<any> {
       updateCards.push(newCard);
     }
     console.log(updateCards);
-    return  this.httpClient.post('http://localhost:8080/api/cards/updateIndex', updateCards);
-}
+    return this.httpClient.post('http://localhost:8080/api/cards/updateIndex', updateCards);
+  }
+
+  moveCardToAnotherList(data: GCard[], containerId: number): Observable<any> {
+    for (const card of data) {
+      card.listId = containerId;
+      console.log(card);
+    }
+    return this.httpClient.post('http://localhost:8080/api/cards/updateIndexOfCardInAnotherList', data);
+  }
 }
