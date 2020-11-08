@@ -10,16 +10,17 @@ import {LoginComponent} from './auth/login/login.component';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent,
-    children: [{
-    path: '', component: MainComponent
-    }]
+    children: [
+      {path: '', component: MainComponent},
+      {path: 'change-password', component: ChangePasswordComponent}
+    ]
   },
   {path: 'board/:boardId', component: BoardViewComponent},
   {path: 'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'change-password', component: ChangePasswordComponent},
+  // {path: 'change-password', component: ChangePasswordComponent},
   {path: 'reset-password', component: ResetPasswordComponent},
-  {path: 'redirect', redirectTo: 'dashboard' ,pathMatch: 'full'}
+  {path: 'redirect', redirectTo: 'dashboard' , pathMatch: 'full'}
 ];
 
 @NgModule({
