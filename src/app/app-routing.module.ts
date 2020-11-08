@@ -7,19 +7,21 @@ import {SignupComponent} from './auth/signup/signup.component';
 import {ResetPasswordComponent} from './reset-password/reset-password.component';
 import {ChangePasswordComponent} from './change-password/change-password.component';
 import {LoginComponent} from './auth/login/login.component';
+import {AuthGuardGuard} from './guard/auth-guard.guard';
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent,
     children: [
       {path: '', component: MainComponent},
       {path: 'change-password', component: ChangePasswordComponent}
-    ]
+    ],
+    canActivate: [AuthGuardGuard]
   },
-  {path: 'board/:boardId', component: BoardViewComponent},
+  {path: 'board/:boardId', component: BoardViewComponent, canActivate: [AuthGuardGuard]},
   {path: 'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'reset-password', component: ResetPasswordComponent},
-  {path: 'redirect', redirectTo: 'dashboard' , pathMatch: 'full'}
+  {path: 'reset-password', component: ResetPasswordComponent, canActivate: [AuthGuardGuard]},
+  {path: 'redirect', redirectTo: 'dashboard' , pathMatch: 'full', canActivate: [AuthGuardGuard]}
 ];
 
 @NgModule({
