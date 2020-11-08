@@ -45,25 +45,34 @@ export class BoardViewComponent implements OnInit {
       });
     } else {
       console.log('check previous: ');
-      console.log(event.previousContainer.data);
+      const preContainerData = event.previousContainer.data;
+      const containerData = event.container.data;
+      console.log(preContainerData);
       console.log('check: ');
-      console.log(event.container.data);
+      console.log(containerData);
       console.log('check list id: ');
       const containerId = Number(event.container.id.substring(14)) - 1;
-      console.log(this.listModels[containerId].listId);
+      const newListId = this.listModels[containerId].listId;
+      console.log(newListId);
 
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
+      transferArrayItem(preContainerData,
+        containerData,
         event.previousIndex,
         event.currentIndex);
 
-      this.cardService.updateIndex(event.previousContainer.data).subscribe(data => {
-        console.log('Update Previous List Card OK');
+      if (preContainerData.length > 0) {
+        this.cardService.updateIndex(preContainerData).subscribe(data => {
+          console.log('Update Previous List Card OK');
+        }, err => {
+          throwError(err);
+        });
+      }
+
+      this.cardService.moveCardToAnotherList(containerData, newListId).subscribe(data => {
+        console.log('Update New List Card');
       }, err => {
         throwError(err);
       });
-
-      this.cardService.moveCardToAnotherList(event.container.data, containerId);
     }
   }
 

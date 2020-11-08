@@ -3,8 +3,7 @@
     <mat-card-header>
       <mat-card-title>Register</mat-card-title>
     </mat-card-header>
-
-    <mat-divider></mat-divider>
+    <br/>
     <span *ngIf="message">{{message}}</span>
 
     <form class="example-form" [formGroup]="signupForm" (ngSubmit)="signup()">
