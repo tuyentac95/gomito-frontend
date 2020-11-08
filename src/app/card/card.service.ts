@@ -32,7 +32,11 @@ export class CardService {
     return this.httpClient.post('http://localhost:8080/api/cards/updateIndex', updateCards);
   }
 
-  moveCard(data: GCard[], containerId: number) {
-    return this.httpClient
+  moveCardToAnotherList(data: GCard[], containerId: number): Observable<any> {
+    for (const card of data) {
+      card.listId = containerId;
+      console.log(card);
+    }
+    return this.httpClient.post('http://localhost:8080/api/cards/updateIndexOfCardInAnotherList', data);
   }
 }

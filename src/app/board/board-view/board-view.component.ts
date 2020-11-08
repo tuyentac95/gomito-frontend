@@ -63,7 +63,7 @@ export class BoardViewComponent implements OnInit {
         throwError(err);
       });
 
-      this.cardService.moveCard(event.container.data, containerId);
+      this.cardService.moveCardToAnotherList(event.container.data, containerId);
     }
   }
 
