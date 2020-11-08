@@ -16,9 +16,9 @@ export class BoardService {
               private localStorage: LocalStorageService) { }
 
   // tslint:disable-next-line:typedef
-  createBoard(newBoard: BoardModel): Observable<Object> {
+  createBoard(newBoard: GBoard): Observable<GBoard> {
     // const header = new HttpHeaders().set('Authorization', 'Bearer ' + this.localStorage.retrieve('authenticationToken'));
-    return this.httpClient.post('http://localhost:8080/api/boards/', newBoard);
+    return this.httpClient.post<GBoard>('http://localhost:8080/api/boards/', newBoard);
   }
 
   getBoardList(): Observable<GBoard[]>{
