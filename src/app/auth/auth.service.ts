@@ -49,8 +49,9 @@ export class AuthService {
   }
 
   // tslint:disable-next-line:typedef
-  changePassword(changePwRequest: ChangePasswordRequest) {
+  changePassword(changePwRequest: ChangePasswordRequest): Observable<any> {
     console.log(changePwRequest);
+    return this.http.post('http://localhost:8080/api/users/change-password', changePwRequest);
   }
   // tslint:disable-next-line:typedef
   getUserName() {
