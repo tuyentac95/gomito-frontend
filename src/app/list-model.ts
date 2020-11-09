@@ -6,4 +6,5 @@ export class ListModel {
   boardId?: number;
   cards?: GCard[];
   listIndex?: number;
+  dropListId?: number;
 }
