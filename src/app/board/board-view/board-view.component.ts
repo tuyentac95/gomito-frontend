@@ -145,10 +145,22 @@ export class BoardViewComponent implements OnInit {
       listName: name
     };
     const editList = this.create.open(ListUpdateComponent, {
-      data: {
-        list: updateList
-      },
-      width: '250px',
+      data: updateList,
+      width: '250px'
+    });
+    const $this = this;
+    editList.afterClosed().subscribe(result => {
+      $this.listService.editList(result).subscribe(data => {
+        console.log(data);
+        alert('Update success!!!');
+        for (const list of $this.listModels) {
+          if (list.listId == id) {
+            list.listName = data.listName;
+          }
+        }
+      }, err => {
+        throwError(err);
+      });
     });
   }
 
