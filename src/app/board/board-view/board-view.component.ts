@@ -44,21 +44,33 @@ export class BoardViewComponent implements OnInit {
         throwError(err);
       });
     } else {
-      console.log('check previous: ');
+      console.log('check container: ');
+      console.log(event.container.id);
       const preContainerData = event.previousContainer.data;
       const containerData = event.container.data;
+      console.log('check previous: ');
       console.log(preContainerData);
       console.log('check: ');
       console.log(containerData);
-      console.log('check list id: ');
-      const containerId = Number(event.container.id.substring(14)) - 1;
-      const newListId = this.listModels[containerId].listId;
-      console.log(newListId);
+      const containerId = Number(event.container.id.substring(14));
 
       transferArrayItem(preContainerData,
         containerData,
         event.previousIndex,
         event.currentIndex);
+
+      console.log('check lists: ');
+      console.log(this.listModels);
+      // const newListId = this.listModels[containerId].listId;
+      let newListId = 0;
+      for (const list of this.listModels) {
+        if (list.dropListId == containerId) {
+          newListId = list.listId;
+          break;
+        }
+      }
+      console.log('check list id: ');
+      console.log(newListId);
 
       if (preContainerData.length > 0) {
         this.cardService.updateIndex(preContainerData).subscribe(data => {
@@ -161,11 +173,13 @@ export class BoardViewComponent implements OnInit {
           listId: model.listId,
           listName: model.listName,
           listIndex: model.listIndex,
+          dropListId: 0
         };
 
         // Thêm ListModel mới vào mảng chính thức
         $this.listModels.push(newListModel);
         const index = $this.listModels.indexOf(newListModel);
+        newListModel.dropListId = index + 1;
 
         // Với mỗi listId, gọi ra tất cả card có trong list đó
         $this.cardService.getAllCards(model.listId).subscribe(listCard => {
