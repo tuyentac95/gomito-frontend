@@ -19,9 +19,9 @@ export class ListService {
     return this.httpClient.post<ListModel>('http://localhost:8080/api/lists/', newList);
   }
 
-  editList(updateList: ListModel): Observable<Object>{
+  editList(updateList: ListModel): Observable<ListModel>{
     console.log('check4: ' + updateList);
-    return this.httpClient.put('http://localhost:8080/api/lists/update/', updateList);
+    return this.httpClient.put<ListModel>('http://localhost:8080/api/lists/update/', updateList);
   }
 
   // @ts-ignore
