@@ -35,6 +35,8 @@ import {ListUpdateComponent} from './list/list-update/list-update.component';
 import { CreatListComponent } from './list/creat-list/creat-list.component';
 import { CreateCardComponent } from './card/create-card/create-card.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { DetailCardComponent } from './card/detail-card/detail-card.component';
+import { UpdateCardComponent } from './card/update-card/update-card.component';
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -50,6 +52,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     ListUpdateComponent,
     CreatListComponent,
     CreateCardComponent,
+    DetailCardComponent,
+    UpdateCardComponent,
     // GBoardComponent
   ],
     imports: [

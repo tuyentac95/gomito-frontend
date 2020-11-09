@@ -11,6 +11,7 @@ import {throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {error} from '@angular/compiler/src/util';
+import {UpdateCardComponent} from "../../card/update-card/update-card.component";
 
 @Component({
   selector: 'app-board-view',
@@ -20,6 +21,7 @@ import {error} from '@angular/compiler/src/util';
 export class BoardViewComponent implements OnInit {
 
   listModels: ListModel[];
+  listCards: GCard[];
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
@@ -31,6 +33,7 @@ export class BoardViewComponent implements OnInit {
   ngOnInit(): void {
     this.listModels = [];
     this.getList();
+    this.listCards = [];
   }
 
   // tslint:disable-next-line:typedef
@@ -64,7 +67,7 @@ export class BoardViewComponent implements OnInit {
       // const newListId = this.listModels[containerId].listId;
       let newListId = 0;
       for (const list of this.listModels) {
-        if (list.dropListId == containerId) {
+        if (list.dropListId === containerId) {
           newListId = list.listId;
           break;
         }
@@ -154,8 +157,33 @@ export class BoardViewComponent implements OnInit {
         console.log(data);
         alert('Update success!!!');
         for (const list of $this.listModels) {
-          if (list.listId == id) {
+          if (list.listId === id) {
             list.listName = data.listName;
+          }
+        }
+      }, err => {
+        throwError(err);
+      });
+    });
+  }
+  openEditCard(id: number, name: string, desc: string): void {
+    const updateCard: GCard = {
+      cardId: id,
+      cardName: name,
+      description: desc,
+    };
+    const editCard = this.create.open(UpdateCardComponent,{
+      data: updateCard,
+      with: '250px'
+    });
+    const $this = this;
+    editCard.afterClosed().subscribe(result => {
+      $this.cardService.editCard(result).subscribe(data => {
+        alert('Update success');
+        for (const card of $this.listCards) {
+          if (card.cardId === id) {
+            card.cardName = data.cardName;
+            card.description = data.description;
           }
         }
       }, err => {
