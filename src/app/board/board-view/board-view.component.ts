@@ -52,7 +52,7 @@ export class BoardViewComponent implements OnInit {
       console.log(preContainerData);
       console.log('check: ');
       console.log(containerData);
-      const containerId = Number(event.container.id.substring(14)) - 1;
+      const containerId = Number(event.container.id.substring(14));
 
       transferArrayItem(preContainerData,
         containerData,
@@ -61,7 +61,14 @@ export class BoardViewComponent implements OnInit {
 
       console.log('check lists: ');
       console.log(this.listModels);
-      const newListId = this.listModels[containerId].listId;
+      // const newListId = this.listModels[containerId].listId;
+      let newListId = 0;
+      for (const list of this.listModels) {
+        if (list.dropListId == containerId) {
+          newListId = list.listId;
+          break;
+        }
+      }
       console.log('check list id: ');
       console.log(newListId);
 
@@ -166,11 +173,13 @@ export class BoardViewComponent implements OnInit {
           listId: model.listId,
           listName: model.listName,
           listIndex: model.listIndex,
+          dropListId: 0
         };
 
         // Thêm ListModel mới vào mảng chính thức
         $this.listModels.push(newListModel);
         const index = $this.listModels.indexOf(newListModel);
+        newListModel.dropListId = index + 1;
 
         // Với mỗi listId, gọi ra tất cả card có trong list đó
         $this.cardService.getAllCards(model.listId).subscribe(listCard => {
