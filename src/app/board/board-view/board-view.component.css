@@ -114,3 +114,14 @@ mat-drawer-container {
   background-color: #C2BAC8;
   font-size: 20px;
 }
+
+.invite-member {
+  width: 90%;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.invite-button {
+  float: right;
+  margin: 0 15px 10px;
+}

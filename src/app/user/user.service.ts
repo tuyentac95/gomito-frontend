@@ -17,4 +17,8 @@ export class UserService {
   getAllMembers(boardId: number): Observable<GUser[]> {
     return this.http.get<GUser[]>('http://localhost:8080/api/boards/' + boardId + '/get-members');
   }
+
+  inviteMember(member: GUser, boardId: number): Observable<any> {
+    return this.http.post('http://localhost:8080/api/boards/' + boardId + '/add-member', member);
+  }
 }
