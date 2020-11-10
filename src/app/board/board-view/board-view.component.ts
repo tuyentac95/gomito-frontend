@@ -10,7 +10,7 @@ import {GCard} from '../../gCard';
 import {throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
-import {error} from '@angular/compiler/src/util';
+import {ViewCardComponent} from '../../card/view-card/view-card.component';
 
 @Component({
   selector: 'app-board-view',
@@ -154,7 +154,7 @@ export class BoardViewComponent implements OnInit {
         console.log(data);
         alert('Update success!!!');
         for (const list of $this.listModels) {
-          if (list.listId == id) {
+          if (list.listId === id) {
             list.listName = data.listName;
           }
         }
@@ -204,7 +204,14 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
+  // tslint:disable-next-line:typedef
   viewCard(cardId: number): void {
-    console.log('Selected Card: ' + cardId);
+    const homeAttachment = this.create.open(ViewCardComponent, {
+        // width: '428px',
+        // height: '768px'
+       height: '428px',
+        width: '768px'
+    });
+
   }
 }
