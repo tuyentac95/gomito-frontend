@@ -4,10 +4,35 @@
 .form-field {
   width: 500px;
   font-size: 20px;
-  font-weight:bold;
+  /*font-weight:bold;*/
 }
+
 .description {
   width: 500px;
   font-size: 18px;
 }
 
+.add-member-button {
+  margin: 5px;
+  width: 200px;
+  height: 60px;
+  font-size: 15px;
+  padding-top: 8px;
+}
+
+.member {
+  margin-left: 5px;
+  background-color: #C2BAC8;
+  font-size: 20px;
+}
+
+.member-avatar {
+  background-color: #C2BAC8;
+  font-size: 20px;
+  color: #FAFBFC;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  float: left;
+  margin-top: 2px;
+}
