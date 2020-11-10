@@ -5,16 +5,14 @@
     <mat-toolbar-row>
       <span>Board</span>
       <span class="example-spacer"></span>
-      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-        <mat-icon>favorite</mat-icon>
-      </button>
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+
+      <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
+      <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with share icon">
         <mat-icon>share</mat-icon>
       </button>
     </mat-toolbar-row>
   </mat-toolbar>
 </p>
-
 
 <mat-drawer-container>
 <!--  Tạo mới một DropList kéo thả các đối tượng theo chiều ngang (horizontal)
@@ -51,5 +49,16 @@
       <div class="add-list-box" (click)="openCreateList()"> + Add new list</div>
     </div>
   </div>
+
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <p>Auto-resizing sidenav</p>
+    <p>Auto-resizing sidenav</p>
+    <p>Auto-resizing sidenav</p>
+    <p>Auto-resizing sidenav</p>
+    <p>Auto-resizing sidenav</p>
+    <p>Auto-resizing sidenav</p>
+    <p>Auto-resizing sidenav</p>
+    <p>Auto-resizing sidenav</p>
+  </mat-drawer>
 </mat-drawer-container>
 
