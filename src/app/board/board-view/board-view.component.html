@@ -5,14 +5,26 @@
     <mat-toolbar-row>
       <span>Board Name</span>
       <span class="example-spacer"></span>
-      <button mat-mini-fab class="member" *ngFor="let member of listMembers">{{member.username.charAt(0).toUpperCase()}}</button>
-      <button mat-mini-fab class="member">
+      <button mat-mini-fab class="member"
+              *ngFor="let member of listMembers">{{member.username.charAt(0).toUpperCase()}}</button>
+      <button mat-mini-fab class="member" [matMenuTriggerFor]="addNewMember">
         <mat-icon>person_add</mat-icon>
       </button>
+      <mat-menu #addNewMember="matMenu">
+        <mat-form-field class="invite-member" appearance="outline">
+          <mat-label>Username or email</mat-label>
+          <input matInput type="text" (click)="stopPropagation($event)" [(ngModel)]="invitedMember">
+          <button mat-button *ngIf="invitedMember" matSuffix mat-icon-button aria-label="Clear" (click)="invitedMember=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <button mat-raised-button color="primary" class="invite-button">Invite member</button>
+      </mat-menu>
       <span class="example-spacer"></span>
 
       <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
-      <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with share icon">
+      <button mat-icon-button class="example-icon" (click)="drawer.toggle()"
+              aria-label="Example icon-button with share icon">
         <mat-icon>share</mat-icon>
       </button>
     </mat-toolbar-row>
@@ -21,27 +33,27 @@
 
 <mat-drawer-container>
 
-<!--  Tạo mới một DropList kéo thả các đối tượng theo chiều ngang (horizontal)
-      đưa listModels gán vào data của DropList này-->
+  <!--  Tạo mới một DropList kéo thả các đối tượng theo chiều ngang (horizontal)
+        đưa listModels gán vào data của DropList này-->
   <div cdkDropList cdkDropListOrientation="horizontal"
        (cdkDropListDropped)="dropList($event)" [cdkDropListData]="listModels">
 
-<!--    Tạo ra một DropListGroup để nhóm các cái DropList bên trong có thể kéo thả-->
-<!--    các card qua lại giữa các list-->
+    <!--    Tạo ra một DropListGroup để nhóm các cái DropList bên trong có thể kéo thả-->
+    <!--    các card qua lại giữa các list-->
     <div cdkDropListGroup>
 
-<!--      Duyệt qua các list trong mảng listModels-->
+      <!--      Duyệt qua các list trong mảng listModels-->
       <div class="example-container" *ngFor="let list of listModels; index as i" cdkDrag>
         <h2 (click)="openEditList(list.listId, list.listName)">{{list.listName}}</h2>
 
-<!--        Lấy ra danh sách các card từ cards của từng list đưa vào data của DropList con-->
+        <!--        Lấy ra danh sách các card từ cards của từng list đưa vào data của DropList con-->
         <div
           cdkDropList
           [cdkDropListData]="list.cards"
           class="example-list"
           (cdkDropListDropped)="dropCard($event)">
 
-<!--          Duyệt qua từng card trong cái cards của list-->
+          <!--          Duyệt qua từng card trong cái cards của list-->
           <div class="example-box" *ngFor="let item of list.cards" cdkDrag
                (click)="viewCard(item.cardId, i)">{{item.cardName}}
           </div>
@@ -49,17 +61,19 @@
             <div class="example-box" (click)="openCreateCard(list.listId, i)"> + Add new card</div>
           </div>
         </div>
-        <div class="add-card-box" *ngIf="list.cards.length > 0" (click)="openCreateCard(list.listId, i)"> + Add new card</div>
+        <div class="add-card-box" *ngIf="list.cards.length > 0" (click)="openCreateCard(list.listId, i)"> + Add new
+          card
+        </div>
       </div>
       <div class="add-list-box" (click)="openCreateList()"> + Add new list</div>
     </div>
   </div>
 
-<!--Display labels-->
-  <mat-drawer  #drawer class="example-sidenav" mode="side">
-  <tr *ngFor="let label of labels">
-    <p>{{label.labelName}}</p>
-  </tr>
+  <!--Display labels-->
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <tr *ngFor="let label of labels">
+      <p>{{label.labelName}}</p>
+    </tr>
   </mat-drawer>
 </mat-drawer-container>
 

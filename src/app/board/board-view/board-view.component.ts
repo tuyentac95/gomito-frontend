@@ -26,6 +26,7 @@ export class BoardViewComponent implements OnInit {
   listModels: ListModel[];
   showFiller = false;
   listMembers: GUser[];
+  invitedMember: string;
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
@@ -261,5 +262,9 @@ export class BoardViewComponent implements OnInit {
     }, err => {
       throwError(err);
     });
+  }
+
+  stopPropagation($event: MouseEvent): void {
+    $event.stopPropagation();
   }
 }
