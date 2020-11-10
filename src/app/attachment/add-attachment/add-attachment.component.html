@@ -1,0 +1,25 @@
+<div>
+  <div><h4>Attach Form...</h4></div>
+  <mat-divider></mat-divider>
+  <mat-selection-list [multiple]="false">
+    <mat-list-option>
+      Computer
+    </mat-list-option>
+    <mat-list-option>
+      Trello
+    </mat-list-option>
+    <mat-list-option>
+      Google Drive
+    </mat-list-option>
+  </mat-selection-list>
+  <mat-divider></mat-divider>
+  <div>
+    <mat-form-field floatLabel="auto" hideRequiredMarker appearance="outline">
+      <mat-label>Attach a link</mat-label>
+        <input matInput required>
+    </mat-form-field>
+      <button mat-raised-button disabled>Attach</button>
+  </div>
+  <mat-divider></mat-divider>
+  <div>Tip:Tip: With Power-Ups, you can attach conversations from Slack, pull requests from GitHub, and leads from Salesforce.</div>
+</div>

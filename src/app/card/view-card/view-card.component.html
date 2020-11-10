@@ -3,7 +3,12 @@
     Tiêu đề
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="4" [colspan]="1">
-    Thêm Vào Thẻ
+    <div fxLayout="column">
+      <h3>ADD TO CARD</h3>
+      <button mat-raised-button color="primary" (click)="addAttachment()">Attachment</button>
+    </div>
+
+
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     Thành Viên
