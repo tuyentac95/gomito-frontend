@@ -110,6 +110,7 @@ mat-drawer-container {
 }
 
 .member {
-  margin-left: 3px;
-  background-color: darkgray;
+  margin-left: 5px;
+  background-color: #C2BAC8;
+  font-size: 20px;
 }

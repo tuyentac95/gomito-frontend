@@ -5,10 +5,10 @@
     <mat-toolbar-row>
       <span>Board Name</span>
       <span class="example-spacer"></span>
-      <button mat-mini-fab class="member">TP</button>
-      <button mat-mini-fab class="member">NV</button>
-      <button mat-mini-fab class="member">BP</button>
-      <button mat-mini-fab class="member">NH</button>
+      <button mat-mini-fab class="member" *ngFor="let member of listMembers">{{member.username.charAt(0).toUpperCase()}}</button>
+      <button mat-mini-fab class="member">
+        <mat-icon>person_add</mat-icon>
+      </button>
       <span class="example-spacer"></span>
 
       <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>

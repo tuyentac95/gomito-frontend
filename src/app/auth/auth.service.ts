@@ -8,7 +8,7 @@ import {LoginResponse} from './login/login-respponse';
 import {LocalStorageService} from 'ngx-webstorage';
 import {map, tap} from 'rxjs/operators';
 import {RefreshTokenRequest} from './refresh-token-request';
-import {GUser} from './GUser';
+import {GUser} from '../user/GUser';
 
 @Injectable({
   providedIn: 'root'
@@ -71,9 +71,5 @@ export class AuthService {
     };
     console.log(logoutReq);
     return this.http.post('http://localhost:8080/auth/logout', logoutReq);
-  }
-
-  getUserInfo(): Observable<GUser> {
-    return this.http.get<GUser>('http://localhost:8080/api/users');
   }
 }
