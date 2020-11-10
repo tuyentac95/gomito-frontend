@@ -108,3 +108,20 @@ mat-drawer-container {
 .example-sidenav {
   padding: 20px;
 }
+
+.member {
+  margin-left: 5px;
+  background-color: #C2BAC8;
+  font-size: 20px;
+}
+
+.invite-member {
+  width: 90%;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.invite-button {
+  float: right;
+  margin: 0 15px 10px;
+}

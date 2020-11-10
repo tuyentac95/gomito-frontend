@@ -11,6 +11,10 @@ import {throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {ViewCardComponent} from '../../card/view-card/view-card.component';
+import {Glabel} from '../../glabel';
+import {LabelService} from '../../label/label.service';
+import {GUser} from '../../user/GUser';
+import {UserService} from '../../user/user.service';
 
 @Component({
   selector: 'app-board-view',
@@ -18,19 +22,29 @@ import {ViewCardComponent} from '../../card/view-card/view-card.component';
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
-
+  labels: Glabel[];
   listModels: ListModel[];
+  showFiller = false;
+  listMembers: GUser[];
+  memberInfo: string;
+  boardId: number;
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
               public createList: MatDialog,
               private listService: ListService,
-              private cardService: CardService) {
+              private cardService: CardService,
+              private labelService: LabelService,
+              private userService: UserService) {
   }
 
   ngOnInit(): void {
+    this.boardId = Number(this.route.snapshot.params['boardId']);
+    this.getLabel();
     this.listModels = [];
     this.getList();
+    this.listMembers = [];
+    this.getAllMembers(this.boardId);
   }
 
   // tslint:disable-next-line:typedef
@@ -231,5 +245,50 @@ export class BoardViewComponent implements OnInit {
       });
     });
   }
-  showFiller = false;
+
+  // tslint:disable-next-line:typedef
+  private getLabel() {
+    // Lấy boardId từ URL
+    const id = this.route.snapshot.params.boardId;
+
+    // Gọi ra tất cả list có trong board theo boardId
+    this.labelService.getAllLabels(id).subscribe(data => {
+      this.labels = data;
+    });
+  }
+
+  private getAllMembers(boardId: number): void {
+    this.userService.getAllMembers(boardId).subscribe(data => {
+      this.listMembers = data;
+    }, err => {
+      throwError(err);
+    });
+  }
+
+  stopPropagation($event: MouseEvent): void {
+    $event.stopPropagation();
+  }
+
+  inviteMember(): void {
+    const info = this.memberInfo;
+    const member: GUser = {
+      username: null,
+      email: null
+    };
+    if (this.validateEmail(info)) {
+      member.email = info;
+    } else {
+      member.username = info;
+    }
+    this.userService.inviteMember(member, this.boardId).subscribe(data => {
+      alert(data);
+    }, err => {
+      throwError(err);
+    });
+  }
+
+  validateEmail(text): boolean {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(text);
+  }
 }
