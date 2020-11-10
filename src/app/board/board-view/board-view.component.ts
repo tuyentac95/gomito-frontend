@@ -236,7 +236,10 @@ export class BoardViewComponent implements OnInit {
     });
 
     const viewCard = this.create.open(ViewCardComponent, {
-      data: updateCard,
+      data: {
+        card: updateCard,
+        labels: this.labels
+      },
       height: '428px',
       width: '768px'
     });

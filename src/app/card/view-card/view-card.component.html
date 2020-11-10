@@ -1,27 +1,38 @@
 <mat-grid-list cols="4" rowHeight="100px">
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     <mat-form-field class="form-field">
-      <input matInput type="text" placeholder="Title" [(ngModel)]="data.cardName">
+      <input matInput type="text" placeholder="Title" [(ngModel)]="data.card.cardName">
     </mat-form-field>
+  </mat-grid-tile>
+  <mat-grid-tile  [rowspan]="1" [colspan]="1">
+
+    <button mat-button [matMenuTriggerFor]="menu">Label</button>
+    <mat-menu #menu="matMenu">
+<!--      <button mat-menu-item>Item 1</button>-->
+<!--      <button mat-menu-item>Item 2</button>-->
+<!--          <button mat-menu-item color="primary">Label</button>-->
+      <tr *ngFor="let label of data.labels">
+              <button mat-menu-item class="example-sidenav" mode="side">
+
+                  <p>{{label.labelName}}</p>
+
+              </button>
+      </tr>
+    </mat-menu>
+
+
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     Thành Viên
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     <mat-form-field class="description">
-      <textarea matInput type="text" placeholder="Description" [(ngModel)]="data.description"></textarea>
+      <textarea matInput type="text" placeholder="Description" [(ngModel)]="data.card.description"></textarea>
     </mat-form-field>
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
-    <button mat-raised-button color="primary" [mat-dialog-close]="data">Update</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data.card">Update</button>
   </mat-grid-tile>
-  <mat-grid-tile  [rowspan]="1" [colspan]="4">
-    <button mat-raised-button color="primary">Label</button>
-<!--    <mat-drawer  #drawer class="example-sidenav" mode="side">-->
-<!--      <tr *ngFor="let label of labels">-->
-<!--        <p>{{label.labelName}}</p>-->
-<!--      </tr>-->
-<!--    </mat-drawer>-->
-  </mat-grid-tile>
+
 </mat-grid-list>
 
