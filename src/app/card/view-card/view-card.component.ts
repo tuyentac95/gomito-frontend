@@ -1,6 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {GCard} from '../../gCard';
+import {Glabel} from "../../glabel";
+import {LabelService} from "../../label/label.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ActiveDescendantKeyManager} from "@angular/cdk/a11y";
 
 @Component({
   selector: 'app-view-card',
@@ -8,11 +12,23 @@ import {GCard} from '../../gCard';
   styleUrls: ['./view-card.component.css']
 })
 export class ViewCardComponent implements OnInit {
-
+  labels: Glabel[];
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: GCard) { }
+              @Inject(MAT_DIALOG_DATA) public data: GCard,
+              private labelService: LabelService,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.getLabel();
   }
 
+  private getLabel() {
+    // Lấy boardId từ URL
+    const id = this.route.snapshot.params.boardId;
+
+    // Gọi ra tất cả list có trong board theo boardId
+    this.labelService.getAllLabels(id).subscribe(data => {
+      this.labels = data;
+    });
+  }
 }

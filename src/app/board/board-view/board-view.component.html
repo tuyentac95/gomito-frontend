@@ -3,7 +3,12 @@
 <p>
   <mat-toolbar color="primary">
     <mat-toolbar-row>
-      <span>Board</span>
+      <span>Board Name</span>
+      <span class="example-spacer"></span>
+      <button mat-mini-fab class="member" *ngFor="let member of listMembers">{{member.username.charAt(0).toUpperCase()}}</button>
+      <button mat-mini-fab class="member">
+        <mat-icon>person_add</mat-icon>
+      </button>
       <span class="example-spacer"></span>
 
       <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
@@ -55,6 +60,17 @@
   <tr *ngFor="let label of labels">
     <p>{{label.labelName}}</p>
   </tr>
+
+<!--    Thêm mới label-->
+    <form (ngSubmit) = "onSubmit()">
+      <div class="form-group">
+        <label>Tên</label>
+        <input type="text" class="form-control" id="labelName"
+               [(ngModel)] = "newLabel.labelName" name="labelName">
+      </div>
+      <button class="btn btn-success" type="submit">Thêm mới</button>
+    </form>
+<!--    <input type="text" placeholder="Tên của label mới" [(ngModel)]="data.labelName"/>-->
   </mat-drawer>
 </mat-drawer-container>
 

@@ -108,3 +108,9 @@ mat-drawer-container {
 .example-sidenav {
   padding: 20px;
 }
+
+.member {
+  margin-left: 5px;
+  background-color: #C2BAC8;
+  font-size: 20px;
+}

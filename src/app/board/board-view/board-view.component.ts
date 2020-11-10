@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {MatDialog} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ListUpdateComponent} from '../../list/list-update/list-update.component';
 import {ListModel} from '../../list-model';
 import {ActivatedRoute} from '@angular/router';
@@ -11,8 +11,10 @@ import {throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {ViewCardComponent} from '../../card/view-card/view-card.component';
-import {Glabel} from "../../glabel";
-import {LabelService} from "../../label/label.service";
+import {Glabel} from '../../glabel';
+import {LabelService} from '../../label/label.service';
+import {GUser} from '../../user/GUser';
+import {UserService} from '../../user/user.service';
 
 @Component({
   selector: 'app-board-view',
@@ -20,23 +22,28 @@ import {LabelService} from "../../label/label.service";
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
+  newLabel: Glabel = new Glabel();
   labels: Glabel[];
-
   listModels: ListModel[];
+  showFiller = false;
+  listMembers: GUser[];
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
               public createList: MatDialog,
               private listService: ListService,
               private cardService: CardService,
-              private labelService: LabelService) {
+              private labelService: LabelService,
+              private userService: UserService) {
   }
 
   ngOnInit(): void {
-    this.getLabel();
+
     this.listModels = [];
     this.getList();
-
+    this.listMembers = [];
+    this.getAllMembers();
+    this.getLabel();
   }
 
   // tslint:disable-next-line:typedef
@@ -211,7 +218,6 @@ export class BoardViewComponent implements OnInit {
   }
 
   viewCard(id: number, listIndex: number): void {
-    // @ts-ignore
     const updateCard: GCard = {
       cardId: id,
       cardName: '',
@@ -222,6 +228,20 @@ export class BoardViewComponent implements OnInit {
     $this.cardService.getCard(id).subscribe(data => {
       updateCard.cardName = data.cardName;
       updateCard.description = data.description;
+    });
+
+    const viewCard = this.create.open(ViewCardComponent, {
+      data: updateCard,
+      height: '428px',
+      width: '768px'
+    });
+
+    viewCard.afterClosed().subscribe(data => {
+      $this.cardService.editCard(data).subscribe(result => {
+        $this.listModels[listIndex].cards[result.cardIndex] = result;
+        alert('Update success');
+        console.log(result);
+      });
     });
   }
 
@@ -234,5 +254,26 @@ export class BoardViewComponent implements OnInit {
     this.labelService.getAllLabels(id).subscribe(data => {
       this.labels = data;
     });
+  }
+
+  private getAllMembers(): void {
+    const boardId = Number(this.route.snapshot.params['boardId']);
+    this.userService.getAllMembers(boardId).subscribe(data => {
+      this.listMembers = data;
+    }, err => {
+      throwError(err);
+    });
+  }
+
+  saveLabel(){
+    this.labelService.createLabel(this.newLabel).subscribe(data => {
+      console.log(data);
+    },err => console.log(err));
+
+  }
+
+  onSubmit(){
+    console.log(this.newLabel);
+    this.saveLabel();
   }
 }
