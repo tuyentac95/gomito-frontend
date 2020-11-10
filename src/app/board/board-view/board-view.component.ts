@@ -11,7 +11,7 @@ import {throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {error} from '@angular/compiler/src/util';
-import {UpdateCardComponent} from "../../card/update-card/update-card.component";
+import {UpdateCardComponent} from '../../card/update-card/update-card.component';
 
 @Component({
   selector: 'app-board-view',
