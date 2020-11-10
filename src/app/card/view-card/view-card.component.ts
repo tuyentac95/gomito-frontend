@@ -12,6 +12,7 @@ import {throwError} from 'rxjs';
 })
 export class ViewCardComponent implements OnInit {
   members: GUser[];
+  cardId: number;
 
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
               private cardService: CardService,
@@ -22,13 +23,28 @@ export class ViewCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const cardId = this.data.card.cardId;
+    this.cardId = this.data.card.cardId;
     const $this = this;
-    this.cardService.getMembersOfCard(cardId).subscribe(result => {
+    this.cardService.getMembersOfCard(this.cardId).subscribe(result => {
       $this.members = result;
     }, err => {
       throwError(err);
     });
   }
 
+  addMemberToCard(member: GUser): void {
+    const mem: GUser = {
+      userId: member.userId
+    };
+    const $this = this;
+    this.cardService.addMemberToCard(mem, this.cardId).subscribe(result => {
+      console.log('OK');
+    }, err => {
+      console.log(err);
+      if (err.status === 200) {
+        $this.members.push(member);
+      }
+      throwError(err);
+    });
+  }
 }

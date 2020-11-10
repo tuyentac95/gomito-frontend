@@ -53,4 +53,8 @@ export class CardService {
   getMembersOfCard(cardId: number): Observable<GUser[]> {
     return this.httpClient.get<GUser[]>('http://localhost:8080/api/cards/' + cardId + '/get-members');
   }
+
+  addMemberToCard(mem: GUser, cardId: number): Observable<any> {
+    return this.httpClient.post('http://localhost:8080/api/cards/' + cardId + '/add-member', mem);
+  }
 }

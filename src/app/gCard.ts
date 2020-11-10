@@ -6,5 +6,5 @@ export class GCard {
   cardId?: number;
   cardIndex?: number;
   description?: string;
-  member?: GUser[];
+  members?: GUser[];
 }

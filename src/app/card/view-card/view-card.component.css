@@ -13,11 +13,10 @@
 }
 
 .add-member-button {
-  margin: 5px;
+  margin: 5px 10px 0;
   width: 200px;
   height: 60px;
   font-size: 15px;
-  padding-top: 8px;
 }
 
 .member {
@@ -28,11 +27,13 @@
 
 .member-avatar {
   background-color: #C2BAC8;
-  font-size: 20px;
+  font-size: 23px;
   color: #FAFBFC;
   width: 45px;
   height: 45px;
   border-radius: 50%;
   float: left;
-  margin-top: 2px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }

@@ -12,7 +12,8 @@
     </button>
     <mat-menu #addMember="matMenu">
       <div fxLayout="column">
-        <button mat-button *ngFor="let member of data.members" class="add-member-button">
+        <button mat-button *ngFor="let member of data.members"
+                class="add-member-button" (click)="addMemberToCard(member)">
           <div class="member-avatar">{{member.username.charAt(0).toUpperCase()}}</div>
           {{member.username}}
         </button>
