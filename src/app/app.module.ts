@@ -38,6 +38,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { ViewCardComponent } from './card/view-card/view-card.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { LabelComponent } from './label/label.component';
+
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -54,7 +55,7 @@ import { LabelComponent } from './label/label.component';
     CreatListComponent,
     CreateCardComponent,
     ViewCardComponent,
-    LabelComponent
+    LabelComponent,
     // GBoardComponent
   ],
     imports: [
