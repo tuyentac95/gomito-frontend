@@ -3,4 +3,5 @@ export class GCard {
   cardName?: string;
   cardId?: number;
   cardIndex?: number;
+  description?: string;
 }

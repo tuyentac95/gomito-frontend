@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {GCard} from '../../gCard';
 
 @Component({
   selector: 'app-view-card',
@@ -7,7 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewCardComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: GCard) { }
 
   ngOnInit(): void {
   }

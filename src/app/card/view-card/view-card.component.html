@@ -1,18 +1,19 @@
 <mat-grid-list cols="4" rowHeight="100px">
   <mat-grid-tile [rowspan]="1" [colspan]="3">
-    Tiêu đề
-  </mat-grid-tile>
-  <mat-grid-tile [rowspan]="4" [colspan]="1">
-    Thêm Vào Thẻ
-
+    <mat-form-field class="form-field">
+      <input matInput type="text" placeholder="Title" [(ngModel)]="data.cardName">
+    </mat-form-field>
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     Thành Viên
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
-    Mô Tả</mat-grid-tile>
+    <mat-form-field class="description">
+      <textarea matInput type="text" placeholder="Description" [(ngModel)]="data.description"></textarea>
+    </mat-form-field>
+  </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
-    Hoạt Động
+    <button mat-raised-button color="primary" [mat-dialog-close]="data">Update</button>
   </mat-grid-tile>
 
 </mat-grid-list>

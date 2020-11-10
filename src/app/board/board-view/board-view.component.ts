@@ -154,7 +154,7 @@ export class BoardViewComponent implements OnInit {
         console.log(data);
         alert('Update success!!!');
         for (const list of $this.listModels) {
-          if (list.listId === id) {
+          if (list.listId == id) {
             list.listName = data.listName;
           }
         }
@@ -204,15 +204,32 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
-  // tslint:disable-next-line:typedef
-  viewCard(cardId: number): void {
-    const homeAttachment = this.create.open(ViewCardComponent, {
-        // width: '428px',
-        // height: '768px'
-       height: '428px',
-        width: '768px'
+  viewCard(id: number, listIndex: number): void {
+    const updateCard: GCard = {
+      cardId: id,
+      cardName: '',
+      description: '',
+    };
+
+    const $this = this;
+    $this.cardService.getCard(id).subscribe(data => {
+      updateCard.cardName = data.cardName;
+      updateCard.description = data.description;
     });
 
+    const viewCard = this.create.open(ViewCardComponent, {
+      data: updateCard,
+      height: '428px',
+      width: '768px'
+    });
+
+    viewCard.afterClosed().subscribe(data => {
+      $this.cardService.editCard(data).subscribe(result => {
+        $this.listModels[listIndex].cards[result.cardIndex] = result;
+        alert('Update success');
+        console.log(result);
+      });
+    });
   }
   showFiller = false;
 }
