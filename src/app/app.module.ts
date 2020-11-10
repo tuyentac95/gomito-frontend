@@ -35,6 +35,8 @@ import {ListUpdateComponent} from './list/list-update/list-update.component';
 import { CreatListComponent } from './list/creat-list/creat-list.component';
 import { CreateCardComponent } from './card/create-card/create-card.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { ViewCardComponent } from './card/view-card/view-card.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -50,6 +52,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     ListUpdateComponent,
     CreatListComponent,
     CreateCardComponent,
+    ViewCardComponent
     // GBoardComponent
   ],
     imports: [
@@ -75,7 +78,8 @@ import {MatDialogModule} from '@angular/material/dialog';
         FormsModule,
         NgxWebstorageModule.forRoot(),
         MatDialogModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatGridListModule,
     ],
   // providers: [],
   providers: [
