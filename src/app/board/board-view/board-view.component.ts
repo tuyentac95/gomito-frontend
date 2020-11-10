@@ -211,6 +211,7 @@ export class BoardViewComponent implements OnInit {
   }
 
   viewCard(id: number, listIndex: number): void {
+    // @ts-ignore
     const updateCard: GCard = {
       cardId: id,
       cardName: '',
@@ -229,24 +230,9 @@ export class BoardViewComponent implements OnInit {
     // Lấy boardId từ URL
     const id = this.route.snapshot.params.boardId;
 
-<<<<<<< HEAD
     // Gọi ra tất cả list có trong board theo boardId
     this.labelService.getAllLabels(id).subscribe(data => {
-        this.labels = data;
-=======
-    const viewCard = this.create.open(ViewCardComponent, {
-      data: updateCard,
-      height: '428px',
-      width: '768px'
-    });
-
-    viewCard.afterClosed().subscribe(data => {
-      $this.cardService.editCard(data).subscribe(result => {
-        $this.listModels[listIndex].cards[result.cardIndex] = result;
-        alert('Update success');
-        console.log(result);
-      });
->>>>>>> cffb558166e3be97fcd23a77ddaaca02ec8e6a09
+      this.labels = data;
     });
   }
 }
