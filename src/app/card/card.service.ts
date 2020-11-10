@@ -43,6 +43,9 @@ export class CardService {
   }
   editCard(updateCard: GCard): Observable<GCard>{
     // console.log('check4: ' + updateCard);
-    return this.httpClient.put<GCard>('http://localhost:8080/api/card/update/', updateCard);
+    return this.httpClient.put<GCard>('http://localhost:8080/api/cards/update', updateCard);
+  }
+  getCard(cardId: number): Observable<GCard> {
+    return this.httpClient.get<GCard>('http://localhost:8080/api/cards/' + cardId);
   }
 }
