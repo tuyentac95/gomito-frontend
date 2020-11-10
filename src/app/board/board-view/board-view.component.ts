@@ -231,4 +231,5 @@ export class BoardViewComponent implements OnInit {
       });
     });
   }
+  showFiller = false;
 }
