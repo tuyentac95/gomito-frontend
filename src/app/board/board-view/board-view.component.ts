@@ -1,9 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {ListUpdateComponent} from '../../list/list-update/list-update.component';
 import {ListModel} from '../../list-model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ListService} from '../../list/list.service';
 import {CardService} from '../../card/card.service';
 import {GCard} from '../../gCard';
@@ -27,6 +27,8 @@ export class BoardViewComponent implements OnInit {
   listModels: ListModel[];
   showFiller = false;
   listMembers: GUser[];
+  memberInfo: string;
+  boardId: number;
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
@@ -34,16 +36,19 @@ export class BoardViewComponent implements OnInit {
               private listService: ListService,
               private cardService: CardService,
               private labelService: LabelService,
-              private userService: UserService) {
+              private userService: UserService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
 
+    this.boardId = Number(this.route.snapshot.params['boardId']);
+    this.getLabel();
     this.listModels = [];
     this.getList();
     this.listMembers = [];
-    this.getAllMembers();
     this.getLabel();
+    this.getAllMembers(this.boardId);
   }
 
   // tslint:disable-next-line:typedef
@@ -256,8 +261,7 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
-  private getAllMembers(): void {
-    const boardId = Number(this.route.snapshot.params['boardId']);
+  private getAllMembers(boardId: number): void {
     this.userService.getAllMembers(boardId).subscribe(data => {
       this.listMembers = data;
     }, err => {
@@ -265,15 +269,39 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
+  stopPropagation($event: MouseEvent): void {
+    $event.stopPropagation();
+  }
+
+  inviteMember(): void {
+    const info = this.memberInfo;
+    const member: GUser = {
+      username: null,
+      email: null
+    };
+    if (this.validateEmail(info)) {
+      member.email = info;
+    } else {
+      member.username = info;
+    }
+    this.userService.inviteMember(member, this.boardId).subscribe(data => {
+      alert(data);
+    }, err => {
+      throwError(err);
+    });
+  }
+
+  validateEmail(text): boolean {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(text);
+  }
+
   saveLabel(){
+    this.newLabel.boardId = this.boardId;
     this.labelService.createLabel(this.newLabel).subscribe(data => {
+      this.labels.push(data);
       console.log(data);
     },err => console.log(err));
 
-  }
-
-  onSubmit(){
-    console.log(this.newLabel);
-    this.saveLabel();
   }
 }
