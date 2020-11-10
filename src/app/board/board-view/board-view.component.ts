@@ -19,14 +19,15 @@ import {ViewCardComponent} from '../../card/view-card/view-card.component';
 })
 export class BoardViewComponent implements OnInit {
 
-  listModels: ListModel[];
-
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
               public createList: MatDialog,
               private listService: ListService,
               private cardService: CardService) {
   }
+
+  listModels: ListModel[];
+  showFiller = false;
 
   ngOnInit(): void {
     this.listModels = [];
@@ -214,5 +215,4 @@ export class BoardViewComponent implements OnInit {
     });
 
   }
-  showFiller = false;
 }
