@@ -38,6 +38,9 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { ViewCardComponent } from './card/view-card/view-card.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { AddAttachmentComponent } from './attachment/add-attachment/add-attachment.component';
+import { ViewAttachmentComponent } from './attachment/view-attachment/view-attachment.component';
+import { DeleteAttachmentComponent } from './attachment/delete-attachment/delete-attachment.component';
+import { EditAttachmentComponent } from './attachment/edit-attachment/edit-attachment.component';
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -55,6 +58,9 @@ import { AddAttachmentComponent } from './attachment/add-attachment/add-attachme
     CreateCardComponent,
     ViewCardComponent,
     AddAttachmentComponent,
+    ViewAttachmentComponent,
+    DeleteAttachmentComponent,
+    EditAttachmentComponent,
     // GBoardComponent
   ],
     imports: [

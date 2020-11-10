@@ -7,11 +7,13 @@
       <h3>ADD TO CARD</h3>
       <button mat-raised-button color="primary" (click)="addAttachment()">Attachment</button>
     </div>
-
-
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     Thành Viên
+  </mat-grid-tile>
+  <mat-grid-tile [rowspan]="1" [colspan]="3">
+    <mat-icon>Attachments</mat-icon>
+    <app-view-attachment></app-view-attachment>
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     Mô Tả</mat-grid-tile>
