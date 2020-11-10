@@ -26,7 +26,8 @@ export class BoardViewComponent implements OnInit {
   listModels: ListModel[];
   showFiller = false;
   listMembers: GUser[];
-  invitedMember: string;
+  memberInfo: string;
+  boardId: number;
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
@@ -38,11 +39,12 @@ export class BoardViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.boardId = Number(this.route.snapshot.params['boardId']);
     this.getLabel();
     this.listModels = [];
     this.getList();
     this.listMembers = [];
-    this.getAllMembers();
+    this.getAllMembers(this.boardId);
   }
 
   // tslint:disable-next-line:typedef
@@ -255,8 +257,7 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
-  private getAllMembers(): void {
-    const boardId = Number(this.route.snapshot.params['boardId']);
+  private getAllMembers(boardId: number): void {
     this.userService.getAllMembers(boardId).subscribe(data => {
       this.listMembers = data;
     }, err => {
@@ -266,5 +267,28 @@ export class BoardViewComponent implements OnInit {
 
   stopPropagation($event: MouseEvent): void {
     $event.stopPropagation();
+  }
+
+  inviteMember(): void {
+    const info = this.memberInfo;
+    const member: GUser = {
+      username: null,
+      email: null
+    };
+    if (this.validateEmail(info)) {
+      member.email = info;
+    } else {
+      member.username = info;
+    }
+    this.userService.inviteMember(member, this.boardId).subscribe(data => {
+      alert(data);
+    }, err => {
+      throwError(err);
+    });
+  }
+
+  validateEmail(text): boolean {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(text);
   }
 }

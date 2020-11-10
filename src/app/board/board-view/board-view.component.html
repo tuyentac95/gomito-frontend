@@ -13,12 +13,12 @@
       <mat-menu #addNewMember="matMenu">
         <mat-form-field class="invite-member" appearance="outline">
           <mat-label>Username or email</mat-label>
-          <input matInput type="text" (click)="stopPropagation($event)" [(ngModel)]="invitedMember">
-          <button mat-button *ngIf="invitedMember" matSuffix mat-icon-button aria-label="Clear" (click)="invitedMember=''">
+          <input matInput type="text" (click)="stopPropagation($event)" [(ngModel)]="memberInfo">
+          <button mat-button *ngIf="memberInfo" matSuffix mat-icon-button aria-label="Clear" (click)="memberInfo=''">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
-        <button mat-raised-button color="primary" class="invite-button">Invite member</button>
+        <button mat-raised-button color="primary" class="invite-button" (click)="inviteMember()">Invite member</button>
       </mat-menu>
       <span class="example-spacer"></span>
 
