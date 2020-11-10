@@ -11,6 +11,8 @@ import {throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {ViewCardComponent} from '../../card/view-card/view-card.component';
+import {Glabel} from "../../glabel";
+import {LabelService} from "../../label/label.service";
 
 @Component({
   selector: 'app-board-view',
@@ -18,6 +20,7 @@ import {ViewCardComponent} from '../../card/view-card/view-card.component';
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
+  labels: Glabel[];
 
   listModels: ListModel[];
 
@@ -25,12 +28,15 @@ export class BoardViewComponent implements OnInit {
               private route: ActivatedRoute,
               public createList: MatDialog,
               private listService: ListService,
-              private cardService: CardService) {
+              private cardService: CardService,
+              private labelService: LabelService) {
   }
 
   ngOnInit(): void {
+    this.getLabel();
     this.listModels = [];
     this.getList();
+
   }
 
   // tslint:disable-next-line:typedef
@@ -216,7 +222,18 @@ export class BoardViewComponent implements OnInit {
       updateCard.cardName = data.cardName;
       updateCard.description = data.description;
     });
+  }
 
+  // tslint:disable-next-line:typedef
+  private getLabel() {
+    // Lấy boardId từ URL
+    const id = this.route.snapshot.params.boardId;
+
+<<<<<<< HEAD
+    // Gọi ra tất cả list có trong board theo boardId
+    this.labelService.getAllLabels(id).subscribe(data => {
+        this.labels = data;
+=======
     const viewCard = this.create.open(ViewCardComponent, {
       data: updateCard,
       height: '428px',
@@ -229,7 +246,7 @@ export class BoardViewComponent implements OnInit {
         alert('Update success');
         console.log(result);
       });
+>>>>>>> cffb558166e3be97fcd23a77ddaaca02ec8e6a09
     });
   }
-  showFiller = false;
 }

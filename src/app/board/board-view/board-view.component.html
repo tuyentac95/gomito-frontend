@@ -50,15 +50,11 @@
     </div>
   </div>
 
-  <mat-drawer #drawer class="example-sidenav" mode="side">
-    <p>Auto-resizing sidenav</p>
-    <p>Auto-resizing sidenav</p>
-    <p>Auto-resizing sidenav</p>
-    <p>Auto-resizing sidenav</p>
-    <p>Auto-resizing sidenav</p>
-    <p>Auto-resizing sidenav</p>
-    <p>Auto-resizing sidenav</p>
-    <p>Auto-resizing sidenav</p>
+<!--Display labels-->
+  <mat-drawer  #drawer class="example-sidenav" mode="side">
+  <tr *ngFor="let label of labels">
+    <p>{{label.labelName}}</p>
+  </tr>
   </mat-drawer>
 </mat-drawer-container>
 
