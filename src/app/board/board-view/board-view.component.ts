@@ -11,8 +11,10 @@ import {throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {ViewCardComponent} from '../../card/view-card/view-card.component';
-import {Glabel} from "../../glabel";
-import {LabelService} from "../../label/label.service";
+import {Glabel} from '../../glabel';
+import {LabelService} from '../../label/label.service';
+import {GUser} from '../../user/GUser';
+import {UserService} from '../../user/user.service';
 
 @Component({
   selector: 'app-board-view',
@@ -21,22 +23,25 @@ import {LabelService} from "../../label/label.service";
 })
 export class BoardViewComponent implements OnInit {
   labels: Glabel[];
-
   listModels: ListModel[];
+  showFiller = false;
+  listMembers: GUser[];
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
               public createList: MatDialog,
               private listService: ListService,
               private cardService: CardService,
-              private labelService: LabelService) {
+              private labelService: LabelService,
+              private userService: UserService) {
   }
 
   ngOnInit(): void {
     this.getLabel();
     this.listModels = [];
     this.getList();
-
+    this.listMembers = [];
+    this.getAllMembers();
   }
 
   // tslint:disable-next-line:typedef
@@ -222,18 +227,7 @@ export class BoardViewComponent implements OnInit {
       updateCard.cardName = data.cardName;
       updateCard.description = data.description;
     });
-  }
 
-  // tslint:disable-next-line:typedef
-  private getLabel() {
-    // Lấy boardId từ URL
-    const id = this.route.snapshot.params.boardId;
-
-<<<<<<< HEAD
-    // Gọi ra tất cả list có trong board theo boardId
-    this.labelService.getAllLabels(id).subscribe(data => {
-        this.labels = data;
-=======
     const viewCard = this.create.open(ViewCardComponent, {
       data: updateCard,
       height: '428px',
@@ -246,7 +240,26 @@ export class BoardViewComponent implements OnInit {
         alert('Update success');
         console.log(result);
       });
->>>>>>> cffb558166e3be97fcd23a77ddaaca02ec8e6a09
+    });
+  }
+
+  // tslint:disable-next-line:typedef
+  private getLabel() {
+    // Lấy boardId từ URL
+    const id = this.route.snapshot.params.boardId;
+
+    // Gọi ra tất cả list có trong board theo boardId
+    this.labelService.getAllLabels(id).subscribe(data => {
+      this.labels = data;
+    });
+  }
+
+  private getAllMembers(): void {
+    const boardId = Number(this.route.snapshot.params['boardId']);
+    this.userService.getAllMembers(boardId).subscribe(data => {
+      this.listMembers = data;
+    }, err => {
+      throwError(err);
     });
   }
 }
