@@ -4,10 +4,10 @@ import {GCard} from '../../gCard';
 import {GUser} from '../../user/GUser';
 import {CardService} from '../card.service';
 import {throwError} from 'rxjs';
-import {Glabel} from "../../glabel";
-import {LabelService} from "../../label/label.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ActiveDescendantKeyManager} from "@angular/cdk/a11y";
+import {Glabel} from '../../glabel';
+import {LabelService} from '../../label/label.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ActiveDescendantKeyManager} from '@angular/cdk/a11y';
 import {MatDialog} from '@angular/material/dialog';
 import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attachment.component';
 import {AttachmentService} from '../../attachment/service/attachment.service';
@@ -68,6 +68,7 @@ export class ViewCardComponent implements OnInit {
       console.log(err);
       if (err.status === 200) {
         $this.members.push(member);
+        $this.data.card.members = $this.members;
       }
       throwError(err);
     });
@@ -87,6 +88,7 @@ export class ViewCardComponent implements OnInit {
       this.getAllAttachments(this.cardId);
     });
   }
+
   addLabelToCard(label: Glabel): void {
     // @ts-ignore
     const updateCard: GCard = {

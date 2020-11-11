@@ -1,40 +1,38 @@
 <app-header></app-header>
 
-<p>
-  <mat-toolbar color="primary">
-    <mat-toolbar-row>
-      <span>Board Name</span>
-      <span class="example-spacer"></span>
-      <button mat-mini-fab class="member"
-              *ngFor="let member of listMembers">{{member.username.charAt(0).toUpperCase()}}</button>
-      <button mat-mini-fab class="member" [matMenuTriggerFor]="addNewMember">
-        <mat-icon>person_add</mat-icon>
-      </button>
-      <mat-menu #addNewMember="matMenu">
-        <mat-form-field class="invite-member" appearance="outline">
-          <mat-label>Username or email</mat-label>
-          <input matInput type="text" (click)="stopPropagation($event)" [(ngModel)]="memberInfo">
-          <button mat-button *ngIf="memberInfo" matSuffix mat-icon-button aria-label="Clear" (click)="memberInfo=''">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-        <button mat-raised-button color="primary" class="invite-button" (click)="inviteMember()">Invite member</button>
-      </mat-menu>
-      <span class="example-spacer"></span>
-<!--      Tính năng lọc card theo label-->
-      <button mat-icon-button class="example-icon"
-              aria-label="Example icon-button with share icon">
-        <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
-      </button>
+<mat-toolbar class="tool-bar">
+  <mat-toolbar-row class="tool-bar-row">
+    <span>Board Name</span>
+    <span class="example-spacer"></span>
+    <button mat-mini-fab class="member"
+            *ngFor="let member of listMembers">{{member.username.charAt(0).toUpperCase()}}</button>
+    <button mat-mini-fab class="member" [matMenuTriggerFor]="addNewMember">
+      <mat-icon>person_add</mat-icon>
+    </button>
+    <mat-menu #addNewMember="matMenu">
+      <mat-form-field class="invite-member" appearance="outline">
+        <mat-label>Username or email</mat-label>
+        <input matInput type="text" (click)="stopPropagation($event)" [(ngModel)]="memberInfo">
+        <button mat-button *ngIf="memberInfo" matSuffix mat-icon-button aria-label="Clear" (click)="memberInfo=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="invite-button" (click)="inviteMember()">Invite member</button>
+    </mat-menu>
+    <span class="example-spacer"></span>
+    <!--      Tính năng lọc card theo label-->
+    <button mat-icon-button class="example-icon"
+            aria-label="Example icon-button with share icon">
+      <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
+    </button>
 
-<!--      Hiện danh sách các label và thêm mới label -->
-      <button mat-icon-button class="example-icon" (click)="drawer.toggle()"
-              aria-label="Example icon-button with share icon">
-        <mat-icon>share</mat-icon>
-      </button>
-    </mat-toolbar-row>
-  </mat-toolbar>
-</p>
+    <!--      Hiện danh sách các label và thêm mới label -->
+    <button mat-icon-button class="example-icon" (click)="drawer.toggle()"
+            aria-label="Example icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
 
 <mat-drawer-container>
 
@@ -59,8 +57,12 @@
           (cdkDropListDropped)="dropCard($event)">
 
           <!--          Duyệt qua từng card trong cái cards của list-->
-          <div class="example-box" *ngFor="let item of list.cards" cdkDrag
-               (click)="viewCard(item.cardId, i)">{{item.cardName}}
+          <div class="example-box" *ngFor="let item of list.cards" cdkDrag (click)="viewCard(item.cardId, i)">
+            {{item.cardName}}
+            <div fxLayout="row">
+              <button mat-mini-fab class="member"
+                      *ngFor="let member of item.members">{{member.username.charAt(0).toUpperCase()}}</button>
+            </div>
           </div>
           <div *ngIf="list.cards.length == 0">
             <div class="example-box" (click)="openCreateCard(list.listId, i)"> + Add new card</div>
@@ -74,21 +76,24 @@
     </div>
   </div>
 
-<!--Display labels-->
-  <mat-drawer  #drawer class="example-sidenav" mode="side">
-  <tr *ngFor="let label of labels">
-    <button (click)="filterByLabel(label)">{{label.labelName}}</button>
-  </tr>
+  <!--Display labels-->
+  <mat-drawer #drawer class="example-sidenav" mode="side" position="end">
+    <h3>Search cards by label and member</h3>
+    <mat-divider></mat-divider>
+    <tr *ngFor="let label of labels">
+      <mat-button-toggle class="show-label" (click)="filterByLabelAndMember(label, null)">{{label.labelName}}</mat-button-toggle>
+    </tr>
+    <!--    Thêm mới label-->
+    <mat-form-field appearance="outline" class="add-label">
+      <mat-label>Add new label</mat-label>
+      <mat-icon matPrefix>add</mat-icon>
+      <input matInput type="text" [(ngModel)]="newLabel.labelName" (keyup.enter)="saveLabel()">
+    </mat-form-field>
+    <mat-divider></mat-divider>
+    <tr *ngFor="let member of listMembers">
+      <mat-button-toggle class="show-label" (click)="filterByLabelAndMember(null, member)">{{member.username}} ({{member.email}})</mat-button-toggle>
+    </tr>
 
-<!--    Thêm mới label-->
-    <form (ngSubmit) = "saveLabel()">
-      <div class="form-group">
-        <label>Tên</label>
-        <input type="text" class="form-control" id="labelName"
-               [(ngModel)] = "newLabel.labelName" name="labelName">
-      </div>
-      <button class="btn btn-success" type="submit">Thêm mới</button>
-    </form>
   </mat-drawer>
 </mat-drawer-container>
 
