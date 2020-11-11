@@ -6,6 +6,8 @@ import {CardService} from '../card.service';
 import {throwError} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attachment.component';
+import {AttachmentService} from '../../attachment/service/attachment.service';
+import {Attachment} from '../../attachment';
 
 // import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attachment.component';
 
@@ -17,14 +19,16 @@ import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attach
 export class ViewCardComponent implements OnInit {
   members: GUser[];
   cardId: number;
+  attachments: Attachment[];
 
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
               private cardService: CardService,
+              private attachmentService: AttachmentService,
               private create: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: {
                 card: GCard,
                 members: GUser[]
-              }) {
+              }, ) {
   }
 
   ngOnInit(): void {
@@ -32,6 +36,17 @@ export class ViewCardComponent implements OnInit {
     const $this = this;
     this.cardService.getMembersOfCard(this.cardId).subscribe(result => {
       $this.members = result;
+    }, err => {
+      throwError(err);
+    });
+    this.getAllAttachments($this.cardId);
+  }
+
+  private getAllAttachments(cardId: number): void {
+    this.attachmentService.getAttachment(cardId).subscribe(result => {
+      console.log('check result');
+      this.attachments = result;
+      console.log(result);
     }, err => {
       throwError(err);
     });
@@ -56,8 +71,15 @@ export class ViewCardComponent implements OnInit {
   // tslint:disable-next-line:typedef
   addAttachment() {
     const addAttachment = this.create.open(AddAttachmentComponent, {
+      data: {
+        cardId: this.cardId
+      },
       height: '453px',
       width: '305px'
+    });
+    addAttachment.afterClosed().subscribe(() => {
+      console.log('close box check');
+      this.getAllAttachments(this.cardId);
     });
   }
 }

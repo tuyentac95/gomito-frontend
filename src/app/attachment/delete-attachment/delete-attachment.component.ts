@@ -1,5 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {AttachmentService} from '../service/attachment.service';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {ListModel} from '../../list-model';
+import {Attachment} from '../../attachment';
 
 @Component({
   selector: 'app-delete-attachment',
@@ -8,7 +11,8 @@ import {AttachmentService} from '../service/attachment.service';
 })
 export class DeleteAttachmentComponent implements OnInit {
 
-  constructor(private attachment: AttachmentService) { }
+  constructor(private attachment: AttachmentService,
+              @Inject(MAT_DIALOG_DATA) public data: Attachment) { }
 
   ngOnInit(): void {
   }

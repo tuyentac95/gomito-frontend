@@ -33,9 +33,10 @@ export class DashboardComponent implements OnInit {
   // tslint:disable-next-line:typedef
   submit() {
     if (this.selectedImage !== null){
-      const filePath = `avatar/$(this.selectedImage.name.split('.').slice(0, -1).join('.'))_${new Date().getTime()}`;
+      const filePath = `attachment/$(this.selectedImage.name.split('.').slice(0, -1).join('.'))_${new Date().getTime()}`;
       const fileRef = this.storage.ref(filePath);
       const $this = this;
+
       this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe( url => {

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Attachment} from '../../attachment';
 
 @Component({
   selector: 'app-edit-attachment',
@@ -6,10 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./edit-attachment.component.css']
 })
 export class EditAttachmentComponent implements OnInit {
-
-  fileUploads: any[];
-
-  constructor() { }
+  constructor(private dialogRef: MatDialogRef<EditAttachmentComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: Attachment) { }
 
   ngOnInit(): void {
   }
