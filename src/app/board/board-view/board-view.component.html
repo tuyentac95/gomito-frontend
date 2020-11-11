@@ -4,8 +4,12 @@
   <mat-toolbar-row class="tool-bar-row">
     <span>Board Name</span>
     <span class="example-spacer"></span>
-    <button mat-mini-fab class="member"
-            *ngFor="let member of listMembers">{{member.username.charAt(0).toUpperCase()}}</button>
+    <div *ngFor="let mem of listMembers">
+      <img *ngIf="mem.avatarUrl != null; else elseBlock" src="{{mem.avatarUrl}}" class="member">
+      <ng-template #elseBlock>
+        <button mat-mini-fab class="member">{{mem.username.charAt(0).toUpperCase()}}</button>
+      </ng-template>
+    </div>
     <button mat-mini-fab class="member" [matMenuTriggerFor]="addNewMember">
       <mat-icon>person_add</mat-icon>
     </button>
@@ -57,11 +61,17 @@
           (cdkDropListDropped)="dropCard($event)">
 
           <!--          Duyệt qua từng card trong cái cards của list-->
-          <div class="example-box" *ngFor="let item of list.cards" cdkDrag (click)="viewCard(item.cardId, i)">
-            {{item.cardName}}
-            <div fxLayout="row">
-              <button mat-mini-fab class="member"
-                      *ngFor="let member of item.members">{{member.username.charAt(0).toUpperCase()}}</button>
+          <div class="example-box" *ngFor="let item of list.cards" cdkDrag (click)="viewCard(item.cardId, i)" fxLayout="column">
+            <span class="card-name">{{item.cardName}}</span>
+            <div class="member-ava" fxLayout="row" fxLayoutAlign="flex-end">
+              <div *ngFor="let mem of item.members">
+                <img *ngIf="mem.avatarUrl != null; else elseBlock" src="{{mem.avatarUrl}}" class="member">
+                <ng-template #elseBlock>
+                  <button mat-mini-fab class="member">{{mem.username.charAt(0).toUpperCase()}}</button>
+                </ng-template>
+              </div>
+<!--              <button mat-mini-fab class="member"-->
+<!--                      *ngFor="let member of item.members">{{member.username.charAt(0).toUpperCase()}}</button>-->
             </div>
           </div>
           <div *ngIf="list.cards.length == 0">

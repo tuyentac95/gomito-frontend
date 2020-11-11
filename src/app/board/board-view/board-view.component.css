@@ -116,6 +116,10 @@ mat-drawer-container {
   margin-left: 5px;
   background-color: lightslategrey;
   font-size: 20px;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .invite-member {
@@ -147,4 +151,16 @@ mat-drawer-container {
 
 mat-divider {
   margin-bottom: 3px;
+}
+
+.card-name {
+  width: 100%;
+  height: 100%;
+  word-wrap: break-word;
+  text-align: justify;
+}
+
+.member-ava {
+  width: 100%;
+  align-content: flex-end;
 }
