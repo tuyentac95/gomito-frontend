@@ -15,7 +15,7 @@ import {Glabel} from '../../glabel';
 import {LabelService} from '../../label/label.service';
 import {GUser} from '../../user/GUser';
 import {UserService} from '../../user/user.service';
-import {GBoard} from "../../gboard";
+
 
 @Component({
   selector: 'app-board-view',
@@ -49,8 +49,6 @@ export class BoardViewComponent implements OnInit {
     this.listModels = [];
     this.originList = [];
     this.getList();
-    const lists = this.originList;
-
     this.filterLabels = [];
     this.listMembers = [];
     this.getLabel();
@@ -79,7 +77,7 @@ export class BoardViewComponent implements OnInit {
       // const newListId = this.listModels[containerId].listId;
       let newListId = 0;
       for (const list of this.listModels) {
-        if (list.dropListId == containerId) {
+        if (list.dropListId === containerId) {
           newListId = list.listId;
           break;
         }
@@ -166,7 +164,7 @@ export class BoardViewComponent implements OnInit {
         console.log(data);
         alert('Update success!!!');
         for (const list of $this.listModels) {
-          if (list.listId == id) {
+          if (list.listId === id) {
             list.listName = data.listName;
           }
         }
@@ -301,7 +299,7 @@ export class BoardViewComponent implements OnInit {
     this.labelService.createLabel(this.newLabel).subscribe(data => {
       this.labels.push(data);
       console.log(data);
-    },err => console.log(err));
+    }, err => console.log(err));
   }
 
 
