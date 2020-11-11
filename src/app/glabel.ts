@@ -1,4 +1,4 @@
-export interface Glabel {
+export class Glabel {
   labelId: number;
   labelName: string;
   boardId?: number;

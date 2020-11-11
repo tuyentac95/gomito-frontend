@@ -3,7 +3,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import {MatDialog} from '@angular/material/dialog';
 import {ListUpdateComponent} from '../../list/list-update/list-update.component';
 import {ListModel} from '../../list-model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ListService} from '../../list/list.service';
 import {CardService} from '../../card/card.service';
 import {GCard} from '../../gCard';
@@ -15,6 +15,7 @@ import {Glabel} from '../../glabel';
 import {LabelService} from '../../label/label.service';
 import {GUser} from '../../user/GUser';
 import {UserService} from '../../user/user.service';
+import {GBoard} from "../../gboard";
 
 @Component({
   selector: 'app-board-view',
@@ -22,8 +23,12 @@ import {UserService} from '../../user/user.service';
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
+  cards: GCard[];
+  newLabel: Glabel = new Glabel();
   labels: Glabel[];
   listModels: ListModel[];
+  originList: ListModel[];
+  filterLabels: Glabel[];
   showFiller = false;
   listMembers: GUser[];
   memberInfo: string;
@@ -35,15 +40,20 @@ export class BoardViewComponent implements OnInit {
               private listService: ListService,
               private cardService: CardService,
               private labelService: LabelService,
-              private userService: UserService) {
+              private userService: UserService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
     this.boardId = Number(this.route.snapshot.params['boardId']);
-    this.getLabel();
     this.listModels = [];
+    this.originList = [];
     this.getList();
+    const lists = this.originList;
+
+    this.filterLabels = [];
     this.listMembers = [];
+    this.getLabel();
     this.getAllMembers(this.boardId);
   }
 
@@ -191,14 +201,14 @@ export class BoardViewComponent implements OnInit {
         };
 
         // Thêm ListModel mới vào mảng chính thức
-        $this.listModels.push(newListModel);
-        const index = $this.listModels.indexOf(newListModel);
+        $this.originList.push(newListModel);
+        const index = $this.originList.indexOf(newListModel);
         newListModel.dropListId = index + 1;
 
         // Với mỗi listId, gọi ra tất cả card có trong list đó
         $this.cardService.getAllCards(model.listId).subscribe(listCard => {
-          $this.listModels[index].cards = listCard;
-          for (const card of $this.listModels[index].cards) {
+          $this.originList[index].cards = listCard;
+          for (const card of $this.originList[index].cards) {
             card.listId = model.listId;
           }
         });
@@ -208,20 +218,23 @@ export class BoardViewComponent implements OnInit {
 
   viewCard(id: number, listIndex: number): void {
     const updateCard: GCard = {
+      labels: [],
       cardId: id,
       cardName: '',
-      description: '',
+      description: ''
     };
 
     const $this = this;
     $this.cardService.getCard(id).subscribe(data => {
       updateCard.cardName = data.cardName;
       updateCard.description = data.description;
+      updateCard.labels = data.labels;
     });
 
     const viewCard = this.create.open(ViewCardComponent, {
       data: {
         card: updateCard,
+        labels: this.labels,
         members: this.listMembers
       },
       height: '428px',
@@ -230,7 +243,7 @@ export class BoardViewComponent implements OnInit {
 
     viewCard.afterClosed().subscribe(data => {
       $this.cardService.editCard(data).subscribe(result => {
-        $this.listModels[listIndex].cards[result.cardIndex] = result;
+        $this.originList[listIndex].cards[result.cardIndex] = result;
         alert('Update success');
         console.log(result);
       });
@@ -242,7 +255,7 @@ export class BoardViewComponent implements OnInit {
     // Lấy boardId từ URL
     const id = this.route.snapshot.params.boardId;
 
-    // Gọi ra tất cả list có trong board theo boardId
+    // Gọi ra tất cả label có trong board theo boardId
     this.labelService.getAllLabels(id).subscribe(data => {
       this.labels = data;
     });
@@ -281,5 +294,39 @@ export class BoardViewComponent implements OnInit {
   validateEmail(text): boolean {
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(text);
+  }
+
+  saveLabel(){
+    this.newLabel.boardId = this.boardId;
+    this.labelService.createLabel(this.newLabel).subscribe(data => {
+      this.labels.push(data);
+      console.log(data);
+    },err => console.log(err));
+  }
+
+
+  filterByLabel(label: Glabel) {
+    // const $this = this;
+    // $this.filterLabels.push(label);
+    // for (let list of $this.listModels) {
+    //   console.log($this.listModels[0].cards);
+    //   const index = $this.listModels.indexOf(list);
+    //
+    //   $this.filterLists[index].cards = [];
+    //   console.log('check');
+    //   console.log($this.listModels[0].cards);
+    //   console.log(list.cards);
+    //   for (let card of list.cards) {
+    //     console.log('check card: ' + card.cardId);
+    //     console.log(card.labels);
+    //     for (let label of card.labels) {
+    //       for (let checkLabel of $this.filterLabels) {
+    //         if (label.labelId == checkLabel.labelId) {
+    //           $this.filterLists[index].cards.push(card);
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   }
 }

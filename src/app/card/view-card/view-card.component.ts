@@ -4,12 +4,14 @@ import {GCard} from '../../gCard';
 import {GUser} from '../../user/GUser';
 import {CardService} from '../card.service';
 import {throwError} from 'rxjs';
+import {Glabel} from "../../glabel";
+import {LabelService} from "../../label/label.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ActiveDescendantKeyManager} from "@angular/cdk/a11y";
 import {MatDialog} from '@angular/material/dialog';
 import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attachment.component';
 import {AttachmentService} from '../../attachment/service/attachment.service';
 import {Attachment} from '../../attachment';
-
-// import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attachment.component';
 
 @Component({
   selector: 'app-view-card',
@@ -27,8 +29,11 @@ export class ViewCardComponent implements OnInit {
               private create: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: {
                 card: GCard,
+                labels: Glabel[],
                 members: GUser[]
-              }, ) {
+              },
+              private labelService: LabelService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -80,6 +85,21 @@ export class ViewCardComponent implements OnInit {
     addAttachment.afterClosed().subscribe(() => {
       console.log('close box check');
       this.getAllAttachments(this.cardId);
+    });
+  }
+  addLabelToCard(label: Glabel): void {
+    // @ts-ignore
+    const updateCard: GCard = {
+      cardId: this.data.card.cardId
+    };
+    const $this = this;
+    this.cardService.addLabelToCard(label.labelId, updateCard).subscribe(data => {
+    }, err => {
+      if (err.status === 200) {
+        $this.data.card.labels.push(label);
+        console.log('Đã xong việc thêm label');
+      }
+      console.log(err);
     });
   }
 }

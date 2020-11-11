@@ -1,3 +1,5 @@
+import {Glabel} from "./glabel";
+
 import {GUser} from './user/GUser';
 
 export class GCard {
@@ -7,4 +9,5 @@ export class GCard {
   cardIndex?: number;
   description?: string;
   members?: GUser[];
+  labels?: Glabel[];
 }
