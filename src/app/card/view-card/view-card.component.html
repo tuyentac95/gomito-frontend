@@ -1,19 +1,58 @@
 <mat-grid-list cols="4" rowHeight="100px">
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     <mat-form-field class="form-field">
-      <input matInput type="text" placeholder="Title" [(ngModel)]="data.cardName">
+      <input matInput type="text" placeholder="Title" [(ngModel)]="data.card.cardName">
     </mat-form-field>
   </mat-grid-tile>
+
+  <mat-grid-tile [rowspan]="4" [colspan]="1">
+    <div fxLayout="column">
+      <h3>ADD TO CARD</h3>
+      <button mat-raised-button color="primary" (click)="addAttachment()">Attachment</button>
+    </div>
+  </mat-grid-tile>
+
+
+  <mat-grid-tile  [rowspan]="1" [colspan]="1">
+<!--Danh sách label để thêm vào card trong viewcard-->
+    <button mat-button [matMenuTriggerFor]="menu">Label</button>
+    <mat-menu #menu="matMenu">
+      <tr *ngFor="let label of data.labels">
+              <button mat-menu-item class="example-sidenav" mode="side" (click)="addLabelToCard(label)">
+                  <p>{{label.labelName}}</p>
+              </button>
+      </tr>
+    </mat-menu>
+
+  </mat-grid-tile>
+  <mat-grid-tile [rowspan]="1" [colspan]="1">
+    <span *ngFor="let label of data.card.labels">{{label.labelName}}</span>
+  </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
-    Thành Viên
+    <button mat-mini-fab class="member"
+            *ngFor="let member of members">{{member.username.charAt(0).toUpperCase()}}</button>
+    <button mat-mini-fab class="member" [matMenuTriggerFor]="addMember">
+      <mat-icon>person_add</mat-icon>
+    </button>
+    <mat-menu #addMember="matMenu">
+      <div fxLayout="column">
+        <button mat-button *ngFor="let member of data.members"
+                class="add-member-button" (click)="addMemberToCard(member)">
+          <div class="member-avatar">{{member.username.charAt(0).toUpperCase()}}</div>
+          {{member.username}}
+        </button>
+      </div>
+    </mat-menu>
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     <mat-form-field class="description">
-      <textarea matInput type="text" placeholder="Description" [(ngModel)]="data.description"></textarea>
+      <textarea matInput type="text" placeholder="Description" [(ngModel)]="data.card.description"></textarea>
     </mat-form-field>
   </mat-grid-tile>
+
+
   <mat-grid-tile [rowspan]="1" [colspan]="3">
-    <button mat-raised-button color="primary" [mat-dialog-close]="data">Update</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data.card">Update</button>
   </mat-grid-tile>
 
 </mat-grid-list>

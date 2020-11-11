@@ -1,0 +1,18 @@
+<div>
+  <div><h4>Attach Form...</h4></div>
+  <mat-divider></mat-divider>
+  <input type="file" id="avatar" formControlName="avatar" #fileUpLoader (change)="showPreview($event)">
+  <mat-divider></mat-divider>
+  <div>
+    <mat-form-field floatLabel="auto" hideRequiredMarker appearance="outline">
+      <mat-label>Attach a link</mat-label>
+      <label>
+        <input matInput required>
+      </label>
+    </mat-form-field>
+      <button mat-raised-button disabled>Attach</button>
+  </div>
+  <mat-divider></mat-divider>
+  <div>Tip:Tip: With Power-Ups, you can attach conversations from Slack, pull requests from GitHub, and leads from Salesforce.</div>
+</div>
+

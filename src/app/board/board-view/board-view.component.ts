@@ -3,7 +3,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import {MatDialog} from '@angular/material/dialog';
 import {ListUpdateComponent} from '../../list/list-update/list-update.component';
 import {ListModel} from '../../list-model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ListService} from '../../list/list.service';
 import {CardService} from '../../card/card.service';
 import {GCard} from '../../gCard';
@@ -22,8 +22,12 @@ import {UserService} from '../../user/user.service';
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
+  cards: GCard[];
+  newLabel: Glabel = new Glabel();
   labels: Glabel[];
   listModels: ListModel[];
+  originList: ListModel[];
+  filterLabels: Glabel[];
   showFiller = false;
   listMembers: GUser[];
   memberInfo: string;
@@ -35,22 +39,26 @@ export class BoardViewComponent implements OnInit {
               private listService: ListService,
               private cardService: CardService,
               private labelService: LabelService,
-              private userService: UserService) {
+              private userService: UserService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
     this.boardId = Number(this.route.snapshot.params['boardId']);
-    this.getLabel();
     this.listModels = [];
+    this.originList = [];
     this.getList();
+    this.getListModels();
+
+    this.filterLabels = [];
     this.listMembers = [];
+    this.getLabel();
     this.getAllMembers(this.boardId);
   }
 
   // tslint:disable-next-line:typedef
   dropCard(event: CdkDragDrop<GCard[]>) {
     if (event.previousContainer === event.container) {
-      console.log(event.container.data);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.cardService.updateIndex(event.container.data).subscribe(data => {
         console.log('Update Card Index Success');
@@ -58,14 +66,8 @@ export class BoardViewComponent implements OnInit {
         throwError(err);
       });
     } else {
-      console.log('check container: ');
-      console.log(event.container.id);
       const preContainerData = event.previousContainer.data;
       const containerData = event.container.data;
-      console.log('check previous: ');
-      console.log(preContainerData);
-      console.log('check: ');
-      console.log(containerData);
       const containerId = Number(event.container.id.substring(14));
 
       transferArrayItem(preContainerData,
@@ -73,8 +75,6 @@ export class BoardViewComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
 
-      console.log('check lists: ');
-      console.log(this.listModels);
       // const newListId = this.listModels[containerId].listId;
       let newListId = 0;
       for (const list of this.listModels) {
@@ -83,8 +83,6 @@ export class BoardViewComponent implements OnInit {
           break;
         }
       }
-      console.log('check list id: ');
-      console.log(newListId);
 
       if (preContainerData.length > 0) {
         this.cardService.updateIndex(preContainerData).subscribe(data => {
@@ -105,7 +103,6 @@ export class BoardViewComponent implements OnInit {
   // tslint:disable-next-line:typedef
   dropList(event: CdkDragDrop<ListModel[]>) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    // console.log(event.container.data);
     this.listService.updateIndex(event.container.data)
       .subscribe(data => {
         console.log('Update Index OK');
@@ -203,14 +200,14 @@ export class BoardViewComponent implements OnInit {
         };
 
         // Thêm ListModel mới vào mảng chính thức
-        $this.listModels.push(newListModel);
-        const index = $this.listModels.indexOf(newListModel);
+        $this.originList.push(newListModel);
+        const index = $this.originList.indexOf(newListModel);
         newListModel.dropListId = index + 1;
 
         // Với mỗi listId, gọi ra tất cả card có trong list đó
         $this.cardService.getAllCards(model.listId).subscribe(listCard => {
-          $this.listModels[index].cards = listCard;
-          for (const card of $this.listModels[index].cards) {
+          $this.originList[index].cards = listCard;
+          for (const card of $this.originList[index].cards) {
             card.listId = model.listId;
           }
         });
@@ -220,26 +217,32 @@ export class BoardViewComponent implements OnInit {
 
   viewCard(id: number, listIndex: number): void {
     const updateCard: GCard = {
+      labels: [],
       cardId: id,
       cardName: '',
-      description: '',
+      description: ''
     };
 
     const $this = this;
     $this.cardService.getCard(id).subscribe(data => {
       updateCard.cardName = data.cardName;
       updateCard.description = data.description;
+      updateCard.labels = data.labels;
     });
 
     const viewCard = this.create.open(ViewCardComponent, {
-      data: updateCard,
+      data: {
+        card: updateCard,
+        labels: this.labels,
+        members: this.listMembers
+      },
       height: '428px',
       width: '768px'
     });
 
     viewCard.afterClosed().subscribe(data => {
       $this.cardService.editCard(data).subscribe(result => {
-        $this.listModels[listIndex].cards[result.cardIndex] = result;
+        $this.originList[listIndex].cards[result.cardIndex] = result;
         alert('Update success');
         console.log(result);
       });
@@ -251,7 +254,7 @@ export class BoardViewComponent implements OnInit {
     // Lấy boardId từ URL
     const id = this.route.snapshot.params.boardId;
 
-    // Gọi ra tất cả list có trong board theo boardId
+    // Gọi ra tất cả label có trong board theo boardId
     this.labelService.getAllLabels(id).subscribe(data => {
       this.labels = data;
     });
@@ -290,5 +293,82 @@ export class BoardViewComponent implements OnInit {
   validateEmail(text): boolean {
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(text);
+  }
+
+  saveLabel(): void{
+    this.newLabel.boardId = this.boardId;
+    this.labelService.createLabel(this.newLabel).subscribe(data => {
+      this.labels.push(data);
+      console.log(data);
+    }, err => console.log(err));
+  }
+
+
+  filterByLabel(label: Glabel): void {
+    const $this = this;
+    const i = $this.filterLabels.indexOf(label);
+    if (i >= 0) {
+      $this.filterLabels.splice(i, 1);
+    } else {
+      $this.filterLabels.push(label);
+    }
+    if ($this.filterLabels.length === 0) {
+      $this.listModels = [];
+      $this.getListModels();
+    } else {
+      console.log($this.filterLabels);
+      for (const list of $this.originList) {
+        const index = $this.originList.indexOf(list);
+        $this.listModels[index].cards = [];
+        for (const card of list.cards) {
+          for (const label1 of card.labels) {
+            for (const checkLabel of $this.filterLabels) {
+              if (label1.labelId === checkLabel.labelId) {
+                $this.listModels[index].cards.push(card);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private getListModels(): void {
+    // Lấy boardId từ URL
+    const id = this.route.snapshot.params.boardId;
+
+    // Gọi ra tất cả list có trong board theo boardId
+    this.listService.getListList(id).subscribe(data => {
+
+      // gán this là đối tượng hiện tại cho $this vì trong quá trình bên dưới this có thể được hiểu là một thằng khác
+      const $this = this;
+
+      // Data trả về 1 mảng ListModel, vậy duyệt qua từng phần tử để lấy listId
+      for (const model of data) {
+
+        // Khởi tạo 1 ListModel mới với cards là listCard của API trả về
+        const newListModel: ListModel = {
+          boardId: id,
+          cards: [],
+          listId: model.listId,
+          listName: model.listName,
+          listIndex: model.listIndex,
+          dropListId: 0
+        };
+
+        // Thêm ListModel mới vào mảng chính thức
+        $this.listModels.push(newListModel);
+        const index = $this.listModels.indexOf(newListModel);
+        newListModel.dropListId = index + 1;
+
+        // Với mỗi listId, gọi ra tất cả card có trong list đó
+        $this.cardService.getAllCards(model.listId).subscribe(listCard => {
+          $this.listModels[index].cards = listCard;
+          for (const card of $this.listModels[index].cards) {
+            card.listId = model.listId;
+          }
+        });
+      }
+    });
   }
 }

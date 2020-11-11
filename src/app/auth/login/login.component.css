@@ -1,3 +1,11 @@
 span {
   color: red;
 }
+
+::ng-deep snack-bar-container.custom-class {
+  background-color: #FAFBFC;
+  color: midnightblue;
+  height: 80px;
+  width: 150px;
+  padding-top: 18px;
+}

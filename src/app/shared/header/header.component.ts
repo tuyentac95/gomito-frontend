@@ -64,4 +64,8 @@ export class HeaderComponent implements OnInit {
       console.log($this.cards);
     });
   }
+
+  viewCard(card: GCard): void {
+    console.log('ok');
+  }
 }
