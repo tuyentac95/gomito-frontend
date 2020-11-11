@@ -5,6 +5,8 @@ import {Glabel} from "../../glabel";
 import {LabelService} from "../../label/label.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ActiveDescendantKeyManager} from "@angular/cdk/a11y";
+import {CardService} from "../card.service";
+import {throwError} from "rxjs";
 
 @Component({
   selector: 'app-view-card',
@@ -12,27 +14,43 @@ import {ActiveDescendantKeyManager} from "@angular/cdk/a11y";
   styleUrls: ['./view-card.component.css']
 })
 export class ViewCardComponent implements OnInit {
-
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
                 card: GCard,
                 labels: Glabel[]
               },
               private labelService: LabelService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private cardService: CardService) {
   }
 
   ngOnInit(): void {
-    // this.getLabel();
   }
 
-  // private getLabel() {
-  //   // Lấy boardId từ URL
-  //   const id = this.route.snapshot.params.boardId;
-  //
-  //   // Gọi ra tất cả list có trong board theo boardId
-  //   this.labelService.getAllLabels(id).subscribe(data => {
-  //     this.labels = data;
-  //   });
-  // }
+  addLabelToCard(label: Glabel) {
+    // @ts-ignore
+    const updateCard: GCard = {
+      cardId: this.data.card.cardId
+    }
+    const $this = this;
+    this.cardService.addLabelToCard(label.labelId, updateCard).subscribe(data => {
+      // // @ts-ignore
+      // // for (let label of this.data.labels){
+      // for (let oldLabel of this.data.labels){
+      //   if (oldLabel.labelId !== label.labelId ){
+      //     this.data.card.labels.push(label);
+      //   } else {
+      //     console.log('Đã có label này, không thêm được nữa');
+      //   }
+      // }
+      // // }
+      // console.log('Đã xong việc thêm label');
+    },err => {
+      if (err.status == 200) {
+        $this.data.card.labels.push(label);
+        console.log('Đã xong việc thêm label');
+      }
+      console.log(err)
+    });
+  }
 }

@@ -203,7 +203,7 @@ export class BoardViewComponent implements OnInit {
           listId: model.listId,
           listName: model.listName,
           listIndex: model.listIndex,
-          dropListId: 0
+          dropListId: 0,
         };
 
         // Thêm ListModel mới vào mảng chính thức
@@ -224,15 +224,19 @@ export class BoardViewComponent implements OnInit {
 
   viewCard(id: number, listIndex: number): void {
     const updateCard: GCard = {
+      labels: [],
       cardId: id,
       cardName: '',
-      description: '',
+      description: ''
     };
 
     const $this = this;
     $this.cardService.getCard(id).subscribe(data => {
+      console.log('check data labels');
+      console.log(data);
       updateCard.cardName = data.cardName;
       updateCard.description = data.description;
+      updateCard.labels = data.labels;
     });
 
     const viewCard = this.create.open(ViewCardComponent, {
