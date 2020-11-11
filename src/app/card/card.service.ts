@@ -2,9 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {GCard} from '../gCard';
 import {Observable} from 'rxjs';
-import {ListModel} from "../list-model";
 import {GUser} from '../user/GUser';
-import {Glabel} from "../glabel";
 
 @Injectable({
   providedIn: 'root'
