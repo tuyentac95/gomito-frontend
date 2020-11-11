@@ -4,6 +4,7 @@ import {GCard} from '../gCard';
 import {Observable} from 'rxjs';
 import {ListModel} from "../list-model";
 import {GUser} from '../user/GUser';
+import {Glabel} from "../glabel";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,7 @@ export class CardService {
     const updateCards: GCard[] = [];
     for (const card of data) {
       const newCard: GCard = {
+        labels: [],
         cardId: card.cardId,
         cardIndex: data.indexOf(card)
       };
@@ -42,10 +44,12 @@ export class CardService {
     }
     return this.httpClient.post('http://localhost:8080/api/cards/updateIndexOfCardInAnotherList', data);
   }
+
   editCard(updateCard: GCard): Observable<GCard>{
     // console.log('check4: ' + updateCard);
     return this.httpClient.put<GCard>('http://localhost:8080/api/cards/update', updateCard);
   }
+
   getCard(cardId: number): Observable<GCard> {
     return this.httpClient.get<GCard>('http://localhost:8080/api/cards/' + cardId);
   }
@@ -56,5 +60,9 @@ export class CardService {
 
   addMemberToCard(mem: GUser, cardId: number): Observable<any> {
     return this.httpClient.post('http://localhost:8080/api/cards/' + cardId + '/add-member', mem);
+  }
+
+  addLabelToCard(labelId: number, gCard: GCard ): Observable<any>{
+    return this.httpClient.post('http://localhost:8080/api/cards/addLabelToCard/' + labelId, gCard);
   }
 }

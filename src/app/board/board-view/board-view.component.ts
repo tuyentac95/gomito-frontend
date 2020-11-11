@@ -3,7 +3,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import {MatDialog} from '@angular/material/dialog';
 import {ListUpdateComponent} from '../../list/list-update/list-update.component';
 import {ListModel} from '../../list-model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ListService} from '../../list/list.service';
 import {CardService} from '../../card/card.service';
 import {GCard} from '../../gCard';
@@ -22,6 +22,7 @@ import {UserService} from '../../user/user.service';
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
+  newLabel: Glabel = new Glabel();
   labels: Glabel[];
   listModels: ListModel[];
   showFiller = false;
@@ -35,15 +36,16 @@ export class BoardViewComponent implements OnInit {
               private listService: ListService,
               private cardService: CardService,
               private labelService: LabelService,
-              private userService: UserService) {
+              private userService: UserService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
     this.boardId = Number(this.route.snapshot.params['boardId']);
-    this.getLabel();
     this.listModels = [];
     this.getList();
     this.listMembers = [];
+    this.getLabel();
     this.getAllMembers(this.boardId);
   }
 
@@ -208,20 +210,23 @@ export class BoardViewComponent implements OnInit {
 
   viewCard(id: number, listIndex: number): void {
     const updateCard: GCard = {
+      labels: [],
       cardId: id,
       cardName: '',
-      description: '',
+      description: ''
     };
 
     const $this = this;
     $this.cardService.getCard(id).subscribe(data => {
       updateCard.cardName = data.cardName;
       updateCard.description = data.description;
+      updateCard.labels = data.labels;
     });
 
     const viewCard = this.create.open(ViewCardComponent, {
       data: {
         card: updateCard,
+        labels: this.labels,
         members: this.listMembers
       },
       height: '428px',
@@ -281,5 +286,14 @@ export class BoardViewComponent implements OnInit {
   validateEmail(text): boolean {
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(text);
+  }
+
+  saveLabel(){
+    this.newLabel.boardId = this.boardId;
+    this.labelService.createLabel(this.newLabel).subscribe(data => {
+      this.labels.push(data);
+      console.log(data);
+    },err => console.log(err));
+
   }
 }

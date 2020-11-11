@@ -5,7 +5,6 @@
     </mat-form-field>
   </mat-grid-tile>
 
-
   <mat-grid-tile [rowspan]="4" [colspan]="1">
     <div fxLayout="column">
       <h3>ADD TO CARD</h3>
@@ -14,6 +13,29 @@
   </mat-grid-tile>
 
 
+  <mat-grid-tile  [rowspan]="1" [colspan]="1">
+<!--Danh sách label để thêm vào card trong viewcard-->
+    <button mat-button [matMenuTriggerFor]="menu">Label</button>
+    <mat-menu #menu="matMenu">
+      <tr *ngFor="let label of data.labels">
+              <button mat-menu-item class="example-sidenav" mode="side" (click)="addLabelToCard(label)">
+                  <p>{{label.labelName}}</p>
+              </button>
+      </tr>
+<!--      <form (ngSubmit) = "addLabelToCard()">-->
+<!--        <div class="form-group">-->
+<!--          <label>Tên</label>-->
+<!--          <input type="text" class="form-control" id="labelName"-->
+<!--                 [(ngModel)] = "newLabel.labelName" name="labelName">-->
+<!--        </div>-->
+<!--        <button class="btn btn-success" type="submit">Thêm mới</button>-->
+<!--      </form>-->
+    </mat-menu>
+
+  </mat-grid-tile>
+  <mat-grid-tile [rowspan]="1" [colspan]="1">
+    <span *ngFor="let label of data.card.labels">{{label.labelName}}</span>
+  </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     <button mat-mini-fab class="member"
             *ngFor="let member of members">{{member.username.charAt(0).toUpperCase()}}</button>

@@ -69,11 +69,21 @@
     </div>
   </div>
 
-  <!--Display labels-->
-  <mat-drawer #drawer class="example-sidenav" mode="side">
-    <tr *ngFor="let label of labels">
-      <p>{{label.labelName}}</p>
-    </tr>
+<!--Display labels-->
+  <mat-drawer  #drawer class="example-sidenav" mode="side">
+  <tr *ngFor="let label of labels">
+    <p>{{label.labelName}}</p>
+  </tr>
+
+<!--    Thêm mới label-->
+    <form (ngSubmit) = "saveLabel()">
+      <div class="form-group">
+        <label>Tên</label>
+        <input type="text" class="form-control" id="labelName"
+               [(ngModel)] = "newLabel.labelName" name="labelName">
+      </div>
+      <button class="btn btn-success" type="submit">Thêm mới</button>
+    </form>
   </mat-drawer>
 </mat-drawer-container>
 
