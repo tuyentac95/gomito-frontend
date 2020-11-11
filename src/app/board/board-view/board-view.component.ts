@@ -15,6 +15,7 @@ import {Glabel} from '../../glabel';
 import {LabelService} from '../../label/label.service';
 import {GUser} from '../../user/GUser';
 import {UserService} from '../../user/user.service';
+import {GBoard} from "../../gboard";
 
 @Component({
   selector: 'app-board-view',
@@ -22,9 +23,12 @@ import {UserService} from '../../user/user.service';
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
+  cards: GCard[];
   newLabel: Glabel = new Glabel();
   labels: Glabel[];
   listModels: ListModel[];
+  originList: ListModel[];
+  filterLabels: Glabel[];
   showFiller = false;
   listMembers: GUser[];
   memberInfo: string;
@@ -44,6 +48,8 @@ export class BoardViewComponent implements OnInit {
     this.boardId = Number(this.route.snapshot.params['boardId']);
     this.listModels = [];
     this.getList();
+
+    this.filterLabels = [];
     this.listMembers = [];
     this.getLabel();
     this.getAllMembers(this.boardId);
@@ -247,7 +253,7 @@ export class BoardViewComponent implements OnInit {
     // Lấy boardId từ URL
     const id = this.route.snapshot.params.boardId;
 
-    // Gọi ra tất cả list có trong board theo boardId
+    // Gọi ra tất cả label có trong board theo boardId
     this.labelService.getAllLabels(id).subscribe(data => {
       this.labels = data;
     });
@@ -294,6 +300,31 @@ export class BoardViewComponent implements OnInit {
       this.labels.push(data);
       console.log(data);
     },err => console.log(err));
+  }
 
+
+  filterByLabel(label: Glabel) {
+    // const $this = this;
+    // $this.filterLabels.push(label);
+    // for (let list of $this.listModels) {
+    //   console.log($this.listModels[0].cards);
+    //   const index = $this.listModels.indexOf(list);
+    //
+    //   $this.filterLists[index].cards = [];
+    //   console.log('check');
+    //   console.log($this.listModels[0].cards);
+    //   console.log(list.cards);
+    //   for (let card of list.cards) {
+    //     console.log('check card: ' + card.cardId);
+    //     console.log(card.labels);
+    //     for (let label of card.labels) {
+    //       for (let checkLabel of $this.filterLabels) {
+    //         if (label.labelId == checkLabel.labelId) {
+    //           $this.filterLists[index].cards.push(card);
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   }
 }
