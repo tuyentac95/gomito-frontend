@@ -4,7 +4,10 @@
   <mat-drawer mode="side" opened>
     <mat-nav-list>
       <div class="profile-card">
-        <img [src]="imgSrc" alt="" (click)="fileUpLoader.click()"/>
+        <img *ngIf="imgSrc != null; else elseBlock" [src]="imgSrc" alt="" (click)="fileUpLoader.click()"/>
+        <ng-template #elseBlock>
+          <button mat-fab class="avatar" (click)="fileUpLoader.click()">{{username.charAt(0).toUpperCase()}}</button>
+        </ng-template>
         <input type="file" id="avatar" formControlName="avatar" #fileUpLoader (change)="showPreview($event)">
         <div>
           <h2 class="user-name">{{username}}</h2>
