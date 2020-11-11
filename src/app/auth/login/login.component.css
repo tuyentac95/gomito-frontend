@@ -1,3 +1,8 @@
 span {
   color: red;
 }
+
+::ng-deep snack-bar-container.custom-class {
+  background-color: midnightblue;
+  color: #FAFBFC;
+}

@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {LoginRequest} from './login-request';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../auth.service';
 import {LocalStorageService} from 'ngx-webstorage';
 import {throwError} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,9 @@ export class LoginComponent implements OnInit {
   constructor( private fb: FormBuilder,
                private authService: AuthService,
                private router: Router,
-               private localStorage: LocalStorageService) {
+               private localStorage: LocalStorageService,
+               private route: ActivatedRoute,
+               private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -33,6 +36,11 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
+    });
+    this.route.queryParams.subscribe(params => {
+      if (params.isRegistered) {
+        this.openSnackBar();
+      }
     });
   }
 
@@ -57,6 +65,15 @@ export class LoginComponent implements OnInit {
         this.messagePassword = 'Mật khẩu không đúng!';
       }
       throwError(error);
+    });
+  }
+
+  openSnackBar(): void {
+    this.snackBar.open('Register successful!! Please Check your inbox for activation email', 'Close', {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
+      panelClass: ['custom-class']
     });
   }
 }
