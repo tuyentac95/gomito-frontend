@@ -8,6 +8,8 @@ import {Glabel} from "../../glabel";
 import {LabelService} from "../../label/label.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ActiveDescendantKeyManager} from "@angular/cdk/a11y";
+import {MatDialog} from '@angular/material/dialog';
+import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attachment.component';
 
 @Component({
   selector: 'app-view-card',
@@ -19,14 +21,15 @@ export class ViewCardComponent implements OnInit {
   cardId: number;
 
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
+              private cardService: CardService,
+              private create: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: {
                 card: GCard,
                 labels: Glabel[],
                 members: GUser[]
               },
               private labelService: LabelService,
-              private route: ActivatedRoute,
-              private cardService: CardService) {
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -52,6 +55,14 @@ export class ViewCardComponent implements OnInit {
         $this.members.push(member);
       }
       throwError(err);
+    });
+  }
+
+  // tslint:disable-next-line:typedef
+  addAttachment() {
+    const addAttachment = this.create.open(AddAttachmentComponent, {
+      height: '453px',
+      width: '305px'
     });
   }
   addLabelToCard(label: Glabel) {

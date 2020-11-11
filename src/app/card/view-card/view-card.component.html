@@ -4,6 +4,15 @@
       <input matInput type="text" placeholder="Title" [(ngModel)]="data.card.cardName">
     </mat-form-field>
   </mat-grid-tile>
+
+  <mat-grid-tile [rowspan]="4" [colspan]="1">
+    <div fxLayout="column">
+      <h3>ADD TO CARD</h3>
+      <button mat-raised-button color="primary" (click)="addAttachment()">Attachment</button>
+    </div>
+  </mat-grid-tile>
+
+
   <mat-grid-tile  [rowspan]="1" [colspan]="1">
 <!--Danh sách label để thêm vào card trong viewcard-->
     <button mat-button [matMenuTriggerFor]="menu">Label</button>
@@ -48,6 +57,8 @@
       <textarea matInput type="text" placeholder="Description" [(ngModel)]="data.card.description"></textarea>
     </mat-form-field>
   </mat-grid-tile>
+
+
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     <button mat-raised-button color="primary" [mat-dialog-close]="data.card">Update</button>
   </mat-grid-tile>
