@@ -41,9 +41,7 @@ export class BoardViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.boardId = Number(this.route.snapshot.params['boardId']);
-    this.getLabel();
     this.listModels = [];
     this.getList();
     this.listMembers = [];
@@ -54,7 +52,6 @@ export class BoardViewComponent implements OnInit {
   // tslint:disable-next-line:typedef
   dropCard(event: CdkDragDrop<GCard[]>) {
     if (event.previousContainer === event.container) {
-      console.log(event.container.data);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.cardService.updateIndex(event.container.data).subscribe(data => {
         console.log('Update Card Index Success');
@@ -62,14 +59,8 @@ export class BoardViewComponent implements OnInit {
         throwError(err);
       });
     } else {
-      console.log('check container: ');
-      console.log(event.container.id);
       const preContainerData = event.previousContainer.data;
       const containerData = event.container.data;
-      console.log('check previous: ');
-      console.log(preContainerData);
-      console.log('check: ');
-      console.log(containerData);
       const containerId = Number(event.container.id.substring(14));
 
       transferArrayItem(preContainerData,
@@ -77,8 +68,6 @@ export class BoardViewComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
 
-      console.log('check lists: ');
-      console.log(this.listModels);
       // const newListId = this.listModels[containerId].listId;
       let newListId = 0;
       for (const list of this.listModels) {
@@ -87,8 +76,6 @@ export class BoardViewComponent implements OnInit {
           break;
         }
       }
-      console.log('check list id: ');
-      console.log(newListId);
 
       if (preContainerData.length > 0) {
         this.cardService.updateIndex(preContainerData).subscribe(data => {
@@ -109,7 +96,6 @@ export class BoardViewComponent implements OnInit {
   // tslint:disable-next-line:typedef
   dropList(event: CdkDragDrop<ListModel[]>) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    // console.log(event.container.data);
     this.listService.updateIndex(event.container.data)
       .subscribe(data => {
         console.log('Update Index OK');
@@ -203,7 +189,7 @@ export class BoardViewComponent implements OnInit {
           listId: model.listId,
           listName: model.listName,
           listIndex: model.listIndex,
-          dropListId: 0,
+          dropListId: 0
         };
 
         // Thêm ListModel mới vào mảng chính thức
@@ -232,8 +218,6 @@ export class BoardViewComponent implements OnInit {
 
     const $this = this;
     $this.cardService.getCard(id).subscribe(data => {
-      console.log('check data labels');
-      console.log(data);
       updateCard.cardName = data.cardName;
       updateCard.description = data.description;
       updateCard.labels = data.labels;
@@ -242,7 +226,8 @@ export class BoardViewComponent implements OnInit {
     const viewCard = this.create.open(ViewCardComponent, {
       data: {
         card: updateCard,
-        labels: this.labels
+        labels: this.labels,
+        members: this.listMembers
       },
       height: '428px',
       width: '768px'

@@ -28,7 +28,20 @@
     <span *ngFor="let label of data.card.labels">{{label.labelName}}</span>
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
-    Thành Viên
+    <button mat-mini-fab class="member"
+            *ngFor="let member of members">{{member.username.charAt(0).toUpperCase()}}</button>
+    <button mat-mini-fab class="member" [matMenuTriggerFor]="addMember">
+      <mat-icon>person_add</mat-icon>
+    </button>
+    <mat-menu #addMember="matMenu">
+      <div fxLayout="column">
+        <button mat-button *ngFor="let member of data.members"
+                class="add-member-button" (click)="addMemberToCard(member)">
+          <div class="member-avatar">{{member.username.charAt(0).toUpperCase()}}</div>
+          {{member.username}}
+        </button>
+      </div>
+    </mat-menu>
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     <mat-form-field class="description">

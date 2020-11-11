@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {GCard} from '../gCard';
 import {Observable} from 'rxjs';
 import {ListModel} from "../list-model";
+import {GUser} from '../user/GUser';
 import {Glabel} from "../glabel";
 
 @Injectable({
@@ -51,6 +52,14 @@ export class CardService {
 
   getCard(cardId: number): Observable<GCard> {
     return this.httpClient.get<GCard>('http://localhost:8080/api/cards/' + cardId);
+  }
+
+  getMembersOfCard(cardId: number): Observable<GUser[]> {
+    return this.httpClient.get<GUser[]>('http://localhost:8080/api/cards/' + cardId + '/get-members');
+  }
+
+  addMemberToCard(mem: GUser, cardId: number): Observable<any> {
+    return this.httpClient.post('http://localhost:8080/api/cards/' + cardId + '/add-member', mem);
   }
 
   addLabelToCard(labelId: number, gCard: GCard ): Observable<any>{
