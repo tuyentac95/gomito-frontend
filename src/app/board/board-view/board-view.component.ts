@@ -47,7 +47,9 @@ export class BoardViewComponent implements OnInit {
   ngOnInit(): void {
     this.boardId = Number(this.route.snapshot.params['boardId']);
     this.listModels = [];
+    this.originList = [];
     this.getList();
+    const lists = this.originList;
 
     this.filterLabels = [];
     this.listMembers = [];
@@ -199,14 +201,14 @@ export class BoardViewComponent implements OnInit {
         };
 
         // Thêm ListModel mới vào mảng chính thức
-        $this.listModels.push(newListModel);
-        const index = $this.listModels.indexOf(newListModel);
+        $this.originList.push(newListModel);
+        const index = $this.originList.indexOf(newListModel);
         newListModel.dropListId = index + 1;
 
         // Với mỗi listId, gọi ra tất cả card có trong list đó
         $this.cardService.getAllCards(model.listId).subscribe(listCard => {
-          $this.listModels[index].cards = listCard;
-          for (const card of $this.listModels[index].cards) {
+          $this.originList[index].cards = listCard;
+          for (const card of $this.originList[index].cards) {
             card.listId = model.listId;
           }
         });
@@ -241,7 +243,7 @@ export class BoardViewComponent implements OnInit {
 
     viewCard.afterClosed().subscribe(data => {
       $this.cardService.editCard(data).subscribe(result => {
-        $this.listModels[listIndex].cards[result.cardIndex] = result;
+        $this.originList[listIndex].cards[result.cardIndex] = result;
         alert('Update success');
         console.log(result);
       });
