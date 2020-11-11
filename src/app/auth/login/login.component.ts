@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {LoginRequest} from './login-request';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../auth.service';
 import {LocalStorageService} from 'ngx-webstorage';
 import {throwError} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -13,25 +14,33 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-    loginRequest: LoginRequest = {
+  loginRequest: LoginRequest = {
     username: '',
     password: ''
   };
-    loginForm: FormGroup;
+  loginForm: FormGroup;
   messageUsername: string;
   messagePassword: string;
 
 
-  constructor( private fb: FormBuilder,
-               private authService: AuthService,
-               private router: Router,
-               private localStorage: LocalStorageService) {
+  constructor(private fb: FormBuilder,
+              private authService: AuthService,
+              private router: Router,
+              private localStorage: LocalStorageService,
+              private route: ActivatedRoute,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
+    this.localStorage.clear();
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
+    });
+    this.route.queryParams.subscribe(params => {
+      if (params.isRegistered) {
+        this.openSnackBar();
+      }
     });
   }
 
@@ -40,8 +49,8 @@ export class LoginComponent implements OnInit {
     this.loginRequest.password = this.loginForm.get('password').value;
     console.log(this.loginRequest);
     this.authService.login(this.loginRequest).subscribe((data) => {
-      if (data.status === 200){
-        this.router.navigateByUrl('/dashboard');
+      if (data.status === 200) {
+        this.router.navigate(['/dashboard'], {queryParams: {isLogin: 'true'}});
         this.localStorage.store('authenticationToken', data.authenticationToken);
         this.localStorage.store('username', data.username);
         this.localStorage.store('userId', data.userId);
@@ -52,10 +61,19 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['login']);
       }
     }, error => {
-      if (error.status == 403) {
+      if (error.status === 403) {
         this.messagePassword = 'Mật khẩu không đúng!';
       }
       throwError(error);
+    });
+  }
+
+  openSnackBar(): void {
+    this.snackBar.open('Register successful! Please Check your inbox for activation email!', 'Close', {
+      duration: 4000,
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
+      panelClass: ['custom-class']
     });
   }
 }

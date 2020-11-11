@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../user/user.service';
-import {AuthService} from '../auth/auth.service';
 import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {DashboardService} from './dashboard.service';
 import {GUser} from '../user/GUser';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,9 +20,16 @@ export class DashboardComponent implements OnInit {
 
   constructor(private userService: UserService,
               private dashboardService: DashboardService,
-              private storage: AngularFireStorage) { }
+              private storage: AngularFireStorage,
+              private snackBar: MatSnackBar,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params.isLogin) {
+        this.openSnackBar();
+      }
+    });
     this.userService.getUserInfo().subscribe(data => {
       console.log(data.avatarUrl);
       this.username = data.username;
@@ -64,5 +72,14 @@ export class DashboardComponent implements OnInit {
       this.imgSrc = 'https://civilcode.ge/images/2/24/Blank-avatar.png';
       this.selectedImage = null;
     }
+  }
+
+  openSnackBar(): void {
+    this.snackBar.open('Login Successful! Welcome to GOMITO!', 'Close', {
+      duration: 4000,
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
+      panelClass: ['custom-class']
+    });
   }
 }
