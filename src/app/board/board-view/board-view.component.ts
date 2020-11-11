@@ -28,6 +28,7 @@ export class BoardViewComponent implements OnInit {
   listModels: ListModel[];
   originList: ListModel[];
   filterLabels: Glabel[];
+  filterMembers: GUser[];
   showFiller = false;
   listMembers: GUser[];
   memberInfo: string;
@@ -78,7 +79,7 @@ export class BoardViewComponent implements OnInit {
       // const newListId = this.listModels[containerId].listId;
       let newListId = 0;
       for (const list of this.listModels) {
-        if (list.dropListId == containerId) {
+        if (list.dropListId === containerId) {
           newListId = list.listId;
           break;
         }
@@ -308,7 +309,7 @@ export class BoardViewComponent implements OnInit {
   }
 
 
-  filterByLabel(label: Glabel): void {
+  filterByLabel(label?: Glabel): void {
     const $this = this;
     const i = $this.filterLabels.indexOf(label);
     if (i >= 0) {
