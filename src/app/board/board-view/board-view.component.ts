@@ -15,7 +15,6 @@ import {Glabel} from '../../glabel';
 import {LabelService} from '../../label/label.service';
 import {GUser} from '../../user/GUser';
 import {UserService} from '../../user/user.service';
-import {GBoard} from "../../gboard";
 
 @Component({
   selector: 'app-board-view',
@@ -49,7 +48,7 @@ export class BoardViewComponent implements OnInit {
     this.listModels = [];
     this.originList = [];
     this.getList();
-    const lists = this.originList;
+    this.getListModels();
 
     this.filterLabels = [];
     this.listMembers = [];
@@ -296,37 +295,80 @@ export class BoardViewComponent implements OnInit {
     return re.test(text);
   }
 
-  saveLabel(){
+  saveLabel(): void{
     this.newLabel.boardId = this.boardId;
     this.labelService.createLabel(this.newLabel).subscribe(data => {
       this.labels.push(data);
       console.log(data);
-    },err => console.log(err));
+    }, err => console.log(err));
   }
 
 
-  filterByLabel(label: Glabel) {
-    // const $this = this;
-    // $this.filterLabels.push(label);
-    // for (let list of $this.listModels) {
-    //   console.log($this.listModels[0].cards);
-    //   const index = $this.listModels.indexOf(list);
-    //
-    //   $this.filterLists[index].cards = [];
-    //   console.log('check');
-    //   console.log($this.listModels[0].cards);
-    //   console.log(list.cards);
-    //   for (let card of list.cards) {
-    //     console.log('check card: ' + card.cardId);
-    //     console.log(card.labels);
-    //     for (let label of card.labels) {
-    //       for (let checkLabel of $this.filterLabels) {
-    //         if (label.labelId == checkLabel.labelId) {
-    //           $this.filterLists[index].cards.push(card);
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
+  filterByLabel(label: Glabel): void {
+    const $this = this;
+    const i = $this.filterLabels.indexOf(label);
+    if (i >= 0) {
+      $this.filterLabels.splice(i, 1);
+    } else {
+      $this.filterLabels.push(label);
+    }
+    if ($this.filterLabels.length === 0) {
+      $this.listModels = [];
+      $this.getListModels();
+    } else {
+      console.log($this.filterLabels);
+      for (const list of $this.originList) {
+        const index = $this.originList.indexOf(list);
+        $this.listModels[index].cards = [];
+        for (const card of list.cards) {
+          for (const label1 of card.labels) {
+            for (const checkLabel of $this.filterLabels) {
+              if (label1.labelId === checkLabel.labelId) {
+                $this.listModels[index].cards.push(card);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private getListModels(): void {
+    // Lấy boardId từ URL
+    const id = this.route.snapshot.params.boardId;
+
+    // Gọi ra tất cả list có trong board theo boardId
+    this.listService.getListList(id).subscribe(data => {
+
+      // gán this là đối tượng hiện tại cho $this vì trong quá trình bên dưới this có thể được hiểu là một thằng khác
+      const $this = this;
+
+      // Data trả về 1 mảng ListModel, vậy duyệt qua từng phần tử để lấy listId
+      for (const model of data) {
+
+        // Khởi tạo 1 ListModel mới với cards là listCard của API trả về
+        const newListModel: ListModel = {
+          boardId: id,
+          cards: [],
+          listId: model.listId,
+          listName: model.listName,
+          listIndex: model.listIndex,
+          dropListId: 0
+        };
+
+        // Thêm ListModel mới vào mảng chính thức
+        $this.listModels.push(newListModel);
+        const index = $this.listModels.indexOf(newListModel);
+        newListModel.dropListId = index + 1;
+
+        // Với mỗi listId, gọi ra tất cả card có trong list đó
+        $this.cardService.getAllCards(model.listId).subscribe(listCard => {
+          $this.listModels[index].cards = listCard;
+          for (const card of $this.listModels[index].cards) {
+            card.listId = model.listId;
+          }
+        });
+      }
+    });
   }
 }
