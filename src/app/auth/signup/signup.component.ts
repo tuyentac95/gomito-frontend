@@ -4,6 +4,7 @@ import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {throwError} from 'rxjs';
+import {LocalStorageService} from 'ngx-webstorage';
 
 @Component({
   selector: 'app-signup',
@@ -17,7 +18,8 @@ export class SignupComponent implements OnInit {
   message: string;
 
   constructor(private authService: AuthService,
-              private router: Router) {
+              private router: Router,
+              private localStorage: LocalStorageService) {
     this.signupRequest = {
       username: '',
       email: '',
@@ -26,6 +28,7 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.localStorage.clear();
     this.signupForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
       email: new FormControl('', [Validators.required, Validators.email]),
