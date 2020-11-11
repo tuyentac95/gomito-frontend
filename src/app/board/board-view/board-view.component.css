@@ -27,12 +27,12 @@ mat-drawer-container {
   border-radius: 7px;
   overflow: hidden;
   display: block;
-  margin: 5px 7px;
+  margin: 5px 7px 7px;
 }
 
 .example-box {
-  margin: 5px 0;
-  padding: 20px 15px;
+  margin: 8px;
+  padding: 10px 15px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
@@ -141,7 +141,10 @@ mat-drawer-container {
 }
 
 .add-label {
-  margin: 5px;
-  width: 250px;
+  margin: 5px 5px 0;
+  width: 255px;
 }
 
+mat-divider {
+  margin-bottom: 3px;
+}

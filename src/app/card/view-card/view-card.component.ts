@@ -4,10 +4,10 @@ import {GCard} from '../../gCard';
 import {GUser} from '../../user/GUser';
 import {CardService} from '../card.service';
 import {throwError} from 'rxjs';
-import {Glabel} from "../../glabel";
-import {LabelService} from "../../label/label.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ActiveDescendantKeyManager} from "@angular/cdk/a11y";
+import {Glabel} from '../../glabel';
+import {LabelService} from '../../label/label.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ActiveDescendantKeyManager} from '@angular/cdk/a11y';
 import {MatDialog} from '@angular/material/dialog';
 import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attachment.component';
 
@@ -53,6 +53,7 @@ export class ViewCardComponent implements OnInit {
       console.log(err);
       if (err.status === 200) {
         $this.members.push(member);
+        $this.data.card.members = $this.members;
       }
       throwError(err);
     });
@@ -65,19 +66,20 @@ export class ViewCardComponent implements OnInit {
       width: '305px'
     });
   }
-  addLabelToCard(label: Glabel) {
+
+  addLabelToCard(label: Glabel): void {
     // @ts-ignore
     const updateCard: GCard = {
       cardId: this.data.card.cardId
-    }
+    };
     const $this = this;
     this.cardService.addLabelToCard(label.labelId, updateCard).subscribe(data => {
-    },err => {
-      if (err.status == 200) {
+    }, err => {
+      if (err.status === 200) {
         $this.data.card.labels.push(label);
         console.log('Đã xong việc thêm label');
       }
-      console.log(err)
+      console.log(err);
     });
   }
 }

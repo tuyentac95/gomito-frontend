@@ -44,7 +44,7 @@ export class BoardViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.boardId = Number(this.route.snapshot.params['boardId']);
+    this.boardId = Number(this.route.snapshot.params.boardId);
     this.listModels = [];
     this.originList = [];
     this.getList();
@@ -115,7 +115,7 @@ export class BoardViewComponent implements OnInit {
   openCreateList(): void {
     const newList: ListModel = {
       listName: '',
-      boardId: this.route.snapshot.params['boardId'],
+      boardId: this.boardId,
       cards: []
     };
     const createList = this.create.open(CreatListComponent, {
@@ -165,7 +165,7 @@ export class BoardViewComponent implements OnInit {
         console.log(data);
         alert('Update success!!!');
         for (const list of $this.listModels) {
-          if (list.listId == id) {
+          if (list.listId === id) {
             list.listName = data.listName;
           }
         }
@@ -178,7 +178,7 @@ export class BoardViewComponent implements OnInit {
   // tslint:disable-next-line:typedef
   private getList() {
     // Lấy boardId từ URL
-    const id = this.route.snapshot.params.boardId;
+    const id = this.boardId;
 
     // Gọi ra tất cả list có trong board theo boardId
     this.listService.getListList(id).subscribe(data => {
@@ -241,8 +241,11 @@ export class BoardViewComponent implements OnInit {
     });
 
     viewCard.afterClosed().subscribe(data => {
+      console.log(data);
       $this.cardService.editCard(data).subscribe(result => {
-        $this.originList[listIndex].cards[result.cardIndex] = result;
+        console.log($this.listModels[listIndex].cards[result.cardIndex]);
+        $this.listModels[listIndex].cards[result.cardIndex].cardName = result.cardName;
+        $this.listModels[listIndex].cards[result.cardIndex].members = data.members;
         alert('Update success');
         console.log(result);
       });
@@ -295,7 +298,7 @@ export class BoardViewComponent implements OnInit {
     return re.test(text);
   }
 
-  saveLabel(): void{
+  saveLabel(): void {
     this.newLabel.boardId = this.boardId;
     this.labelService.createLabel(this.newLabel).subscribe(data => {
       this.labels.push(data);
