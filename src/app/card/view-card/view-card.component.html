@@ -54,5 +54,9 @@
     <button mat-raised-button color="primary" [mat-dialog-close]="data.card">Update</button>
   </mat-grid-tile>
 
+  <mat-grid-tile [rowspan]="1" [colspan]="3">
+    <app-view-attachment [items]="attachments"></app-view-attachment>
+  </mat-grid-tile>
+
 </mat-grid-list>
 

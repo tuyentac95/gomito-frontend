@@ -1,14 +1,11 @@
-<div>
-  Hình ảnh
 
-</div>
-<div>
-  Tiêu đề
-</div>
-<div>
+<div *ngFor="let item of items" class="view-atm">
+  <img src="{{item.attachmentUrl}}" alt="">
+  <p>{{item.attachmentUrl}}</p>
+  <span>{{item.attachmentName}}</span><br/>
   Chức năng -
-  <a (click)="openDelete()">Delete</a>
+  <a (click)="openDelete(item.attachmentId)">Delete</a>
   -
-  <a (click)="openEdit()">edit</a>
-</div>
+  <a (click)="openEdit(item.attachmentId, item.attachmentName)">edit</a>
+</div><br/>
 

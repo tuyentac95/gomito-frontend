@@ -10,6 +10,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ActiveDescendantKeyManager} from "@angular/cdk/a11y";
 import {MatDialog} from '@angular/material/dialog';
 import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attachment.component';
+import {AttachmentService} from '../../attachment/service/attachment.service';
+import {Attachment} from '../../attachment';
 
 @Component({
   selector: 'app-view-card',
@@ -19,9 +21,11 @@ import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attach
 export class ViewCardComponent implements OnInit {
   members: GUser[];
   cardId: number;
+  attachments: Attachment[];
 
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
               private cardService: CardService,
+              private attachmentService: AttachmentService,
               private create: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: {
                 card: GCard,
@@ -35,8 +39,19 @@ export class ViewCardComponent implements OnInit {
   ngOnInit(): void {
     this.cardId = this.data.card.cardId;
     const $this = this;
+    this.getAllAttachments(this.cardId);
     this.cardService.getMembersOfCard(this.cardId).subscribe(result => {
       $this.members = result;
+    }, err => {
+      throwError(err);
+    });
+  }
+
+  private getAllAttachments(cardId: number): void {
+    this.attachmentService.getAttachment(cardId).subscribe(result => {
+      console.log('check result');
+      this.attachments = result;
+      console.log(result);
     }, err => {
       throwError(err);
     });
@@ -61,23 +76,30 @@ export class ViewCardComponent implements OnInit {
   // tslint:disable-next-line:typedef
   addAttachment() {
     const addAttachment = this.create.open(AddAttachmentComponent, {
+      data: {
+        cardId: this.cardId
+      },
       height: '453px',
       width: '305px'
     });
+    addAttachment.afterClosed().subscribe(() => {
+      console.log('close box check');
+      this.getAllAttachments(this.cardId);
+    });
   }
-  addLabelToCard(label: Glabel) {
+  addLabelToCard(label: Glabel): void {
     // @ts-ignore
     const updateCard: GCard = {
       cardId: this.data.card.cardId
-    }
+    };
     const $this = this;
     this.cardService.addLabelToCard(label.labelId, updateCard).subscribe(data => {
-    },err => {
-      if (err.status == 200) {
+    }, err => {
+      if (err.status === 200) {
         $this.data.card.labels.push(label);
         console.log('Đã xong việc thêm label');
       }
-      console.log(err)
+      console.log(err);
     });
   }
 }

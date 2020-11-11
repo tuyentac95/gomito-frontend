@@ -17,8 +17,8 @@ export class AttachmentService {
               private storage: AngularFireStorage) {
   }
 
-  getAttachment(id: number): Observable<Attachment> {
-    return this.httpClient.get<Attachment>(' http://localhost:8080/api/cards/' + id);
+  getAttachment(id: number): Observable<Attachment[]> {
+    return this.httpClient.get<Attachment[]>(' http://localhost:8080/api/cards/attachment/' + id);
   }
 
   createAttachment(newAttachment: Attachment): Observable<Attachment> {
@@ -29,9 +29,9 @@ export class AttachmentService {
     return this.httpClient.put<Attachment>('http://localhost:8080/api/attachments/update', editAttachment);
   }
 
-  deleteAttachment(deleteAttachment: Attachment): Observable<Attachment> {
+  deleteAttachment(id: number): Observable<Attachment> {
     return this.httpClient.delete<Attachment>
-    ('http://localhost:8080/api/attachments/delete/' + deleteAttachment.attachmentId);
+    ('http://localhost:8080/api/attachments/delete/' + id);
   }
 
 }

@@ -12,9 +12,10 @@ import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {ViewCardComponent} from '../../card/view-card/view-card.component';
 import {Glabel} from '../../glabel';
-import {LabelService} from '../../label/label.service';
 import {GUser} from '../../user/GUser';
+import {LabelService} from '../../label/label.service';
 import {UserService} from '../../user/user.service';
+
 
 @Component({
   selector: 'app-board-view',
@@ -78,7 +79,7 @@ export class BoardViewComponent implements OnInit {
       // const newListId = this.listModels[containerId].listId;
       let newListId = 0;
       for (const list of this.listModels) {
-        if (list.dropListId == containerId) {
+        if (list.dropListId === containerId) {
           newListId = list.listId;
           break;
         }
@@ -165,7 +166,7 @@ export class BoardViewComponent implements OnInit {
         console.log(data);
         alert('Update success!!!');
         for (const list of $this.listModels) {
-          if (list.listId == id) {
+          if (list.listId === id) {
             list.listName = data.listName;
           }
         }
