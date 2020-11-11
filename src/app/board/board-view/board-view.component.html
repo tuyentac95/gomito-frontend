@@ -81,7 +81,7 @@
     <h3>Search cards by label and member</h3>
     <mat-divider></mat-divider>
     <tr *ngFor="let label of labels">
-      <mat-button-toggle class="show-label" (click)="filterByLabel(label)">{{label.labelName}}</mat-button-toggle>
+      <mat-button-toggle class="show-label" (click)="filterByLabelAndMember(label, null)">{{label.labelName}}</mat-button-toggle>
     </tr>
     <!--    Thêm mới label-->
     <mat-form-field appearance="outline" class="add-label">
@@ -91,7 +91,7 @@
     </mat-form-field>
     <mat-divider></mat-divider>
     <tr *ngFor="let member of listMembers">
-      <mat-button-toggle class="show-label">{{member.username}} ({{member.email}})</mat-button-toggle>
+      <mat-button-toggle class="show-label" (click)="filterByLabelAndMember(null, member)">{{member.username}} ({{member.email}})</mat-button-toggle>
     </tr>
 
   </mat-drawer>

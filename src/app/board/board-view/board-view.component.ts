@@ -52,6 +52,7 @@ export class BoardViewComponent implements OnInit {
     this.getListModels();
 
     this.filterLabels = [];
+    this.filterMembers = [];
     this.listMembers = [];
     this.getLabel();
     this.getAllMembers(this.boardId);
@@ -308,19 +309,27 @@ export class BoardViewComponent implements OnInit {
     }, err => console.log(err));
   }
 
-
-  filterByLabel(label?: Glabel): void {
+  filterByLabelAndMember(label?: Glabel, member?: GUser): void {
     const $this = this;
-    const i = $this.filterLabels.indexOf(label);
-    if (i >= 0) {
-      $this.filterLabels.splice(i, 1);
+    if (label !== null) {
+      const i = $this.filterLabels.indexOf(label);
+      if (i >= 0) {
+        $this.filterLabels.splice(i, 1);
+      } else {
+        $this.filterLabels.push(label);
+      }
     } else {
-      $this.filterLabels.push(label);
+      const i = $this.filterMembers.indexOf(member);
+      if (i >= 0) {
+        $this.filterMembers.splice(i, 1);
+      } else {
+        $this.filterMembers.push(member);
+      }
     }
-    if ($this.filterLabels.length === 0) {
+    if ($this.filterLabels.length === 0 && $this.filterMembers.length === 0) {
       $this.listModels = [];
       $this.getListModels();
-    } else {
+    } else if ($this.filterMembers.length === 0) {
       console.log($this.filterLabels);
       for (const list of $this.originList) {
         const index = $this.originList.indexOf(list);
@@ -328,8 +337,48 @@ export class BoardViewComponent implements OnInit {
         for (const card of list.cards) {
           for (const label1 of card.labels) {
             for (const checkLabel of $this.filterLabels) {
-              if (label1.labelId === checkLabel.labelId) {
+              if (label1.labelId === checkLabel.labelId && $this.listModels[index].cards.indexOf(card) < 0) {
                 $this.listModels[index].cards.push(card);
+              }
+            }
+          }
+        }
+      }
+    } else if ($this.filterLabels.length === 0) {
+      console.log($this.filterMembers);
+      for (const list of $this.originList) {
+        const index = $this.originList.indexOf(list);
+        $this.listModels[index].cards = [];
+        for (const card of list.cards) {
+          for (const mem of card.members) {
+            for (const checkMem of $this.filterMembers) {
+              if (mem.userId === checkMem.userId && $this.listModels[index].cards.indexOf(card) < 0) {
+                $this.listModels[index].cards.push(card);
+              }
+            }
+          }
+        }
+      }
+    } else {
+      console.log($this.filterLabels);
+      for (const list of $this.originList) {
+        const index = $this.originList.indexOf(list);
+        $this.listModels[index].cards = [];
+        for (const card of list.cards) {
+          let checkCardLabel = false;
+          for (const label1 of card.labels) {
+            for (const checkLabel of $this.filterLabels) {
+              if (label1.labelId === checkLabel.labelId) {
+                checkCardLabel = true;
+              }
+            }
+          }
+          if (checkCardLabel) {
+            for (const mem of card.members) {
+              for (const checkMem of $this.filterMembers) {
+                if (mem.userId === checkMem.userId && $this.listModels[index].cards.indexOf(card) < 0) {
+                  $this.listModels[index].cards.push(card);
+                }
               }
             }
           }
