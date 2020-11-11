@@ -34,17 +34,6 @@ export class ViewCardComponent implements OnInit {
     }
     const $this = this;
     this.cardService.addLabelToCard(label.labelId, updateCard).subscribe(data => {
-      // // @ts-ignore
-      // // for (let label of this.data.labels){
-      // for (let oldLabel of this.data.labels){
-      //   if (oldLabel.labelId !== label.labelId ){
-      //     this.data.card.labels.push(label);
-      //   } else {
-      //     console.log('Đã có label này, không thêm được nữa');
-      //   }
-      // }
-      // // }
-      // console.log('Đã xong việc thêm label');
     },err => {
       if (err.status == 200) {
         $this.data.card.labels.push(label);
