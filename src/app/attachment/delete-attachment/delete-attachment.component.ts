@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-// import {UploadFile} from '../../upload-file';
 import {AttachmentService} from '../service/attachment.service';
 
 @Component({
@@ -9,16 +8,10 @@ import {AttachmentService} from '../service/attachment.service';
 })
 export class DeleteAttachmentComponent implements OnInit {
 
-  // @Input() fileUpload: UploadFile;
-
   constructor(private attachment: AttachmentService) { }
 
   ngOnInit(): void {
   }
 
-  // // tslint:disable-next-line:typedef
-  // deleteFileUpload(fileUpload) {
-  //   this.attachment.deleteFileUpload(fileUpload);
-  // }
 
 }

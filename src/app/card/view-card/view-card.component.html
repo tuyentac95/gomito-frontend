@@ -1,36 +1,44 @@
 <mat-grid-list cols="4" rowHeight="100px">
   <mat-grid-tile [rowspan]="1" [colspan]="3">
-    Tiêu đề
+    <mat-form-field class="form-field">
+      <input matInput type="text" placeholder="Title" [(ngModel)]="data.card.cardName">
+    </mat-form-field>
   </mat-grid-tile>
+
+
   <mat-grid-tile [rowspan]="4" [colspan]="1">
     <div fxLayout="column">
       <h3>ADD TO CARD</h3>
       <button mat-raised-button color="primary" (click)="addAttachment()">Attachment</button>
     </div>
   </mat-grid-tile>
-  <mat-grid-tile [rowspan]="1" [colspan]="3">
-    Thành Viên
-  </mat-grid-tile>
-
-  <mat-grid-tile [rowspan]="1" [colspan]="3">
-<!--    <mat-icon>Attachments</mat-icon>-->
-
-    <div class="container" style="width:400px">
-      <app-form-upload></app-form-upload>
-
-      <br />
-      <br />
-
-      <app-list-upload></app-list-upload>
-    </div>
-  </mat-grid-tile>
 
 
   <mat-grid-tile [rowspan]="1" [colspan]="3">
-    Mô Tả
+    <button mat-mini-fab class="member"
+            *ngFor="let member of members">{{member.username.charAt(0).toUpperCase()}}</button>
+    <button mat-mini-fab class="member" [matMenuTriggerFor]="addMember">
+      <mat-icon>person_add</mat-icon>
+    </button>
+    <mat-menu #addMember="matMenu">
+      <div fxLayout="column">
+        <button mat-button *ngFor="let member of data.members"
+                class="add-member-button" (click)="addMemberToCard(member)">
+          <div class="member-avatar">{{member.username.charAt(0).toUpperCase()}}</div>
+          {{member.username}}
+        </button>
+      </div>
+    </mat-menu>
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
-    Hoạt Động
+    <mat-form-field class="description">
+      <textarea matInput type="text" placeholder="Description" [(ngModel)]="data.card.description"></textarea>
+    </mat-form-field>
+  </mat-grid-tile>
+
+
+  <mat-grid-tile [rowspan]="1" [colspan]="3">
+    <button mat-raised-button color="primary" [mat-dialog-close]="data.card">Update</button>
   </mat-grid-tile>
 
 </mat-grid-list>

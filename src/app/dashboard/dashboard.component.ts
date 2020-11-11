@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from '../user/user.service';
 import {AuthService} from '../auth/auth.service';
 import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {DashboardService} from './dashboard.service';
+import {GUser} from '../user/GUser';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,15 +17,16 @@ export class DashboardComponent implements OnInit {
   selectedImage: any = null;
   imgSrc: string;
 
-  constructor(private authService: AuthService,
+  constructor(private userService: UserService,
               private dashboardService: DashboardService,
               private storage: AngularFireStorage) { }
 
   ngOnInit(): void {
-    this.authService.getUserInfo().subscribe(data => {
+    this.userService.getUserInfo().subscribe(data => {
+      console.log(data.avatarUrl);
       this.username = data.username;
       this.email = data.email;
-      // this.imgSrc = data.imgSrc;
+      this.imgSrc = data.avatarUrl;
     });
   }
 
@@ -32,10 +35,17 @@ export class DashboardComponent implements OnInit {
     if (this.selectedImage !== null){
       const filePath = `avatar/$(this.selectedImage.name.split('.').slice(0, -1).join('.'))_${new Date().getTime()}`;
       const fileRef = this.storage.ref(filePath);
+      const $this = this;
       this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe( url => {
             this.imgSrc = url;
+            const updateUser: GUser = {
+              avatarUrl: url
+            };
+            $this.userService.updateUserAvatar(updateUser).subscribe(data => {
+              console.log('update ava ok');
+            });
           });
         })
       ).subscribe();

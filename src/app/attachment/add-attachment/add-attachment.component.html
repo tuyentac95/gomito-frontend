@@ -1,23 +1,7 @@
 <div>
   <div><h4>Attach Form...</h4></div>
   <mat-divider></mat-divider>
-<!--  <mat-selection-list [multiple]="false">-->
-<!--    <mat-list-option [selected]="selectedImage">-->
-<!--      Computer-->
-<!--    </mat-list-option>-->
-<!--    <mat-list-option [selected]="selectedImage" type="file" (change)="uploadFileFireBase($event)">-->
-<!--      Trello-->
-<!--    </mat-list-option>-->
-<!--    <mat-list-option [selected]="selectedImage">-->
-<!--      Google Drive-->
-<!--    </mat-list-option>-->
-<!--  </mat-selection-list>-->
-<!--  <input type="file" formControlName="uploadFile" #fileUploader (change)="showPreview($event)">-->
-<!--  <label class="btn btn-default"> <input type="file"-->
-<!--                                         (change)="selectFile($event)">-->
-<!--    <button class="btn btn-success" [disabled]="!selectedFiles"-->
-<!--            (click)="upload()">Upload</button>-->
-<!--  </label>-->
+  <input type="file" id="avatar" formControlName="avatar" #fileUpLoader (change)="showPreview($event)">
   <mat-divider></mat-divider>
   <div>
     <mat-form-field floatLabel="auto" hideRequiredMarker appearance="outline">

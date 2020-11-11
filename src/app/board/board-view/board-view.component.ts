@@ -11,6 +11,10 @@ import {throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {ViewCardComponent} from '../../card/view-card/view-card.component';
+import {Glabel} from '../../glabel';
+import {LabelService} from '../../label/label.service';
+import {GUser} from '../../user/GUser';
+import {UserService} from '../../user/user.service';
 
 @Component({
   selector: 'app-board-view',
@@ -18,25 +22,34 @@ import {ViewCardComponent} from '../../card/view-card/view-card.component';
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
-
+  labels: Glabel[];
   listModels: ListModel[];
+  showFiller = false;
+  listMembers: GUser[];
+  memberInfo: string;
+  boardId: number;
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
               public createList: MatDialog,
               private listService: ListService,
-              private cardService: CardService) {
+              private cardService: CardService,
+              private labelService: LabelService,
+              private userService: UserService) {
   }
 
   ngOnInit(): void {
+    this.boardId = Number(this.route.snapshot.params['boardId']);
+    this.getLabel();
     this.listModels = [];
     this.getList();
+    this.listMembers = [];
+    this.getAllMembers(this.boardId);
   }
 
   // tslint:disable-next-line:typedef
   dropCard(event: CdkDragDrop<GCard[]>) {
     if (event.previousContainer === event.container) {
-      console.log(event.container.data);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.cardService.updateIndex(event.container.data).subscribe(data => {
         console.log('Update Card Index Success');
@@ -44,14 +57,8 @@ export class BoardViewComponent implements OnInit {
         throwError(err);
       });
     } else {
-      console.log('check container: ');
-      console.log(event.container.id);
       const preContainerData = event.previousContainer.data;
       const containerData = event.container.data;
-      console.log('check previous: ');
-      console.log(preContainerData);
-      console.log('check: ');
-      console.log(containerData);
       const containerId = Number(event.container.id.substring(14));
 
       transferArrayItem(preContainerData,
@@ -59,8 +66,6 @@ export class BoardViewComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
 
-      console.log('check lists: ');
-      console.log(this.listModels);
       // const newListId = this.listModels[containerId].listId;
       let newListId = 0;
       for (const list of this.listModels) {
@@ -69,8 +74,6 @@ export class BoardViewComponent implements OnInit {
           break;
         }
       }
-      console.log('check list id: ');
-      console.log(newListId);
 
       if (preContainerData.length > 0) {
         this.cardService.updateIndex(preContainerData).subscribe(data => {
@@ -91,7 +94,6 @@ export class BoardViewComponent implements OnInit {
   // tslint:disable-next-line:typedef
   dropList(event: CdkDragDrop<ListModel[]>) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    // console.log(event.container.data);
     this.listService.updateIndex(event.container.data)
       .subscribe(data => {
         console.log('Update Index OK');
@@ -154,7 +156,7 @@ export class BoardViewComponent implements OnInit {
         console.log(data);
         alert('Update success!!!');
         for (const list of $this.listModels) {
-          if (list.listId === id) {
+          if (list.listId == id) {
             list.listName = data.listName;
           }
         }
@@ -204,14 +206,80 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
-  // tslint:disable-next-line:typedef
-  viewCard(cardId: number): void {
-    const homeAttachment = this.create.open(ViewCardComponent, {
-        // width: '428px',
-        // height: '768px'
-       height: '428px',
-        width: '768px'
+  viewCard(id: number, listIndex: number): void {
+    const updateCard: GCard = {
+      cardId: id,
+      cardName: '',
+      description: '',
+    };
+
+    const $this = this;
+    $this.cardService.getCard(id).subscribe(data => {
+      updateCard.cardName = data.cardName;
+      updateCard.description = data.description;
     });
 
+    const viewCard = this.create.open(ViewCardComponent, {
+      data: {
+        card: updateCard,
+        members: this.listMembers
+      },
+      height: '428px',
+      width: '768px'
+    });
+
+    viewCard.afterClosed().subscribe(data => {
+      $this.cardService.editCard(data).subscribe(result => {
+        $this.listModels[listIndex].cards[result.cardIndex] = result;
+        alert('Update success');
+        console.log(result);
+      });
+    });
+  }
+
+  // tslint:disable-next-line:typedef
+  private getLabel() {
+    // Lấy boardId từ URL
+    const id = this.route.snapshot.params.boardId;
+
+    // Gọi ra tất cả list có trong board theo boardId
+    this.labelService.getAllLabels(id).subscribe(data => {
+      this.labels = data;
+    });
+  }
+
+  private getAllMembers(boardId: number): void {
+    this.userService.getAllMembers(boardId).subscribe(data => {
+      this.listMembers = data;
+    }, err => {
+      throwError(err);
+    });
+  }
+
+  stopPropagation($event: MouseEvent): void {
+    $event.stopPropagation();
+  }
+
+  inviteMember(): void {
+    const info = this.memberInfo;
+    const member: GUser = {
+      username: null,
+      email: null
+    };
+    if (this.validateEmail(info)) {
+      member.email = info;
+    } else {
+      member.username = info;
+    }
+    this.userService.inviteMember(member, this.boardId).subscribe(data => {
+      alert(data);
+    }, err => {
+      throwError(err);
+    });
+  }
+
+  validateEmail(text): boolean {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(text);
   }
 }

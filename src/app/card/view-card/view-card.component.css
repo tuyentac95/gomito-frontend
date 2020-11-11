@@ -1,0 +1,39 @@
+/*mat-grid-tile {*/
+/*  border: 1px black solid;*/
+/*}*/
+.form-field {
+  width: 500px;
+  font-size: 20px;
+  /*font-weight:bold;*/
+}
+
+.description {
+  width: 500px;
+  font-size: 18px;
+}
+
+.add-member-button {
+  margin: 5px 10px 0;
+  width: 200px;
+  height: 60px;
+  font-size: 15px;
+}
+
+.member {
+  margin-left: 5px;
+  background-color: #C2BAC8;
+  font-size: 20px;
+}
+
+.member-avatar {
+  background-color: #C2BAC8;
+  font-size: 23px;
+  color: #FAFBFC;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  float: left;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
