@@ -1,8 +1,7 @@
 <app-header></app-header>
 
-<p>
-  <mat-toolbar color="primary">
-    <mat-toolbar-row>
+  <mat-toolbar class="tool-bar">
+    <mat-toolbar-row class="tool-bar-row">
       <span>Board Name</span>
       <span class="example-spacer"></span>
       <button mat-mini-fab class="member"
@@ -34,7 +33,6 @@
       </button>
     </mat-toolbar-row>
   </mat-toolbar>
-</p>
 
 <mat-drawer-container>
 
@@ -75,20 +73,17 @@
   </div>
 
 <!--Display labels-->
-  <mat-drawer  #drawer class="example-sidenav" mode="side">
+  <mat-drawer  #drawer class="example-sidenav" mode="side" position="end">
   <tr *ngFor="let label of labels">
-    <button (click)="filterByLabel(label)">{{label.labelName}}</button>
+    <mat-button-toggle class="show-label" (click)="filterByLabel(label)">{{label.labelName}}</mat-button-toggle>
   </tr>
 
 <!--    Thêm mới label-->
-    <form (ngSubmit) = "saveLabel()">
-      <div class="form-group">
-        <label>Tên</label>
-        <input type="text" class="form-control" id="labelName"
-               [(ngModel)] = "newLabel.labelName" name="labelName">
-      </div>
-      <button class="btn btn-success" type="submit">Thêm mới</button>
-    </form>
+    <mat-form-field appearance="outline" class="add-label">
+      <mat-label>Add new label</mat-label>
+      <mat-icon matPrefix>add</mat-icon>
+      <input matInput type="text"  [(ngModel)]="newLabel.labelName" (keyup.enter)="saveLabel()" >
+    </mat-form-field>
   </mat-drawer>
 </mat-drawer-container>
 

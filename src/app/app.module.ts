@@ -48,6 +48,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {ViewAttachmentComponent} from './attachment/view-attachment/view-attachment.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 // import { GBoardComponent } from './gboard/gboard.component';
 
@@ -100,7 +101,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatDialogModule,
     ReactiveFormsModule,
     MatGridListModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatButtonToggleModule
   ],
   // providers: [],
   providers: [

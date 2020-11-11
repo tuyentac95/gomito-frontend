@@ -300,6 +300,7 @@ export class BoardViewComponent implements OnInit {
     this.labelService.createLabel(this.newLabel).subscribe(data => {
       this.labels.push(data);
       console.log(data);
+      this.newLabel.labelName = '';
     }, err => console.log(err));
   }
 
