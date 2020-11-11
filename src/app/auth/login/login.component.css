@@ -3,6 +3,9 @@ span {
 }
 
 ::ng-deep snack-bar-container.custom-class {
-  background-color: midnightblue;
-  color: #FAFBFC;
+  background-color: #FAFBFC;
+  color: midnightblue;
+  height: 80px;
+  width: 150px;
+  padding-top: 18px;
 }

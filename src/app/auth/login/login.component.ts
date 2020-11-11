@@ -14,21 +14,21 @@ import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
 })
 export class LoginComponent implements OnInit {
 
-    loginRequest: LoginRequest = {
+  loginRequest: LoginRequest = {
     username: '',
     password: ''
   };
-    loginForm: FormGroup;
+  loginForm: FormGroup;
   messageUsername: string;
   messagePassword: string;
 
 
-  constructor( private fb: FormBuilder,
-               private authService: AuthService,
-               private router: Router,
-               private localStorage: LocalStorageService,
-               private route: ActivatedRoute,
-               private snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder,
+              private authService: AuthService,
+              private router: Router,
+              private localStorage: LocalStorageService,
+              private route: ActivatedRoute,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -49,8 +49,8 @@ export class LoginComponent implements OnInit {
     this.loginRequest.password = this.loginForm.get('password').value;
     console.log(this.loginRequest);
     this.authService.login(this.loginRequest).subscribe((data) => {
-      if (data.status === 200){
-        this.router.navigateByUrl('/dashboard');
+      if (data.status === 200) {
+        this.router.navigate(['/dashboard'], {queryParams: {isLogin: 'true'}});
         this.localStorage.store('authenticationToken', data.authenticationToken);
         this.localStorage.store('username', data.username);
         this.localStorage.store('userId', data.userId);
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['login']);
       }
     }, error => {
-      if (error.status == 403) {
+      if (error.status === 403) {
         this.messagePassword = 'Mật khẩu không đúng!';
       }
       throwError(error);
@@ -69,8 +69,8 @@ export class LoginComponent implements OnInit {
   }
 
   openSnackBar(): void {
-    this.snackBar.open('Register successful!! Please Check your inbox for activation email', 'Close', {
-      duration: 3000,
+    this.snackBar.open('Register successful! Please Check your inbox for activation email!', 'Close', {
+      duration: 4000,
       horizontalPosition: 'right',
       verticalPosition: 'bottom',
       panelClass: ['custom-class']
