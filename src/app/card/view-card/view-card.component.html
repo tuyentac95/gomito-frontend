@@ -11,10 +11,21 @@
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     Thành Viên
   </mat-grid-tile>
+
   <mat-grid-tile [rowspan]="1" [colspan]="3">
-    <mat-icon>Attachments</mat-icon>
-    <app-view-attachment></app-view-attachment>
+<!--    <mat-icon>Attachments</mat-icon>-->
+
+    <div class="container" style="width:400px">
+      <app-form-upload></app-form-upload>
+
+      <br />
+      <br />
+
+      <app-list-upload></app-list-upload>
+    </div>
   </mat-grid-tile>
+
+
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     Mô Tả
   </mat-grid-tile>

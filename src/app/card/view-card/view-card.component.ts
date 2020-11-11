@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attachment.component';
 
+// import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attachment.component';
+
 @Component({
   selector: 'app-view-card',
   templateUrl: './view-card.component.html',
@@ -14,6 +16,7 @@ export class ViewCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
   // tslint:disable-next-line:typedef
   addAttachment() {
     const addAttachment = this.create.open(AddAttachmentComponent, {
@@ -21,5 +24,4 @@ export class ViewCardComponent implements OnInit {
       width: '305px'
     });
   }
-
 }

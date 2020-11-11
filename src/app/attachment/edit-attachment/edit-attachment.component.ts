@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditAttachmentComponent implements OnInit {
 
+  fileUploads: any[];
+
   constructor() { }
 
   ngOnInit(): void {

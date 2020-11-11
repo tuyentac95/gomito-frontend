@@ -1,32 +1,39 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {Attachment} from '../../attachment';
+import {AngularFireDatabase, AngularFireList} from '@angular/fire/database';
+import {AngularFireStorage} from '@angular/fire/storage';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AttachmentService {
 
-  constructor(private httpClient: HttpClient,
-              private router: Router ) {}
 
-              getAttachment(id: number): Observable<Attachment> {
+  constructor(private httpClient: HttpClient,
+              private db: AngularFireDatabase,
+              private storage: AngularFireStorage) {
+  }
+
+  getAttachment(id: number): Observable<Attachment> {
     return this.httpClient.get<Attachment>(' http://localhost:8080/api/cards/' + id);
   }
 
-  createAttachment(newAttachment: Attachment): Observable<Attachment>{
+  createAttachment(newAttachment: Attachment): Observable<Attachment> {
     return this.httpClient.post<Attachment>('http://localhost:8080/api/attachments/', newAttachment);
   }
 
-  editAttachment(editAttachment: Attachment): Observable<Attachment>{
+  editAttachment(editAttachment: Attachment): Observable<Attachment> {
     return this.httpClient.put<Attachment>('http://localhost:8080/api/attachments/update', editAttachment);
   }
 
-  deleteAttachment(deleteAttachment: Attachment): Observable<Attachment>{
+  deleteAttachment(deleteAttachment: Attachment): Observable<Attachment> {
     return this.httpClient.delete<Attachment>
     ('http://localhost:8080/api/attachments/delete/' + deleteAttachment.attachmentId);
   }
+
 }
+
 

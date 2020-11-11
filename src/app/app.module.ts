@@ -38,9 +38,15 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { ViewCardComponent } from './card/view-card/view-card.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { AddAttachmentComponent } from './attachment/add-attachment/add-attachment.component';
-import { ViewAttachmentComponent } from './attachment/view-attachment/view-attachment.component';
 import { DeleteAttachmentComponent } from './attachment/delete-attachment/delete-attachment.component';
 import { EditAttachmentComponent } from './attachment/edit-attachment/edit-attachment.component';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import { FormUploadComponent } from './upload/form-upload/form-upload.component';
+import { ListUploadComponent } from './upload/list-upload/list-upload.component';
+import { DetailUploadComponent } from './upload/detail-upload/detail-upload.component';
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -57,8 +63,10 @@ import { EditAttachmentComponent } from './attachment/edit-attachment/edit-attac
     CreatListComponent,
     CreateCardComponent,
     ViewCardComponent,
+    FormUploadComponent,
+    ListUploadComponent,
+    DetailUploadComponent,
     AddAttachmentComponent,
-    ViewAttachmentComponent,
     DeleteAttachmentComponent,
     EditAttachmentComponent,
     // GBoardComponent
@@ -84,6 +92,9 @@ import { EditAttachmentComponent } from './attachment/edit-attachment/edit-attac
         MatSelectModule,
         HttpClientModule,
         FormsModule,
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireStorageModule,
+        AngularFireDatabaseModule,
         NgxWebstorageModule.forRoot(),
         MatDialogModule,
         ReactiveFormsModule,

@@ -4,7 +4,8 @@
   <mat-drawer mode="side" opened>
     <mat-nav-list>
       <div class="profile-card">
-        <img src="https://civilcode.ge/images/2/24/Blank-avatar.png" alt="">
+        <img [src]="imgSrc" alt="" (click)="fileUpLoader.click()"/>
+        <input type="file" id="avatar" formControlName="avatar" #fileUpLoader (change)="showPreview($event)">
         <div>
           <h2 class="user-name">{{username}}</h2>
           <h4 class="user-email">{{email}}</h4>
