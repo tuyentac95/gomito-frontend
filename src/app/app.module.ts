@@ -39,6 +39,14 @@ import { ViewCardComponent } from './card/view-card/view-card.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { LabelComponent } from './label/label.component';
 
+import { AddAttachmentComponent } from './attachment/add-attachment/add-attachment.component';
+import { DeleteAttachmentComponent } from './attachment/delete-attachment/delete-attachment.component';
+import { EditAttachmentComponent } from './attachment/edit-attachment/edit-attachment.component';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {ViewAttachmentComponent} from './attachment/view-attachment/view-attachment.component';
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -55,6 +63,10 @@ import { LabelComponent } from './label/label.component';
     CreatListComponent,
     CreateCardComponent,
     ViewCardComponent,
+    AddAttachmentComponent,
+    DeleteAttachmentComponent,
+    EditAttachmentComponent,
+    ViewAttachmentComponent,
     LabelComponent,
     // GBoardComponent
   ],
@@ -79,6 +91,9 @@ import { LabelComponent } from './label/label.component';
         MatSelectModule,
         HttpClientModule,
         FormsModule,
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireStorageModule,
+        AngularFireDatabaseModule,
         NgxWebstorageModule.forRoot(),
         MatDialogModule,
         ReactiveFormsModule,

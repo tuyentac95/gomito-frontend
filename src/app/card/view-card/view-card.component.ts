@@ -4,6 +4,10 @@ import {GCard} from '../../gCard';
 import {GUser} from '../../user/GUser';
 import {CardService} from '../card.service';
 import {throwError} from 'rxjs';
+import {MatDialog} from '@angular/material/dialog';
+import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attachment.component';
+
+// import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attachment.component';
 
 @Component({
   selector: 'app-view-card',
@@ -16,6 +20,7 @@ export class ViewCardComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
               private cardService: CardService,
+              private create: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: {
                 card: GCard,
                 members: GUser[]
@@ -45,6 +50,14 @@ export class ViewCardComponent implements OnInit {
         $this.members.push(member);
       }
       throwError(err);
+    });
+  }
+
+  // tslint:disable-next-line:typedef
+  addAttachment() {
+    const addAttachment = this.create.open(AddAttachmentComponent, {
+      height: '453px',
+      width: '305px'
     });
   }
 }

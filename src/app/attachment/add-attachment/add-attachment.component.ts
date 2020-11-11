@@ -1,37 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import {UserService} from '../user/user.service';
-import {AuthService} from '../auth/auth.service';
+import {AttachmentService} from '../service/attachment.service';
 import {finalize} from 'rxjs/operators';
+import {GUser} from '../../user/GUser';
 import {AngularFireStorage} from '@angular/fire/storage';
-import {DashboardService} from './dashboard.service';
-import {GUser} from '../user/GUser';
+import {Attachment} from '../../attachment';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-add-attachment',
+  templateUrl: './add-attachment.component.html',
+  styleUrls: ['./add-attachment.component.css']
 })
-export class DashboardComponent implements OnInit {
-  username: string;
-  email: string;
-  selectedImage: any = null;
+export class AddAttachmentComponent implements OnInit {
   imgSrc: string;
+  selectedImage: any = null;
 
-  constructor(private userService: UserService,
-              private dashboardService: DashboardService,
+  constructor(private attachment: AttachmentService,
               private storage: AngularFireStorage) { }
 
   ngOnInit(): void {
-    this.userService.getUserInfo().subscribe(data => {
-      console.log(data.avatarUrl);
-      this.username = data.username;
-      this.email = data.email;
-      this.imgSrc = data.avatarUrl;
-    });
   }
 
-  // tslint:disable-next-line:typedef
-  submit() {
+  submit(){
     if (this.selectedImage !== null){
       const filePath = `avatar/$(this.selectedImage.name.split('.').slice(0, -1).join('.'))_${new Date().getTime()}`;
       const fileRef = this.storage.ref(filePath);
@@ -40,10 +29,10 @@ export class DashboardComponent implements OnInit {
         finalize(() => {
           fileRef.getDownloadURL().subscribe( url => {
             this.imgSrc = url;
-            const updateUser: GUser = {
-              avatarUrl: url
+            const createAttachment: Attachment = {
+              attachmentUrl: url,
             };
-            $this.userService.updateUserAvatar(updateUser).subscribe(data => {
+            $this.attachment.createAttachment(createAttachment).subscribe(data => {
               console.log('update ava ok');
             });
           });
@@ -51,6 +40,7 @@ export class DashboardComponent implements OnInit {
       ).subscribe();
     }
   }
+
 
   // tslint:disable-next-line:typedef
   showPreview(event: any) {

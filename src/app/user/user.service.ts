@@ -21,4 +21,8 @@ export class UserService {
   inviteMember(member: GUser, boardId: number): Observable<any> {
     return this.http.post('http://localhost:8080/api/boards/' + boardId + '/add-member', member);
   }
+
+  updateUserAvatar(user: GUser): Observable<GUser> {
+    return this.http.put<GUser>('http://localhost:8080/api/users/updateAvatar', user);
+  }
 }
