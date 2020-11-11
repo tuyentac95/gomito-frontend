@@ -47,6 +47,7 @@ import {environment} from '../environments/environment';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {ViewAttachmentComponent} from './attachment/view-attachment/view-attachment.component';
+import { AddCommentComponent } from './comment/add-comment/add-comment.component';
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -68,6 +69,7 @@ import {ViewAttachmentComponent} from './attachment/view-attachment/view-attachm
     EditAttachmentComponent,
     ViewAttachmentComponent,
     LabelComponent,
+    AddCommentComponent,
     // GBoardComponent
   ],
     imports: [
