@@ -21,8 +21,13 @@
         <button mat-raised-button color="primary" class="invite-button" (click)="inviteMember()">Invite member</button>
       </mat-menu>
       <span class="example-spacer"></span>
+<!--      Tính năng lọc card theo label-->
+      <button mat-icon-button class="example-icon"
+              aria-label="Example icon-button with share icon">
+        <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
+      </button>
 
-      <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
+<!--      Hiện danh sách các label và thêm mới label -->
       <button mat-icon-button class="example-icon" (click)="drawer.toggle()"
               aria-label="Example icon-button with share icon">
         <mat-icon>share</mat-icon>
@@ -72,7 +77,7 @@
 <!--Display labels-->
   <mat-drawer  #drawer class="example-sidenav" mode="side">
   <tr *ngFor="let label of labels">
-    <p>{{label.labelName}}</p>
+    <button (click)="filterByLabel(label)">{{label.labelName}}</button>
   </tr>
 
 <!--    Thêm mới label-->
