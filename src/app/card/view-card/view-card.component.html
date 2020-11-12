@@ -56,11 +56,11 @@
     <button mat-raised-button color="primary" [mat-dialog-close]="data.card">Update</button>
   </mat-grid-tile>
 
-  <mat-grid-tile [rowspan]="1" [colspan]="3">
+  <mat-grid-tile [rowspan]="10" [colspan]="3">
     <app-view-attachment [items]="attachments"></app-view-attachment>
   </mat-grid-tile >
   <mat-grid-tile [rowspan]="1" [colspan]="3">
-    <mat-form-field appearance="standard">
+    <mat-form-field class="add-comment" appearance="standard">
         <input matInput type="text" placeholder="Comment" [(ngModel)]="data.content">
     </mat-form-field>
     <div fxLayoutAlign="flex-end" >
