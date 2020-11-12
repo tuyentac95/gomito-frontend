@@ -239,8 +239,8 @@ export class BoardViewComponent implements OnInit {
         labels: this.labels,
         members: this.listMembers
       },
-      height: '428px',
-      width: '768px'
+      height: '750px',
+      width: '750px'
     });
 
     viewCard.afterClosed().subscribe(data => {
