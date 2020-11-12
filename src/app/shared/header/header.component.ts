@@ -21,7 +21,8 @@ export class HeaderComponent implements OnInit {
               private authService: AuthService,
               private router: Router,
               private localStorage: LocalStorageService,
-              private cardService: CardService) { }
+              private cardService: CardService,
+              public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.search = '';
@@ -69,4 +70,5 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/board/' + card.boardId], {queryParams: {cardId: card.cardId}});
     console.log('ok');
   }
+
 }

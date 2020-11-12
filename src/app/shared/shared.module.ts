@@ -18,7 +18,7 @@ import {MatDividerModule} from '@angular/material/divider';
 @NgModule({
   declarations: [
     HeaderComponent,
-    BoardCreateComponent
+    BoardCreateComponent,
   ],
     imports: [
         CommonModule,
