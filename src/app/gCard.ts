@@ -1,4 +1,4 @@
-import {Glabel} from "./glabel";
+import {Glabel} from './glabel';
 
 import {GUser} from './user/GUser';
 
@@ -11,4 +11,5 @@ export class GCard {
   members?: GUser[];
   labels?: Glabel[];
   comment?: Comment[];
+  boardId?: number;
 }
