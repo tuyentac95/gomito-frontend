@@ -23,6 +23,9 @@
   margin-left: 5px;
   background-color: #C2BAC8;
   font-size: 20px;
+  width: 45px;
+  height: 45px;
+  justify-content: center;
 }
 
 .member-avatar {
@@ -33,7 +36,4 @@
   height: 45px;
   border-radius: 50%;
   float: left;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
 }
