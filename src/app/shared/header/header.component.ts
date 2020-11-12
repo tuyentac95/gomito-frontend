@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {LocalStorageService} from 'ngx-webstorage';
 import {GCard} from '../../gCard';
 import {CardService} from '../../card/card.service';
+import {WebSocketService} from '../../notification/web-socket-service';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +22,8 @@ export class HeaderComponent implements OnInit {
               private authService: AuthService,
               private router: Router,
               private localStorage: LocalStorageService,
-              private cardService: CardService) { }
+              private cardService: CardService,
+              private webSocketService: WebSocketService) { }
 
   ngOnInit(): void {
     this.search = '';
@@ -42,6 +44,7 @@ export class HeaderComponent implements OnInit {
     });
     this.localStorage.clear();
     this.router.navigateByUrl('login');
+    this.webSocketService.$disconnect();
   }
 
   toDashboard(): void {

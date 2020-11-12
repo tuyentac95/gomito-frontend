@@ -16,6 +16,7 @@ import {GUser} from '../../user/GUser';
 import {LabelService} from '../../label/label.service';
 import {UserService} from '../../user/user.service';
 import {WebSocketService} from '../../notification/web-socket-service';
+import {BoardService} from '../board.service';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class BoardViewComponent implements OnInit {
   listMembers: GUser[];
   memberInfo: string;
   boardId: number;
+  boardName: string;
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
@@ -44,11 +46,14 @@ export class BoardViewComponent implements OnInit {
               private labelService: LabelService,
               private userService: UserService,
               private router: Router,
-              private webSocketService: WebSocketService) {
+              private webSocketService: WebSocketService,
+              private boardService: BoardService) {
   }
 
   ngOnInit(): void {
     this.boardId = Number(this.route.snapshot.params.boardId);
+    this.boardName = '';
+    this.getBoardInfo(this.boardId);
     this.listModels = [];
     this.originList = [];
     this.getList();
@@ -151,6 +156,10 @@ export class BoardViewComponent implements OnInit {
         newCard.cardIndex = data.cardIndex;
         newCard.cardId = data.cardId;
         $this.listModels[index].cards.push(newCard);
+
+        // thông báo tất cả members khi thêm mới card
+        const msg = ' add a new Card: ' + newCard.cardName + ' at board ' + $this.boardName;
+        $this.webSocketService.$sendAll(newCard.cardId, msg);
       });
     });
   }
@@ -450,6 +459,14 @@ export class BoardViewComponent implements OnInit {
           }
         });
       }
+    });
+  }
+
+  private getBoardInfo(boardId: number): void {
+    this.boardService.getBoardInfo(boardId).subscribe(result => {
+      this.boardName = result.boardName;
+    }, err => {
+      throwError(err);
     });
   }
 }

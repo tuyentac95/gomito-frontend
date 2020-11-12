@@ -2,7 +2,7 @@
 
 <mat-toolbar class="tool-bar">
   <mat-toolbar-row class="tool-bar-row">
-    <span>Board Name</span>
+    <span>{{boardName}}</span>
     <span class="example-spacer"></span>
     <div *ngFor="let mem of listMembers">
       <img *ngIf="mem.avatarUrl != null; else elseBlock" src="{{mem.avatarUrl}}" class="member">

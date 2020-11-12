@@ -35,10 +35,15 @@ export class WebSocketService {
     }, 5000);
   }
 
-  $send(user: string, text: string, broker: string): void {
-    this.stompClient.send(broker + user, {}, JSON.stringify({
-      from: this.fromUser,
-      message: text
+  $sendAll(cardId: number, msg: string): void {
+    console.log('Send notification to all members');
+    this.stompClient.send('/app/notify/' + cardId, {}, JSON.stringify({
+      senderName: this.fromUser,
+      message: this.fromUser + msg
     }));
+  }
+
+  $sendOne(cardId: number, msg: string): void {
+    // console.log('Sending notification to ')
   }
 }
