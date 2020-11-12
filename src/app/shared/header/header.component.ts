@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
               private router: Router,
               private localStorage: LocalStorageService,
               private cardService: CardService,
-              private webSocketService: WebSocketService) { }
+              public webSocketService: WebSocketService) { }
 
   ngOnInit(): void {
     this.search = '';
@@ -71,5 +71,9 @@ export class HeaderComponent implements OnInit {
   viewCard(card: GCard): void {
     this.router.navigate(['/board/' + card.boardId], {queryParams: {cardId: card.cardId}});
     console.log('ok');
+  }
+
+  toggleBadgeVisibility(): void {
+    this.webSocketService.hasNewNotification = '';
   }
 }

@@ -11,7 +11,7 @@ export class WebSocketService {
   topic = '/topic/notify/';
   stompClient: any;
   fromUser;
-  hasNewNotification: boolean;
+  hasNewNotification: string;
   snackBar: MatSnackBar;
 
   constructor() {
@@ -22,7 +22,7 @@ export class WebSocketService {
     const ws = new SockJS(this.webSocketEndPoint);
     this.stompClient = Stomp.over(ws);
     console.log(this.fromUser + ' connecting to server...');
-    this.hasNewNotification = false;
+    this.hasNewNotification = '';
   }
 
   $disconnect(): void {

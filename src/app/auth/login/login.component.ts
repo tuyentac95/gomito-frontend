@@ -72,7 +72,8 @@ export class LoginComponent implements OnInit {
           ws.stompClient.subscribe(ws.topic + ws.fromUser, function(response) {
             const newNotification = JSON.parse(response.body);
             console.log(newNotification);
-            ws.hasNewNotification = true;
+            ws.hasNewNotification = String(Number(ws.hasNewNotification) + 1);
+            console.log(ws.hasNewNotification);
             $this.alertNotification(newNotification);
           });
         }, ws.errorCallBack);
