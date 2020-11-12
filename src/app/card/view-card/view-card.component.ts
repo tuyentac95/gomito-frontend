@@ -54,8 +54,10 @@ export class ViewCardComponent implements OnInit {
   }
   private getAllComments(cardId: number): void {
     this.commentService.getCommentByCardId(cardId).subscribe(result => {
+      console.log(result);
       this.comment = result;
     }, err => {
+      console.log(err);
       throwError(err);
     });
   }

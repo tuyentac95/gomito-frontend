@@ -1,4 +1,4 @@
-import {Glabel} from "./glabel";
+import {Glabel} from './glabel';
 
 import {GUser} from './user/GUser';
 

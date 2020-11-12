@@ -13,7 +13,6 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 export class AddAttachmentComponent implements OnInit {
   imgSrc: string;
   selectedImage: any = null;
-
   constructor(private attachment: AttachmentService,
               private storage: AngularFireStorage,
               @Inject(MAT_DIALOG_DATA) public data: {
