@@ -5,6 +5,8 @@ import {AuthService} from '../../auth/auth.service';
 import {throwError} from 'rxjs';
 import {Router} from '@angular/router';
 import {LocalStorageService} from 'ngx-webstorage';
+import {GCard} from '../../gCard';
+import {CardService} from '../../card/card.service';
 
 @Component({
   selector: 'app-header',
@@ -12,13 +14,18 @@ import {LocalStorageService} from 'ngx-webstorage';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  search: string;
+  cards: GCard[];
 
   constructor(public createForm: MatDialog,
               private authService: AuthService,
               private router: Router,
-              private localStorage: LocalStorageService) { }
+              private localStorage: LocalStorageService,
+              private cardService: CardService) { }
 
   ngOnInit(): void {
+    this.search = '';
+    this.cards = [];
   }
 
   openCreateForm(): void {
@@ -43,5 +50,23 @@ export class HeaderComponent implements OnInit {
 
   changePw(): void {
     this.router.navigateByUrl('dashboard/change-password');
+  }
+
+  stopPropagation($event: MouseEvent): void {
+    $event.stopPropagation();
+  }
+
+  searchCard(name: string): void {
+    const $this = this;
+    $this.cardService.searchCard(name).subscribe(data => {
+      $this.cards = data;
+      console.log('check search');
+      console.log($this.cards);
+    });
+  }
+
+  viewCard(card: GCard): void {
+    this.router.navigateByUrl('board/board-view');
+    console.log('ok');
   }
 }
