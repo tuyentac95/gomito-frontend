@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
               private localStorage: LocalStorageService,
               private route: ActivatedRoute,
               private snackBar: MatSnackBar,
-              private webSocketService: WebSocketService) {
+              public webSocketService: WebSocketService) {
   }
 
   ngOnInit(): void {
