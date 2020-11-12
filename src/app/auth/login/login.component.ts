@@ -5,7 +5,7 @@ import {AuthService} from '../auth.service';
 import {LocalStorageService} from 'ngx-webstorage';
 import {throwError} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {WebSocketService} from '../../notification/web-socket-service';
 
 @Component({
@@ -59,16 +59,21 @@ export class LoginComponent implements OnInit {
         this.localStorage.store('refreshToken', data.refreshToken);
         this.localStorage.store('expiresAt', data.expiresAt);
 
-        this.webSocketService.fromUser = data.username;
-        this.webSocketService.$connect();
+        // bật socket
         const ws = this.webSocketService;
+        const $this = this;
+        ws.fromUser = data.username;
+        ws.$connect();
         // tslint:disable-next-line:only-arrow-functions typedef
         ws.stompClient.connect({}, function(frame) {
           console.log('connected to: ' + frame);
+          // lắng nghe các tín hiệu từ server
           // tslint:disable-next-line:only-arrow-functions typedef
           ws.stompClient.subscribe(ws.topic + ws.fromUser, function(response) {
             const newNotification = JSON.parse(response.body);
             console.log(newNotification);
+            ws.hasNewNotification = true;
+            $this.alertNotification(newNotification);
           });
         }, ws.errorCallBack);
       } else if (data.status === 404) {
@@ -85,6 +90,15 @@ export class LoginComponent implements OnInit {
 
   openSnackBar(): void {
     this.snackBar.open('Register successful! Please Check your inbox for activation email!', 'Close', {
+      duration: 4000,
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
+      panelClass: ['custom-class']
+    });
+  }
+
+  public alertNotification(notification): void {
+    this.snackBar.open(notification.message, 'Close', {
       duration: 4000,
       horizontalPosition: 'right',
       verticalPosition: 'bottom',

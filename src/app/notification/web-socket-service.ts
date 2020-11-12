@@ -1,6 +1,7 @@
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import {Injectable} from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,8 @@ export class WebSocketService {
   topic = '/topic/notify/';
   stompClient: any;
   fromUser;
+  hasNewNotification: boolean;
+  snackBar: MatSnackBar;
 
   constructor() {
   }
@@ -19,6 +22,7 @@ export class WebSocketService {
     const ws = new SockJS(this.webSocketEndPoint);
     this.stompClient = Stomp.over(ws);
     console.log(this.fromUser + ' connecting to server...');
+    this.hasNewNotification = false;
   }
 
   $disconnect(): void {
