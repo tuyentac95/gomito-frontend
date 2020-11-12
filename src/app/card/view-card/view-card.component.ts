@@ -26,6 +26,7 @@ export class ViewCardComponent implements OnInit {
   cardId: number;
   attachments: Attachment[];
   comments: Comment[];
+  newComment: string;
 
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
               private cardService: CardService,
@@ -45,6 +46,7 @@ export class ViewCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.newComment = '';
     this.cardId = this.data.card.cardId;
     const $this = this;
     this.getAllAttachments(this.cardId);
@@ -130,10 +132,11 @@ export class ViewCardComponent implements OnInit {
   // tslint:disable-next-line:typedef
   createComment(cont) {
     const createContend: Comment = {
-      content: cont.content,
+      content: cont,
       cardId: this.cardId,
     };
     console.log(createContend);
+    this.newComment = '';
     this.commentService.createComment(createContend).subscribe(result => {
       console.log(result);
       this.comments.push(result);
