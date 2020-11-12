@@ -27,7 +27,6 @@
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="2">
    <div> <mat-button-toggle class="show-label1" *ngFor="let label of data.card.labels" >{{label.labelName}}</mat-button-toggle></div>
-<!--    <span *ngFor="let label of data.card.labels">{{label.labelName}}</span>-->
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     <div *ngFor="let mem of members">

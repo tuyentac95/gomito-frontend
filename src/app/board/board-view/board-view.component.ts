@@ -419,10 +419,30 @@ export class BoardViewComponent implements OnInit {
         newListModel.dropListId = index + 1;
 
         // Với mỗi listId, gọi ra tất cả card có trong list đó
+        let foundCard = false;
         $this.cardService.getAllCards(model.listId).subscribe(listCard => {
           $this.listModels[index].cards = listCard;
           for (const card of $this.listModels[index].cards) {
             card.listId = model.listId;
+          }
+          if (!foundCard) {
+            $this.route.queryParams.subscribe(params => {
+              const $cardId = Number(params.cardId);
+              for (const list of $this.listModels) {
+                console.log(foundCard);
+                for (const card of list.cards) {
+                  if (card.cardId === $cardId) {
+                    console.log('found');
+                    $this.viewCard($cardId, list.listIndex);
+                    foundCard = true;
+                    break;
+                  }
+                }
+                if (foundCard) {
+                  break;
+                }
+              }
+            });
           }
         });
       }
