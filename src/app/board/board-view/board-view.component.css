@@ -10,12 +10,12 @@ mat-drawer-container {
   display: inline-block;
   vertical-align: top;
   background-color: midnightblue;
-  border-radius: 7px;
+  border-radius: 8px;
 }
 
 .example-container > h2 {
   margin-top: 8px;
-  margin-left: 15px;
+  margin-left: 18px;
   margin-bottom: 8px;
   color: #FAFBFC;
 }
@@ -27,10 +27,12 @@ mat-drawer-container {
   border-radius: 7px;
   overflow: hidden;
   display: block;
+  margin: 5px 7px 7px;
 }
 
 .example-box {
-  padding: 20px 10px;
+  margin: 8px;
+  padding: 10px 15px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
@@ -39,7 +41,7 @@ mat-drawer-container {
   justify-content: space-between;
   box-sizing: border-box;
   background: white;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
 }
 
@@ -107,12 +109,17 @@ mat-drawer-container {
 
 .example-sidenav {
   padding: 20px;
+  width: 320px;
 }
 
 .member {
   margin-left: 5px;
-  background-color: #C2BAC8;
+  background-color: lightslategrey;
   font-size: 20px;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .invite-member {
@@ -124,4 +131,36 @@ mat-drawer-container {
 .invite-button {
   float: right;
   margin: 0 15px 10px;
+}
+
+.show-label {
+  width: 250px;
+  margin: 5px;
+}
+
+.tool-bar {
+  background-color: #FAFBFC;
+  opacity: 80%;
+  color: black;
+}
+
+.add-label {
+  margin: 5px 5px 0;
+  width: 255px;
+}
+
+mat-divider {
+  margin-bottom: 3px;
+}
+
+.card-name {
+  width: 100%;
+  height: 100%;
+  word-wrap: break-word;
+  text-align: justify;
+}
+
+.member-ava {
+  width: 100%;
+  align-content: flex-end;
 }

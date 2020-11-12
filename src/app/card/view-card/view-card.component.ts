@@ -59,6 +59,7 @@ export class ViewCardComponent implements OnInit {
       throwError(err);
     });
   }
+
   private getAllAttachments(cardId: number): void {
     this.attachmentService.getAttachment(cardId).subscribe(result => {
       console.log('check result');
@@ -80,6 +81,7 @@ export class ViewCardComponent implements OnInit {
       console.log(err);
       if (err.status === 200) {
         $this.members.push(member);
+        $this.data.card.members = $this.members;
       }
       throwError(err);
     });
@@ -99,6 +101,7 @@ export class ViewCardComponent implements OnInit {
       this.getAllAttachments(this.cardId);
     });
   }
+
   addLabelToCard(label: Glabel): void {
     // @ts-ignore
     const updateCard: GCard = {

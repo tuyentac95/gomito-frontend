@@ -47,8 +47,8 @@ import {environment} from '../environments/environment';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {ViewAttachmentComponent} from './attachment/view-attachment/view-attachment.component';
-
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { ViewCommentComponent } from './comment/view-comment/view-comment.component';
 import { EditCommentComponent } from './comment/edit-comment/edit-comment.component';
 import { DeleteCommentComponent } from './comment/delete-comment/delete-comment.component';
@@ -106,7 +106,8 @@ import { DeleteCommentComponent } from './comment/delete-comment/delete-comment.
     MatDialogModule,
     ReactiveFormsModule,
     MatGridListModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatButtonToggleModule
   ],
   // providers: [],
   providers: [
