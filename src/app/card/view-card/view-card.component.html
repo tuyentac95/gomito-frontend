@@ -18,14 +18,16 @@
     <mat-menu #menu="matMenu">
       <tr *ngFor="let label of data.labels">
               <button mat-menu-item class="example-sidenav" mode="side" (click)="addLabelToCard(label)">
-                  <p>{{label.labelName}}</p>
+                <mat-button-toggle>{{label.labelName}}</mat-button-toggle>
+<!--                  <p></p>-->
               </button>
       </tr>
     </mat-menu>
 
   </mat-grid-tile>
-  <mat-grid-tile [rowspan]="1" [colspan]="1">
-    <span *ngFor="let label of data.card.labels">{{label.labelName}}</span>
+  <mat-grid-tile [rowspan]="1" [colspan]="2">
+   <div> <mat-button-toggle class="show-label1" *ngFor="let label of data.card.labels" >{{label.labelName}}</mat-button-toggle></div>
+<!--    <span *ngFor="let label of data.card.labels">{{label.labelName}}</span>-->
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     <div *ngFor="let mem of members">

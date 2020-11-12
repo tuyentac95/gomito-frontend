@@ -166,3 +166,7 @@ mat-divider {
   width: 100%;
   align-content: flex-end;
 }
+
+mat-button-toggle{
+  margin-left: 100px;
+}
