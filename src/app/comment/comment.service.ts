@@ -14,11 +14,11 @@ export class CommentService {
   constructor(private httpClient: HttpClient) { }
 
   getAllComment(): Observable<Comment[]> {
-      return this.httpClient.get<Comment[]>(API_URL + `/comments`);
+      return this.httpClient.get<Comment[]>(API_URL + '/comments');
   }
 
   createComment(comment: Comment): Observable<Comment> {
-    return this.httpClient.post<Comment>(API_URL + '/comments', comment);
+    return this.httpClient.post<Comment>(API_URL + '/api/comments/', comment);
   }
 
   updateComment(id: number, comment: Comment): Observable<Comment> {
@@ -28,5 +28,9 @@ export class CommentService {
   deleteComment(id: number): Observable<Comment> {
     return this.httpClient.delete<Comment>(API_URL + `/comments/${id}`);
 
+  }
+
+  getCommentByCardId(cardId: number): Observable<Comment[]> {
+    return this.httpClient.get<Comment[]>(API_URL + `/api/cards/writeComment/${cardId}`);
   }
 }

@@ -10,4 +10,5 @@ export class GCard {
   description?: string;
   members?: GUser[];
   labels?: Glabel[];
+  comment?: Comment[];
 }

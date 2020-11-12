@@ -46,7 +46,9 @@
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     <mat-form-field class="description">
-      <textarea matInput type="text" placeholder="Description" [(ngModel)]="data.card.description"></textarea>
+      <label>
+        <textarea matInput type="text" placeholder="Description" [(ngModel)]="data.card.description"></textarea>
+      </label>
     </mat-form-field>
   </mat-grid-tile>
 
@@ -56,6 +58,17 @@
 
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     <app-view-attachment [items]="attachments"></app-view-attachment>
+  </mat-grid-tile >
+  <mat-grid-tile [rowspan]="1" [colspan]="3">
+    <mat-form-field appearance="standard">
+        <input matInput type="text" placeholder="Comment" [(ngModel)]="data.contend">
+    </mat-form-field>
+    <div fxLayoutAlign="flex-end" >
+      <button mat-raised-button color="primary"  (click)="createComment(data)">Save</button>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile  [rowspan]="1" [colspan]="3">
+    <app-view-comment [items]="comment"></app-view-comment>
   </mat-grid-tile>
 
 </mat-grid-list>

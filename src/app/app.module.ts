@@ -48,8 +48,10 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {ViewAttachmentComponent} from './attachment/view-attachment/view-attachment.component';
 
-import { AddCommentComponent } from './comment/add-comment/add-comment.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { ViewCommentComponent } from './comment/view-comment/view-comment.component';
+import { EditCommentComponent } from './comment/edit-comment/edit-comment.component';
+import { DeleteCommentComponent } from './comment/delete-comment/delete-comment.component';
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -71,6 +73,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     EditAttachmentComponent,
     ViewAttachmentComponent,
     LabelComponent,
+    ViewCommentComponent,
+    EditCommentComponent,
+    DeleteCommentComponent,
     // GBoardComponent
   ],
   imports: [

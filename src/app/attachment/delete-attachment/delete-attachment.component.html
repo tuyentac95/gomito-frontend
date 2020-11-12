@@ -1,4 +1,9 @@
 <mat-form-field appearance="standard">
+  <p>Delete Attachment</p>
+  <mat-divider></mat-divider>
+  <div fxLayoutAlign="flex-end">
+    <p>Deleting a attachment is forever. There is no undo.</p>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data.attachmentId">Delete</button>
+  </div>
 </mat-form-field>
-<div fxLayoutAlign="flex-end"><button mat-raised-button color="primary" [mat-dialog-close]="data.attachmentId">Delete</button></div>
 
