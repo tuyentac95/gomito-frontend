@@ -15,6 +15,7 @@ import {Glabel} from '../../glabel';
 import {GUser} from '../../user/GUser';
 import {LabelService} from '../../label/label.service';
 import {UserService} from '../../user/user.service';
+import {WebSocketService} from '../../notification/web-socket-service';
 
 
 @Component({
@@ -42,7 +43,8 @@ export class BoardViewComponent implements OnInit {
               private cardService: CardService,
               private labelService: LabelService,
               private userService: UserService,
-              private router: Router) {
+              private router: Router,
+              private webSocketService: WebSocketService) {
   }
 
   ngOnInit(): void {
@@ -428,18 +430,20 @@ export class BoardViewComponent implements OnInit {
           if (!foundCard) {
             $this.route.queryParams.subscribe(params => {
               const $cardId = Number(params.cardId);
-              for (const list of $this.listModels) {
-                console.log(foundCard);
-                for (const card of list.cards) {
-                  if (card.cardId === $cardId) {
-                    console.log('found');
-                    $this.viewCard($cardId, list.listIndex);
-                    foundCard = true;
+              if ($cardId > 0) {
+                for (const list of $this.listModels) {
+                  console.log(foundCard);
+                  for (const card of list.cards) {
+                    if (card.cardId === $cardId) {
+                      console.log('found');
+                      $this.viewCard($cardId, list.listIndex);
+                      foundCard = true;
+                      break;
+                    }
+                  }
+                  if (foundCard) {
                     break;
                   }
-                }
-                if (foundCard) {
-                  break;
                 }
               }
             });

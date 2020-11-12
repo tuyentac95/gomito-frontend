@@ -6,6 +6,7 @@ import {LocalStorageService} from 'ngx-webstorage';
 import {throwError} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
+import {WebSocketService} from '../../notification/web-socket-service';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,8 @@ export class LoginComponent implements OnInit {
               private router: Router,
               private localStorage: LocalStorageService,
               private route: ActivatedRoute,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private webSocketService: WebSocketService) {
   }
 
   ngOnInit(): void {
@@ -56,6 +58,19 @@ export class LoginComponent implements OnInit {
         this.localStorage.store('userId', data.userId);
         this.localStorage.store('refreshToken', data.refreshToken);
         this.localStorage.store('expiresAt', data.expiresAt);
+
+        this.webSocketService.fromUser = data.username;
+        this.webSocketService.$connect();
+        const ws = this.webSocketService;
+        // tslint:disable-next-line:only-arrow-functions typedef
+        ws.stompClient.connect({}, function(frame) {
+          console.log('connected to: ' + frame);
+          // tslint:disable-next-line:only-arrow-functions typedef
+          ws.stompClient.subscribe(ws.topic + ws.fromUser, function(response) {
+            const newNotification = JSON.parse(response.body);
+            console.log(newNotification);
+          });
+        }, ws.errorCallBack);
       } else if (data.status === 404) {
         this.messageUsername = 'Tài khoản không tìm thấy!';
         this.router.navigate(['login']);
