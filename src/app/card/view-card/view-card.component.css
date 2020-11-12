@@ -68,3 +68,7 @@
   margin-top: 25px;
   float: left;
 }
+
+.atm-border {
+  border: 1px black solid;
+}

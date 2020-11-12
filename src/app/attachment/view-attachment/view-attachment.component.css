@@ -1,6 +1,8 @@
 .view-atm{
   width: 500px;
   background-size: cover;
+  border: 1px #ededf0 solid;
+  margin: 10px 5px;
 }
 
 .view-image{

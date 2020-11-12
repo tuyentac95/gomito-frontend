@@ -60,18 +60,21 @@
   </mat-grid-tile>
 </mat-grid-list>
 
-<div>
-  <app-view-attachment [items]="attachments"></app-view-attachment>
+<div >
+  <app-view-attachment  [items]="attachments"></app-view-attachment>
 </div>
 <div>
-  <mat-form-field class="add-comment" appearance="standard">
+  <mat-form-field class="add-comment" appearance="outline">
+    <mat-label>Add new comment</mat-label>
     <label>
-      <input matInput type="text" placeholder="Comment" [(ngModel)]="data.content">
+      <textarea matInput type="text" placeholder="Comment" [(ngModel)]="data.content"></textarea>
     </label>
   </mat-form-field>
-<!--  <div fxLayoutAlign="flex-end">-->
+  <br/>
+  <div >
     <button mat-raised-button color="primary" (click)="createComment(data)">Save</button>
-<!--  </div>-->
+  </div>
+  <br/>
 </div>
 <div>
   <app-view-comment [items]="comment"></app-view-comment>
