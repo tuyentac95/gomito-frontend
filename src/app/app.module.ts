@@ -52,6 +52,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { ViewCommentComponent } from './comment/view-comment/view-comment.component';
 import { EditCommentComponent } from './comment/edit-comment/edit-comment.component';
 import { DeleteCommentComponent } from './comment/delete-comment/delete-comment.component';
+import { NotificationComponent } from './notification/notification.component';
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -76,6 +77,7 @@ import { DeleteCommentComponent } from './comment/delete-comment/delete-comment.
     ViewCommentComponent,
     EditCommentComponent,
     DeleteCommentComponent,
+    NotificationComponent,
     // GBoardComponent
   ],
   imports: [
