@@ -1,0 +1,11 @@
+<div *ngFor="let item of items">
+  <div>
+        <p>{{item.content}}</p>
+  </div>
+  <div>
+    <a (click)="openEditComment(item.commentId, item.content)">Edit</a>
+  </div>
+  <div>
+    <a (click)="openDeleteComment(item.commentId)">Delete</a>
+  </div>
+</div>

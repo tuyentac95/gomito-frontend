@@ -12,9 +12,10 @@ import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {ViewCardComponent} from '../../card/view-card/view-card.component';
 import {Glabel} from '../../glabel';
-import {LabelService} from '../../label/label.service';
 import {GUser} from '../../user/GUser';
+import {LabelService} from '../../label/label.service';
 import {UserService} from '../../user/user.service';
+
 
 @Component({
   selector: 'app-board-view',
@@ -238,8 +239,8 @@ export class BoardViewComponent implements OnInit {
         labels: this.labels,
         members: this.listMembers
       },
-      height: '428px',
-      width: '768px'
+      height: '750px',
+      width: '750px'
     });
 
     viewCard.afterClosed().subscribe(data => {
