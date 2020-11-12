@@ -8,6 +8,7 @@ import {LocalStorageService} from 'ngx-webstorage';
 import {GCard} from '../../gCard';
 import {CardService} from '../../card/card.service';
 import {WebSocketService} from '../../notification/web-socket-service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-header',
@@ -23,11 +24,30 @@ export class HeaderComponent implements OnInit {
               private router: Router,
               private localStorage: LocalStorageService,
               private cardService: CardService,
-              public webSocketService: WebSocketService) { }
+              public webSocketService: WebSocketService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.search = '';
     this.cards = [];
+    // bật socket
+    const ws = this.webSocketService;
+    const $this = this;
+    ws.fromUser = this.localStorage.retrieve('username');
+    ws.$connect();
+    // tslint:disable-next-line:only-arrow-functions typedef
+    ws.stompClient.connect({}, function(frame) {
+      console.log('connected to: ' + frame);
+      // lắng nghe các tín hiệu từ server
+      // tslint:disable-next-line:only-arrow-functions typedef
+      ws.stompClient.subscribe(ws.topic + ws.fromUser, function(response) {
+        const newNotification = JSON.parse(response.body);
+        console.log(newNotification);
+        ws.hasNewNotification = String(Number(ws.hasNewNotification) + 1);
+        console.log(ws.hasNewNotification);
+        $this.alertNotification(newNotification);
+      });
+    }, ws.errorCallBack);
   }
 
   openCreateForm(): void {
@@ -75,5 +95,14 @@ export class HeaderComponent implements OnInit {
 
   toggleBadgeVisibility(): void {
     this.webSocketService.hasNewNotification = '';
+  }
+
+  public alertNotification(notification): void {
+    this.snackBar.open(notification.message, 'Close', {
+      duration: 4000,
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
+      panelClass: ['custom-class']
+    });
   }
 }

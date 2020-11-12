@@ -41,13 +41,18 @@ export class WebSocketService {
 
   $sendAll(cardId: number, msg: string): void {
     console.log('Send notification to all members');
-    this.stompClient.send('/app/notify/' + cardId, {}, JSON.stringify({
+    this.stompClient.send('/app/notifyAll/' + cardId, {}, JSON.stringify({
       senderName: this.fromUser,
       message: this.fromUser + msg
     }));
   }
 
-  $sendOne(cardId: number, msg: string): void {
-    // console.log('Sending notification to ')
+  $sendOne(cardId: number, msg: string, name: string): void {
+    console.log('Send notification to ' + name);
+    this.stompClient.send('/app/notifyOne/' + cardId, {}, JSON.stringify({
+      senderName: this.fromUser,
+      message: this.fromUser + msg,
+      receiverName: name
+    }));
   }
 }

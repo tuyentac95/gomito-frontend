@@ -270,7 +270,8 @@ export class BoardViewComponent implements OnInit {
       data: {
         card: updateCard,
         labels: this.labels,
-        members: this.listMembers
+        members: this.listMembers,
+        boardName: this.boardName
       },
       height: '750px',
       width: '900px'
