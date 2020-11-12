@@ -3,15 +3,17 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {GCard} from '../../gCard';
 import {GUser} from '../../user/GUser';
 import {CardService} from '../card.service';
-import {throwError} from 'rxjs';
-import {Glabel} from "../../glabel";
-import {LabelService} from "../../label/label.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ActiveDescendantKeyManager} from "@angular/cdk/a11y";
 import {MatDialog} from '@angular/material/dialog';
 import {AddAttachmentComponent} from '../../attachment/add-attachment/add-attachment.component';
 import {AttachmentService} from '../../attachment/service/attachment.service';
 import {Attachment} from '../../attachment';
+import {CommentService} from '../../comment/comment.service';
+import {Comment} from '../../comment';
+import {Glabel} from '../../glabel';
+import {LabelService} from '../../label/label.service';
+import {ActivatedRoute} from '@angular/router';
+import {throwError} from 'rxjs';
+
 
 @Component({
   selector: 'app-view-card',
@@ -22,15 +24,18 @@ export class ViewCardComponent implements OnInit {
   members: GUser[];
   cardId: number;
   attachments: Attachment[];
+  comment: Comment[];
 
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
               private cardService: CardService,
               private attachmentService: AttachmentService,
               private create: MatDialog,
+              private commentService: CommentService,
               @Inject(MAT_DIALOG_DATA) public data: {
                 card: GCard,
                 labels: Glabel[],
-                members: GUser[]
+                members: GUser[],
+                content: Comment[],
               },
               private labelService: LabelService,
               private route: ActivatedRoute) {
@@ -39,12 +44,20 @@ export class ViewCardComponent implements OnInit {
   ngOnInit(): void {
     this.cardId = this.data.card.cardId;
     const $this = this;
+    this.getAllAttachments(this.cardId);
+    this.getAllComments(this.cardId);
     this.cardService.getMembersOfCard(this.cardId).subscribe(result => {
       $this.members = result;
     }, err => {
       throwError(err);
     });
-    this.getAllAttachments($this.cardId);
+  }
+  private getAllComments(cardId: number): void {
+    this.commentService.getCommentByCardId(cardId).subscribe(result => {
+      this.comment = result;
+    }, err => {
+      throwError(err);
+    });
   }
 
   private getAllAttachments(cardId: number): void {
@@ -68,6 +81,7 @@ export class ViewCardComponent implements OnInit {
       console.log(err);
       if (err.status === 200) {
         $this.members.push(member);
+        $this.data.card.members = $this.members;
       }
       throwError(err);
     });
@@ -87,6 +101,7 @@ export class ViewCardComponent implements OnInit {
       this.getAllAttachments(this.cardId);
     });
   }
+
   addLabelToCard(label: Glabel): void {
     // @ts-ignore
     const updateCard: GCard = {
@@ -100,6 +115,17 @@ export class ViewCardComponent implements OnInit {
         console.log('Đã xong việc thêm label');
       }
       console.log(err);
+    });
+  }
+
+  // tslint:disable-next-line:typedef
+  createComment(cont) {
+    const createContend: Comment = {
+      content: cont.content,
+      cardId: this.cardId,
+    };
+    console.log(createContend);
+    this.commentService.createComment(createContend).subscribe(data => {
     });
   }
 }

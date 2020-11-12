@@ -12,9 +12,10 @@ import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {ViewCardComponent} from '../../card/view-card/view-card.component';
 import {Glabel} from '../../glabel';
-import {LabelService} from '../../label/label.service';
 import {GUser} from '../../user/GUser';
+import {LabelService} from '../../label/label.service';
 import {UserService} from '../../user/user.service';
+
 
 @Component({
   selector: 'app-board-view',
@@ -28,6 +29,7 @@ export class BoardViewComponent implements OnInit {
   listModels: ListModel[];
   originList: ListModel[];
   filterLabels: Glabel[];
+  filterMembers: GUser[];
   showFiller = false;
   listMembers: GUser[];
   memberInfo: string;
@@ -44,13 +46,14 @@ export class BoardViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.boardId = Number(this.route.snapshot.params['boardId']);
+    this.boardId = Number(this.route.snapshot.params.boardId);
     this.listModels = [];
     this.originList = [];
     this.getList();
     this.getListModels();
 
     this.filterLabels = [];
+    this.filterMembers = [];
     this.listMembers = [];
     this.getLabel();
     this.getAllMembers(this.boardId);
@@ -78,7 +81,7 @@ export class BoardViewComponent implements OnInit {
       // const newListId = this.listModels[containerId].listId;
       let newListId = 0;
       for (const list of this.listModels) {
-        if (list.dropListId == containerId) {
+        if (list.dropListId === containerId) {
           newListId = list.listId;
           break;
         }
@@ -115,7 +118,7 @@ export class BoardViewComponent implements OnInit {
   openCreateList(): void {
     const newList: ListModel = {
       listName: '',
-      boardId: this.route.snapshot.params['boardId'],
+      boardId: this.boardId,
       cards: []
     };
     const createList = this.create.open(CreatListComponent, {
@@ -165,7 +168,7 @@ export class BoardViewComponent implements OnInit {
         console.log(data);
         alert('Update success!!!');
         for (const list of $this.listModels) {
-          if (list.listId == id) {
+          if (list.listId === id) {
             list.listName = data.listName;
           }
         }
@@ -178,7 +181,7 @@ export class BoardViewComponent implements OnInit {
   // tslint:disable-next-line:typedef
   private getList() {
     // Lấy boardId từ URL
-    const id = this.route.snapshot.params.boardId;
+    const id = this.boardId;
 
     // Gọi ra tất cả list có trong board theo boardId
     this.listService.getListList(id).subscribe(data => {
@@ -236,13 +239,16 @@ export class BoardViewComponent implements OnInit {
         labels: this.labels,
         members: this.listMembers
       },
-      height: '428px',
-      width: '768px'
+      height: '750px',
+      width: '750px'
     });
 
     viewCard.afterClosed().subscribe(data => {
+      console.log(data);
       $this.cardService.editCard(data).subscribe(result => {
-        $this.originList[listIndex].cards[result.cardIndex] = result;
+        console.log($this.listModels[listIndex].cards[result.cardIndex]);
+        $this.listModels[listIndex].cards[result.cardIndex].cardName = result.cardName;
+        $this.listModels[listIndex].cards[result.cardIndex].members = data.members;
         alert('Update success');
         console.log(result);
       });
@@ -295,27 +301,36 @@ export class BoardViewComponent implements OnInit {
     return re.test(text);
   }
 
-  saveLabel(): void{
+  saveLabel(): void {
     this.newLabel.boardId = this.boardId;
     this.labelService.createLabel(this.newLabel).subscribe(data => {
       this.labels.push(data);
       console.log(data);
+      this.newLabel.labelName = '';
     }, err => console.log(err));
   }
 
-
-  filterByLabel(label: Glabel): void {
+  filterByLabelAndMember(label?: Glabel, member?: GUser): void {
     const $this = this;
-    const i = $this.filterLabels.indexOf(label);
-    if (i >= 0) {
-      $this.filterLabels.splice(i, 1);
+    if (label !== null) {
+      const i = $this.filterLabels.indexOf(label);
+      if (i >= 0) {
+        $this.filterLabels.splice(i, 1);
+      } else {
+        $this.filterLabels.push(label);
+      }
     } else {
-      $this.filterLabels.push(label);
+      const i = $this.filterMembers.indexOf(member);
+      if (i >= 0) {
+        $this.filterMembers.splice(i, 1);
+      } else {
+        $this.filterMembers.push(member);
+      }
     }
-    if ($this.filterLabels.length === 0) {
+    if ($this.filterLabels.length === 0 && $this.filterMembers.length === 0) {
       $this.listModels = [];
       $this.getListModels();
-    } else {
+    } else if ($this.filterMembers.length === 0) {
       console.log($this.filterLabels);
       for (const list of $this.originList) {
         const index = $this.originList.indexOf(list);
@@ -323,8 +338,48 @@ export class BoardViewComponent implements OnInit {
         for (const card of list.cards) {
           for (const label1 of card.labels) {
             for (const checkLabel of $this.filterLabels) {
-              if (label1.labelId === checkLabel.labelId) {
+              if (label1.labelId === checkLabel.labelId && $this.listModels[index].cards.indexOf(card) < 0) {
                 $this.listModels[index].cards.push(card);
+              }
+            }
+          }
+        }
+      }
+    } else if ($this.filterLabels.length === 0) {
+      console.log($this.filterMembers);
+      for (const list of $this.originList) {
+        const index = $this.originList.indexOf(list);
+        $this.listModels[index].cards = [];
+        for (const card of list.cards) {
+          for (const mem of card.members) {
+            for (const checkMem of $this.filterMembers) {
+              if (mem.userId === checkMem.userId && $this.listModels[index].cards.indexOf(card) < 0) {
+                $this.listModels[index].cards.push(card);
+              }
+            }
+          }
+        }
+      }
+    } else {
+      console.log($this.filterLabels);
+      for (const list of $this.originList) {
+        const index = $this.originList.indexOf(list);
+        $this.listModels[index].cards = [];
+        for (const card of list.cards) {
+          let checkCardLabel = false;
+          for (const label1 of card.labels) {
+            for (const checkLabel of $this.filterLabels) {
+              if (label1.labelId === checkLabel.labelId) {
+                checkCardLabel = true;
+              }
+            }
+          }
+          if (checkCardLabel) {
+            for (const mem of card.members) {
+              for (const checkMem of $this.filterMembers) {
+                if (mem.userId === checkMem.userId && $this.listModels[index].cards.indexOf(card) < 0) {
+                  $this.listModels[index].cards.push(card);
+                }
               }
             }
           }

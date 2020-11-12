@@ -18,6 +18,18 @@
   height: 100px;
   object-fit: cover;
   border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  background-color: lightslategrey;
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
 mat-drawer {
