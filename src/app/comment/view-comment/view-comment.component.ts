@@ -43,7 +43,6 @@ export class ViewCommentComponent implements OnInit {
         throwError(error);
       });
     });
-
   }
 
   // tslint:disable-next-line:typedef
