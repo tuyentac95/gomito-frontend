@@ -2,20 +2,25 @@
   <mat-toolbar-row>
     <span class="brand-name" (click)="toDashboard()" [textContent]="'GOMITO '"></span>
 
-    <mat-form-field appearance="outline" fxFlex="225px">
+    <mat-form-field appearance="outline" fxFlex="225px" >
       <mat-icon matPrefix>search</mat-icon>
+
         <input matInput placeholder="Search"
-               class="search" name="searchText" [(ngModel)]="search" [matMenuTriggerFor]="menus" (input)="searchCard(search)">
+               class="search" name="searchText" [(ngModel)]="search" [matMenuTriggerFor]="menus" (input)="searchCard(search)" >
+
       <mat-menu #menus="matMenu">
         <div class="search-menu" (click)="stopPropagation($event)">
 
           <div *ngFor="let result of cards">
           <div>
-            <span (click)="viewCard(result)">{{result.cardName}}</span>
-          </div>
+            <div>
+              <span (click)="viewCard(result)">{{result.cardName}}</span>
+            </div>
           </div>
         </div>
+        </div>
       </mat-menu>
+
     </mat-form-field>
 
     <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">

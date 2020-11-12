@@ -66,6 +66,7 @@ export class HeaderComponent implements OnInit {
   }
 
   viewCard(card: GCard): void {
+    this.router.navigateByUrl('board/board-view');
     console.log('ok');
   }
 }
