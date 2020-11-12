@@ -1,3 +1,14 @@
 .view-atm{
   width: 500px;
+  background-size: cover;
+}
+
+.view-image{
+  height: 100px;
+  width: 100px;
+  background-size: cover;
+}
+
+.attachment-content {
+  margin: 5px 20px;
 }

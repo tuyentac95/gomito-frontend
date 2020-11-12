@@ -22,41 +22,43 @@ export class ViewCommentComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef
-  openEditComment(id: number, contends: string) {
-    const updateComment: Comment = {
-      commentId: id,
-      content: contends
-    };
-    const editComment = this.create.open(EditCommentComponent, {
-      data: updateComment,
-      width: '400px'
-    });
-
-    editComment.afterClosed().subscribe(result => {
-      this.commentService.updateComment(result.id, result.contend).subscribe(data => {
-        for (const comment of this.comments){
-          if (comment.commentId === id){
-            comment.content = data.content;
-          }
-        }
-      }, error => {
-        throwError(error);
-      });
-    });
-  }
+  // openEditComment(id: number, contends: string) {
+  //   const updateComment: Comment = {
+  //     commentId: id,
+  //     content: contends
+  //   };
+  //   const editComment = this.create.open(EditCommentComponent, {
+  //     data: updateComment,
+  //     width: '400px'
+  //   });
+  //
+  //   editComment.afterClosed().subscribe(result => {
+  //     this.commentService.updateComment(result.id, result.contend).subscribe(data => {
+  //       for (const comment of this.comments){
+  //         if (comment.commentId === id){
+  //           comment.content = data.content;
+  //         }
+  //       }
+  //     }, error => {
+  //       throwError(error);
+  //     });
+  //   });
+  //
+  // }
 
   // tslint:disable-next-line:typedef
-  openDeleteComment(id: number) {
-    const deleteComment: Comment = {
-      commentId: id
-    };
-
-    const deleteCom = this.create.open(DeleteCommentComponent, {
-      data: deleteComment,
-      width: '250px'
-    });
-    deleteCom.afterClosed().subscribe(result => {
-      this.commentService.deleteComment(result).subscribe(data => {});
-    });
-  }
+  // openDeleteComment(id: number) {
+  //
+  //   const deleteComment: Comment = {
+  //     commentId: id
+  //   };
+  //   const deleteCom = this.create.open(DeleteCommentComponent, {
+  //     data: deleteComment,
+  //     width: '250px'
+  //   });
+  //   deleteCom.afterClosed().subscribe(result => {
+  //     console.log(result);
+  //     this.commentService.deleteComment(result).subscribe(data => {});
+  //   });
+  // }
 }

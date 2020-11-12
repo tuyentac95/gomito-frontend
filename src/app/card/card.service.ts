@@ -52,6 +52,10 @@ export class CardService {
     return this.httpClient.get<GCard>('http://localhost:8080/api/cards/' + cardId);
   }
 
+  searchCard(search: string): Observable<GCard[]> {
+    return this.httpClient.get<GCard[]>('http://localhost:8080/api/cards/searches/' + search);
+  }
+
   getMembersOfCard(cardId: number): Observable<GUser[]> {
     return this.httpClient.get<GUser[]>('http://localhost:8080/api/cards/' + cardId + '/get-members');
   }

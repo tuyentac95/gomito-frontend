@@ -116,10 +116,12 @@ mat-drawer-container {
   margin-left: 5px;
   background-color: lightslategrey;
   font-size: 20px;
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   object-fit: cover;
   border-radius: 50%;
+  display: table-cell;
+  vertical-align: center;
 }
 
 .invite-member {
