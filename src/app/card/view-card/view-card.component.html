@@ -61,13 +61,15 @@
   </mat-grid-tile >
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     <mat-form-field class="add-comment" appearance="standard">
+      <label>
         <input matInput type="text" placeholder="Comment" [(ngModel)]="data.content">
+      </label>
     </mat-form-field>
     <div fxLayoutAlign="flex-end" >
       <button mat-raised-button color="primary"  (click)="createComment(data)">Save</button>
     </div>
   </mat-grid-tile>
-  <mat-grid-tile  [rowspan]="1" [colspan]="3">
+  <mat-grid-tile [rowspan]="3" [colspan]="3">
     <app-view-comment [items]="comment"></app-view-comment>
   </mat-grid-tile>
 
