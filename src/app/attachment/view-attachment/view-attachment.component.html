@@ -1,15 +1,15 @@
 <div *ngFor="let item of items" class="view-atm">
-  <mat-grid-list>
-    <mat-card class="example-card">
-      <img class="" src="{{item.attachmentUrl}}" alt="">
-      <mat-card-content>
-        <p>{{item.attachmentName}}</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button (click)="openEdit(item.attachmentId, item.attachmentName)">EDIT</button>
-        <button mat-button (click)="openDelete(item.attachmentId)">DELETE</button>
-      </mat-card-actions>
+    <mat-card class="example-card" fxLayout="row">
+      <img class="view-image" src="{{item.attachmentUrl}}" alt="">
+      <div fxLayout="column">
+        <mat-card-content class="attachment-content">
+          <p>{{item.attachmentName}}</p>
+        </mat-card-content>
+        <mat-card-actions fxLayoutAlign="flex-end">
+          <button mat-button (click)="openEdit(item.attachmentId, item.attachmentName)">EDIT</button>
+          <button mat-button (click)="openDelete(item.attachmentId)">DELETE</button>
+        </mat-card-actions>
+      </div>
     </mat-card>
-  </mat-grid-list>
 </div>
 

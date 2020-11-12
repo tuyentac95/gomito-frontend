@@ -45,18 +45,18 @@ export class ViewCommentComponent implements OnInit {
   // }
 
   // tslint:disable-next-line:typedef
-  openDeleteComment(id: number) {
-
-    const deleteComment: Comment = {
-      commentId: id
-    };
-    const deleteCom = this.create.open(DeleteCommentComponent, {
-      data: deleteComment,
-      width: '250px'
-    });
-    deleteCom.afterClosed().subscribe(result => {
-      console.log(result);
-      this.commentService.deleteComment(result).subscribe(data => {});
-    });
-  }
+  // openDeleteComment(id: number) {
+  //
+  //   const deleteComment: Comment = {
+  //     commentId: id
+  //   };
+  //   const deleteCom = this.create.open(DeleteCommentComponent, {
+  //     data: deleteComment,
+  //     width: '250px'
+  //   });
+  //   deleteCom.afterClosed().subscribe(result => {
+  //     console.log(result);
+  //     this.commentService.deleteComment(result).subscribe(data => {});
+  //   });
+  // }
 }

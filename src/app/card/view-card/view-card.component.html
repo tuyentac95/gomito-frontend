@@ -5,25 +5,25 @@
     </mat-form-field>
   </mat-grid-tile>
 
-  <mat-grid-tile [rowspan]="4" [colspan]="1">
+  <mat-grid-tile [rowspan]="5" [colspan]="1">
     <div fxLayout="column">
       <h3>ADD TO CARD</h3>
       <button mat-raised-button color="primary" (click)="addAttachment()">Attachment</button>
     </div>
   </mat-grid-tile>
 
-  <mat-grid-tile  [rowspan]="1" [colspan]="1">
-<!--Danh sách label để thêm vào card trong viewcard-->
+  <mat-grid-tile [rowspan]="1" [colspan]="1">
+    <!--Danh sách label để thêm vào card trong viewcard-->
     <button mat-button [matMenuTriggerFor]="menu">Label</button>
     <mat-menu #menu="matMenu">
       <tr *ngFor="let label of data.labels">
-              <button mat-menu-item class="example-sidenav" mode="side" (click)="addLabelToCard(label)">
-                  <p>{{label.labelName}}</p>
-              </button>
+        <button mat-menu-item class="example-sidenav" mode="side" (click)="addLabelToCard(label)">
+          <p>{{label.labelName}}</p>
+        </button>
       </tr>
     </mat-menu>
-
   </mat-grid-tile>
+
   <mat-grid-tile [rowspan]="1" [colspan]="1">
     <span *ngFor="let label of data.card.labels">{{label.labelName}}</span>
   </mat-grid-tile>
@@ -39,7 +39,8 @@
     </button>
     <mat-menu #addMember="matMenu">
       <div fxLayout="column">
-        <button mat-button *ngFor="let member of data.members" class="add-member-button" (click)="addMemberToCard(member)">
+        <button mat-button *ngFor="let member of data.members" class="add-member-button"
+                (click)="addMemberToCard(member)">
           <img *ngIf="member.avatarUrl != null; else elseBlock" src="{{member.avatarUrl}}" class="member-avatar">
           <ng-template #elseBlock>
             <button mat-mini-fab class="member-avatar">{{member.username.charAt(0).toUpperCase()}}</button>
@@ -49,34 +50,36 @@
       </div>
     </mat-menu>
   </mat-grid-tile>
+
   <mat-grid-tile [rowspan]="1" [colspan]="3">
     <mat-form-field class="description">
       <label>
         <textarea matInput type="text" placeholder="Description" [(ngModel)]="data.card.description"></textarea>
       </label>
     </mat-form-field>
-  </mat-grid-tile>
-
-  <mat-grid-tile [rowspan]="1" [colspan]="3">
     <button mat-raised-button color="primary" [mat-dialog-close]="data.card">Update</button>
   </mat-grid-tile>
-
-  <mat-grid-tile [rowspan]="10" [colspan]="3">
-    <app-view-attachment [items]="attachments"></app-view-attachment>
-  </mat-grid-tile >
-  <mat-grid-tile [rowspan]="1" [colspan]="3">
-    <mat-form-field class="add-comment" appearance="standard">
-      <label>
-        <input matInput type="text" placeholder="Comment" [(ngModel)]="data.content">
-      </label>
-    </mat-form-field>
-    <div fxLayoutAlign="flex-end" >
-      <button mat-raised-button color="primary"  (click)="createComment(data)">Save</button>
-    </div>
-  </mat-grid-tile>
-  <mat-grid-tile [rowspan]="3" [colspan]="3">
-    <app-view-comment [items]="comment"></app-view-comment>
-  </mat-grid-tile>
-
 </mat-grid-list>
+
+<div>
+  <app-view-attachment [items]="attachments"></app-view-attachment>
+</div>
+<div>
+  <mat-form-field class="add-comment" appearance="standard">
+    <label>
+      <input matInput type="text" placeholder="Comment" [(ngModel)]="data.content">
+    </label>
+  </mat-form-field>
+<!--  <div fxLayoutAlign="flex-end">-->
+    <button mat-raised-button color="primary" (click)="createComment(data)">Save</button>
+<!--  </div>-->
+</div>
+<div>
+  <app-view-comment [items]="comment"></app-view-comment>
+</div>
+
+
+
+
+
 
