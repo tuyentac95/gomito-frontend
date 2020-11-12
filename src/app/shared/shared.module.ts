@@ -11,6 +11,9 @@ import {MatInputModule} from '@angular/material/input';
 import { BoardCreateComponent } from './board-create/board-create.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {FormsModule} from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
+import {RouterModule} from '@angular/router';
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import {FormsModule} from '@angular/forms';
         MatFormFieldModule,
         MatInputModule,
         MatDialogModule,
-        FormsModule
+        FormsModule,
+        MatCardModule,
+        RouterModule,
+        MatDividerModule
     ],
   exports: [
     HeaderComponent
