@@ -11,4 +11,5 @@ export class GCard {
   members?: GUser[];
   labels?: Glabel[];
   comment?: Comment[];
+  boardId?: number;
 }

@@ -8,7 +8,7 @@
         <ng-template #elseBlock>
           <button mat-fab class="avatar" (click)="fileUpLoader.click()">{{username.charAt(0).toUpperCase()}}</button>
         </ng-template>
-        <input type="file" id="avatar" formControlName="avatar" #fileUpLoader (change)="showPreview($event)">
+        <input type="file" id="avatar" formControlName="avatar" #fileUpLoader (change)="showPreview($event)" hidden>
         <div>
           <h2 class="user-name">{{username}}</h2>
           <h4 class="user-email">{{email}}</h4>
