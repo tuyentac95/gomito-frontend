@@ -223,7 +223,8 @@ export class BoardViewComponent implements OnInit {
       labels: [],
       cardId: id,
       cardName: '',
-      description: ''
+      description: '',
+      members: []
     };
 
     const $this = this;
@@ -231,6 +232,7 @@ export class BoardViewComponent implements OnInit {
       updateCard.cardName = data.cardName;
       updateCard.description = data.description;
       updateCard.labels = data.labels;
+      updateCard.members = data.members;
     });
 
     const viewCard = this.create.open(ViewCardComponent, {
