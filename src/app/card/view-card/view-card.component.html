@@ -12,7 +12,6 @@
     </div>
   </mat-grid-tile>
 
-
   <mat-grid-tile  [rowspan]="1" [colspan]="1">
 <!--Danh sách label để thêm vào card trong viewcard-->
     <button mat-button [matMenuTriggerFor]="menu">Label</button>
@@ -29,16 +28,22 @@
     <span *ngFor="let label of data.card.labels">{{label.labelName}}</span>
   </mat-grid-tile>
   <mat-grid-tile [rowspan]="1" [colspan]="3">
-    <button mat-mini-fab class="member"
-            *ngFor="let member of members">{{member.username.charAt(0).toUpperCase()}}</button>
+    <div *ngFor="let mem of members">
+      <img *ngIf="mem.avatarUrl != null; else elseBlock" src="{{mem.avatarUrl}}" class="member-avatar">
+      <ng-template #elseBlock>
+        <button mat-mini-fab class="member">{{mem.username.charAt(0).toUpperCase()}}</button>
+      </ng-template>
+    </div>
     <button mat-mini-fab class="member" [matMenuTriggerFor]="addMember">
       <mat-icon>person_add</mat-icon>
     </button>
     <mat-menu #addMember="matMenu">
       <div fxLayout="column">
-        <button mat-button *ngFor="let member of data.members"
-                class="add-member-button" (click)="addMemberToCard(member)">
-          <div class="member-avatar">{{member.username.charAt(0).toUpperCase()}}</div>
+        <button mat-button *ngFor="let member of data.members" class="add-member-button" (click)="addMemberToCard(member)">
+          <img *ngIf="member.avatarUrl != null; else elseBlock" src="{{member.avatarUrl}}" class="member-avatar">
+          <ng-template #elseBlock>
+            <button mat-mini-fab class="member-avatar">{{member.username.charAt(0).toUpperCase()}}</button>
+          </ng-template>
           {{member.username}}
         </button>
       </div>

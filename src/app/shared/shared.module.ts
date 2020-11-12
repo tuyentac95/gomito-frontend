@@ -13,6 +13,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {FormsModule} from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {RouterModule} from '@angular/router';
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {RouterModule} from '@angular/router';
         MatDialogModule,
         FormsModule,
         MatCardModule,
-        RouterModule
+        RouterModule,
+        MatDividerModule
     ],
   exports: [
     HeaderComponent

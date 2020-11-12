@@ -18,14 +18,34 @@ mat-form-field {
 
 .search-menu {
   height: 500px;
-  width: 300px ;
+  width: 500px ;
 }
 
 .card-description {
   float: left;
 }
 
+::ng-deep.mat-menu-panel {
+  max-width: none !important;
+}
+
 .card-name {
   float: left;
   width: 20%;
+}
+
+.card-result {
+  margin: 8px 8px 8px 12px;
+  cursor: pointer;
+}
+
+.result-name {
+  width: 220px;
+  border: 1px black solid;
+  font-size: 15px;
+}
+
+.result-description {
+  width: 100%;
+  margin: 4px 10px;
 }
