@@ -25,7 +25,7 @@ export class ViewCommentComponent implements OnInit {
   openEditComment(id: number, contends: string) {
     const updateComment: Comment = {
       commentId: id,
-      contend: contends
+      content: contends
     };
     const editComment = this.create.open(EditCommentComponent, {
       data: updateComment,
@@ -36,7 +36,7 @@ export class ViewCommentComponent implements OnInit {
       this.commentService.updateComment(result.id, result.contend).subscribe(data => {
         for (const comment of this.comments){
           if (comment.commentId === id){
-            comment.contend = data.contend;
+            comment.content = data.content;
           }
         }
       }, error => {

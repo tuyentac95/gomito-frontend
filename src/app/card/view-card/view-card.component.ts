@@ -35,7 +35,7 @@ export class ViewCardComponent implements OnInit {
                 card: GCard,
                 labels: Glabel[],
                 members: GUser[],
-                contend: Comment[],
+                content: Comment[],
               },
               private labelService: LabelService,
               private route: ActivatedRoute) {
@@ -118,11 +118,11 @@ export class ViewCardComponent implements OnInit {
   // tslint:disable-next-line:typedef
   createComment(cont) {
     const createContend: Comment = {
-      contend: cont.contend,
+      content: cont.content,
       cardId: this.cardId,
     };
     console.log(createContend);
-    return this.commentService.createComment(createContend).subscribe(() => {
+    this.commentService.createComment(createContend).subscribe(data => {
     });
   }
 }
