@@ -14,7 +14,6 @@ import {throwError} from 'rxjs';
 })
 export class ViewAttachmentComponent implements OnInit {
   @Input() items: Attachment[];
-  attachment: Attachment[];
   cardId: number;
 
   constructor(private attachmentService: AttachmentService,
@@ -55,7 +54,7 @@ export class ViewAttachmentComponent implements OnInit {
       this.attachmentService.editAttachment(result).subscribe(data => {
         console.log(data);
         alert('Update success!!!');
-        for (const attach of this.attachment) {
+        for (const attach of this.items) {
           if (attach.attachmentId === id) {
             attach.attachmentName = data.attachmentName;
           }

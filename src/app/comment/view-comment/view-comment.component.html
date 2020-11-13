@@ -1,16 +1,11 @@
 <div *ngFor="let item of items" class="comment-view">
   <mat-card  class="example-card" fxLayout="row">
     <div fxLayout="column">
-      <mat-card-content>
+      <mat-card-content class="comment-view">
         <p>{{item.content}}</p>
       </mat-card-content>
     </div>
   </mat-card>
-<!--  <div>-->
-<!--    <p>{{item.content}}</p>-->
-<!--  </div>-->
-<!--  <div>-->
-<!--    <a (click)="openDeleteComment(item.commentId)">Delete</a>-->
-<!--  </div>-->
+
 </div>
 

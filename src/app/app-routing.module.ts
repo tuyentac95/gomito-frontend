@@ -8,8 +8,10 @@ import {ResetPasswordComponent} from './reset-password/reset-password.component'
 import {ChangePasswordComponent} from './change-password/change-password.component';
 import {LoginComponent} from './auth/login/login.component';
 import {AuthGuardGuard} from './guard/auth-guard.guard';
+import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [
+  {path: '', component: HomeComponent },
   {path: 'dashboard', component: DashboardComponent,
     children: [
       {path: '', component: MainComponent},
