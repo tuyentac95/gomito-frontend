@@ -66,15 +66,13 @@
 <div>
   <mat-form-field class="add-comment" appearance="outline">
     <mat-label>Add new comment</mat-label>
-    <label>
+    <div>
       <textarea matInput type="text" placeholder="Comment" [(ngModel)]="data.content"></textarea>
-    </label>
+    </div>
+    <div class="btn-block">
+      <button mat-raised-button color="primary" (click)="createComment(data)">Save</button>
+    </div>
   </mat-form-field>
-  <br/>
-  <div >
-    <button mat-raised-button color="primary" (click)="createComment(data)">Save</button>
-  </div>
-  <br/>
 </div>
 <div>
   <app-view-comment [items]="comment"></app-view-comment>

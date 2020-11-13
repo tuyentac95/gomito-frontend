@@ -72,3 +72,11 @@
 .atm-border {
   border: 1px black solid;
 }
+
+.btn-block{
+  margin-top: 15px;
+}
+
+.add-comment{
+  width: 500px;
+}

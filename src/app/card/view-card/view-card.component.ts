@@ -129,5 +129,6 @@ export class ViewCardComponent implements OnInit {
     console.log(createContend);
     this.commentService.createComment(createContend).subscribe(data => {
     });
+    ;
   }
 }
