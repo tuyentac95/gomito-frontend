@@ -88,17 +88,20 @@ export class BoardViewComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
 
-      // let newListId = 0;
       const dropCard: GCard = {
         cardName: '',
         cardId: 0
       };
       for (const $newC of containerData) {
         let checkCard = true;
-        for (const $oldC of this.originList[$listIndex].cards) {
-          if ($newC.cardId === $oldC.cardId) {
-            checkCard = false;
-            break;
+        for (const l of this.originList) {
+          if (l.listId === $listId) {
+            for (const $oldC of l.cards) {
+              if ($newC.cardId === $oldC.cardId) {
+                checkCard = false;
+                break;
+              }
+            }
           }
         }
         if (checkCard) {
