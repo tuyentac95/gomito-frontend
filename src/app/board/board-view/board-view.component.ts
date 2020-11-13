@@ -337,6 +337,7 @@ export class BoardViewComponent implements OnInit {
 
   saveLabel(): void {
     this.newLabel.boardId = this.boardId;
+    console.log(this.newLabel.color);
     this.labelService.createLabel(this.newLabel).subscribe(data => {
       this.labels.push(data);
       console.log(data);

@@ -89,13 +89,14 @@
     <h3>Search cards by label and member</h3>
     <mat-divider></mat-divider>
     <tr *ngFor="let label of labels">
-      <mat-button-toggle class="show-label" (click)="filterByLabelAndMember(label, null)">{{label.labelName}}</mat-button-toggle>
+      <mat-button-toggle class="show-label" [style]="{'background-color': label.color}" (click)="filterByLabelAndMember(label, null)">{{label.labelName}}</mat-button-toggle>
     </tr>
     <!--    Thêm mới label-->
     <mat-form-field appearance="outline" class="add-label">
       <mat-label>Add new label</mat-label>
       <mat-icon matPrefix>add</mat-icon>
       <input matInput type="text" [(ngModel)]="newLabel.labelName" (keyup.enter)="saveLabel()">
+      <input matSuffix type="color" matInput class="select-color" [(ngModel)]="newLabel.color">
     </mat-form-field>
     <mat-divider></mat-divider>
     <tr *ngFor="let member of listMembers">
