@@ -15,6 +15,8 @@ import {Glabel} from '../../glabel';
 import {GUser} from '../../user/GUser';
 import {LabelService} from '../../label/label.service';
 import {UserService} from '../../user/user.service';
+import {WebSocketService} from '../../notification/web-socket-service';
+import {BoardService} from '../board.service';
 
 
 @Component({
@@ -34,6 +36,7 @@ export class BoardViewComponent implements OnInit {
   listMembers: GUser[];
   memberInfo: string;
   boardId: number;
+  boardName: string;
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
@@ -42,11 +45,15 @@ export class BoardViewComponent implements OnInit {
               private cardService: CardService,
               private labelService: LabelService,
               private userService: UserService,
-              private router: Router) {
+              private router: Router,
+              private webSocketService: WebSocketService,
+              private boardService: BoardService) {
   }
 
   ngOnInit(): void {
     this.boardId = Number(this.route.snapshot.params.boardId);
+    this.boardName = '';
+    this.getBoardInfo(this.boardId);
     this.listModels = [];
     this.originList = [];
     this.getList();
@@ -60,7 +67,8 @@ export class BoardViewComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef
-  dropCard(event: CdkDragDrop<GCard[]>) {
+  dropCard(event: CdkDragDrop<GCard[]>, $listId: number, $listName: string, $listIndex: number) {
+    console.log($listId + ', ' + $listName);
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.cardService.updateIndex(event.container.data).subscribe(data => {
@@ -70,7 +78,9 @@ export class BoardViewComponent implements OnInit {
       });
     } else {
       const preContainerData = event.previousContainer.data;
+      console.log(preContainerData);
       const containerData = event.container.data;
+      console.log(containerData);
       const containerId = Number(event.container.id.substring(14));
 
       transferArrayItem(preContainerData,
@@ -78,14 +88,26 @@ export class BoardViewComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
 
-      // const newListId = this.listModels[containerId].listId;
-      let newListId = 0;
-      for (const list of this.listModels) {
-        if (list.dropListId === containerId) {
-          newListId = list.listId;
+      // let newListId = 0;
+      const dropCard: GCard = {
+        cardName: '',
+        cardId: 0
+      };
+      for (const $newC of containerData) {
+        let checkCard = true;
+        for (const $oldC of this.originList[$listIndex].cards) {
+          if ($newC.cardId === $oldC.cardId) {
+            checkCard = false;
+            break;
+          }
+        }
+        if (checkCard) {
+          dropCard.cardName = $newC.cardName;
+          dropCard.cardId = $newC.cardId;
           break;
         }
       }
+      console.log('check id ' + dropCard.cardId);
 
       if (preContainerData.length > 0) {
         this.cardService.updateIndex(preContainerData).subscribe(data => {
@@ -95,9 +117,15 @@ export class BoardViewComponent implements OnInit {
         });
       }
 
-      this.cardService.moveCardToAnotherList(containerData, newListId).subscribe(data => {
-        console.log('Update New List Card');
+      this.cardService.moveCardToAnotherList(containerData, $listId).subscribe(data => {
       }, err => {
+        if (err.status === 200) {
+          console.log('Update New List Card');
+
+          // thông báo cho các members trong board
+          const msg = ' move card ' + dropCard.cardName + ' to list ' + $listName;
+          this.webSocketService.$sendAll(dropCard.cardId, msg);
+        }
         throwError(err);
       });
     }
@@ -106,12 +134,11 @@ export class BoardViewComponent implements OnInit {
   // tslint:disable-next-line:typedef
   dropList(event: CdkDragDrop<ListModel[]>) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    this.listService.updateIndex(event.container.data)
-      .subscribe(data => {
-        console.log('Update Index OK');
-      }, err => {
-        throwError(err);
-      })
+    this.listService.updateIndex(event.container.data).subscribe(data => {
+      console.log('Update Index OK');
+    }, err => {
+      throwError(err);
+    })
     ;
   }
 
@@ -149,6 +176,10 @@ export class BoardViewComponent implements OnInit {
         newCard.cardIndex = data.cardIndex;
         newCard.cardId = data.cardId;
         $this.listModels[index].cards.push(newCard);
+
+        // thông báo tất cả members khi thêm mới card
+        const msg = ' add a new Card: ' + newCard.cardName + ' at board ' + $this.boardName;
+        $this.webSocketService.$sendAll(newCard.cardId, msg);
       });
     });
   }
@@ -239,7 +270,8 @@ export class BoardViewComponent implements OnInit {
       data: {
         card: updateCard,
         labels: this.labels,
-        members: this.listMembers
+        members: this.listMembers,
+        boardName: this.boardName
       },
       height: '750px',
       width: '900px'
@@ -428,24 +460,34 @@ export class BoardViewComponent implements OnInit {
           if (!foundCard) {
             $this.route.queryParams.subscribe(params => {
               const $cardId = Number(params.cardId);
-              for (const list of $this.listModels) {
-                console.log(foundCard);
-                for (const card of list.cards) {
-                  if (card.cardId === $cardId) {
-                    console.log('found');
-                    $this.viewCard($cardId, list.listIndex);
-                    foundCard = true;
+              if ($cardId > 0) {
+                for (const list of $this.listModels) {
+                  console.log(foundCard);
+                  for (const card of list.cards) {
+                    if (card.cardId === $cardId) {
+                      console.log('found');
+                      $this.viewCard($cardId, list.listIndex);
+                      foundCard = true;
+                      break;
+                    }
+                  }
+                  if (foundCard) {
                     break;
                   }
-                }
-                if (foundCard) {
-                  break;
                 }
               }
             });
           }
         });
       }
+    });
+  }
+
+  private getBoardInfo(boardId: number): void {
+    this.boardService.getBoardInfo(boardId).subscribe(result => {
+      this.boardName = result.boardName;
+    }, err => {
+      throwError(err);
     });
   }
 }

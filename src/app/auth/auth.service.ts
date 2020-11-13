@@ -6,9 +6,8 @@ import {LoginRequest} from './login/login-request';
 import {ChangePasswordRequest} from '../change-password/change-password-request';
 import {LoginResponse} from './login/login-respponse';
 import {LocalStorageService} from 'ngx-webstorage';
-import {map, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {RefreshTokenRequest} from './refresh-token-request';
-import {GUser} from '../user/GUser';
 
 @Injectable({
   providedIn: 'root'

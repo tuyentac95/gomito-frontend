@@ -66,15 +66,15 @@
 <div>
   <mat-form-field class="add-comment" appearance="standard">
     <label>
-      <input matInput type="text" placeholder="Comment" [(ngModel)]="data.content">
+      <input matInput type="text" placeholder="Comment" [(ngModel)]="newComment">
     </label>
   </mat-form-field>
 <!--  <div fxLayoutAlign="flex-end">-->
-    <button mat-raised-button color="primary" (click)="createComment(data)">Save</button>
+    <button mat-raised-button color="primary" (click)="createComment(newComment)">Save</button>
 <!--  </div>-->
 </div>
 <div>
-  <app-view-comment [items]="comment"></app-view-comment>
+  <app-view-comment [items]="comments"></app-view-comment>
 </div>
 
 

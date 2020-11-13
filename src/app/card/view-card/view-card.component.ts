@@ -13,6 +13,7 @@ import {Glabel} from '../../glabel';
 import {LabelService} from '../../label/label.service';
 import {ActivatedRoute} from '@angular/router';
 import {throwError} from 'rxjs';
+import {WebSocketService} from '../../notification/web-socket-service';
 
 
 @Component({
@@ -24,24 +25,28 @@ export class ViewCardComponent implements OnInit {
   members: GUser[];
   cardId: number;
   attachments: Attachment[];
-  comment: Comment[];
+  comments: Comment[];
+  newComment: string;
 
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
               private cardService: CardService,
               private attachmentService: AttachmentService,
               private create: MatDialog,
               private commentService: CommentService,
+              private webSocketService: WebSocketService,
               @Inject(MAT_DIALOG_DATA) public data: {
                 card: GCard,
                 labels: Glabel[],
                 members: GUser[],
                 content: Comment[],
+                boardName: string
               },
               private labelService: LabelService,
               private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.newComment = '';
     this.cardId = this.data.card.cardId;
     const $this = this;
     this.getAllAttachments(this.cardId);
@@ -55,7 +60,7 @@ export class ViewCardComponent implements OnInit {
   private getAllComments(cardId: number): void {
     this.commentService.getCommentByCardId(cardId).subscribe(result => {
       console.log(result);
-      this.comment = result;
+      this.comments = result;
     }, err => {
       console.log(err);
       throwError(err);
@@ -84,6 +89,10 @@ export class ViewCardComponent implements OnInit {
       if (err.status === 200) {
         $this.members.push(member);
         $this.data.card.members = $this.members;
+
+        // thông báo cho thành viên được thêm
+        const msg = ' add you to card ' + $this.data.card.cardName + ' at board ' + $this.data.boardName;
+        $this.webSocketService.$sendOne($this.data.card.cardId, msg, member.username);
       }
       throwError(err);
     });
@@ -123,11 +132,21 @@ export class ViewCardComponent implements OnInit {
   // tslint:disable-next-line:typedef
   createComment(cont) {
     const createContend: Comment = {
-      content: cont.content,
+      content: cont,
       cardId: this.cardId,
     };
     console.log(createContend);
-    this.commentService.createComment(createContend).subscribe(data => {
+    this.newComment = '';
+    this.commentService.createComment(createContend).subscribe(result => {
+      console.log(result);
+      this.comments.push(result);
+
+      // thông báo cho thành viên trong nhóm
+      const msg = ' was commented on ' + this.data.card.cardName + ' at board ' + this.data.boardName;
+      this.webSocketService.$sendAll(this.data.card.cardId, msg);
+    }, err => {
+      console.log(err);
+      throwError(err);
     });
   }
 }

@@ -30,11 +30,11 @@ export class CardService {
       };
       updateCards.push(newCard);
     }
-    console.log(updateCards);
     return this.httpClient.post('http://localhost:8080/api/cards/updateIndex', updateCards);
   }
 
   moveCardToAnotherList(data: GCard[], newListId: number): Observable<any> {
+    console.log(newListId);
     for (const card of data) {
       card.listId = newListId;
       card.cardIndex = data.indexOf(card);
