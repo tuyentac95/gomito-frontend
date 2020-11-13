@@ -53,6 +53,7 @@ import { ViewCommentComponent } from './comment/view-comment/view-comment.compon
 import { EditCommentComponent } from './comment/edit-comment/edit-comment.component';
 import { DeleteCommentComponent } from './comment/delete-comment/delete-comment.component';
 import { NotificationComponent } from './notification/notification.component';
+import { HomeComponent } from './home/home.component';
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -78,6 +79,7 @@ import { NotificationComponent } from './notification/notification.component';
     EditCommentComponent,
     DeleteCommentComponent,
     NotificationComponent,
+    HomeComponent,
     // GBoardComponent
   ],
   imports: [

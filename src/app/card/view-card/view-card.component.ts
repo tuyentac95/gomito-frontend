@@ -89,7 +89,6 @@ export class ViewCardComponent implements OnInit {
       if (err.status === 200) {
         $this.members.push(member);
         $this.data.card.members = $this.members;
-
         // thông báo cho thành viên được thêm
         const msg = ' add you to card ' + $this.data.card.cardName + ' at board ' + $this.data.boardName;
         $this.webSocketService.$sendOne($this.data.card.cardId, msg, member.username);
@@ -111,7 +110,6 @@ export class ViewCardComponent implements OnInit {
       console.log('close box check');
       console.log(result);
       this.getAllAttachments(this.cardId);
-
     });
   }
 
