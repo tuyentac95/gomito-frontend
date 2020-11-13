@@ -10,8 +10,6 @@ import {Attachment} from '../../attachment';
 import {CommentService} from '../../comment/comment.service';
 import {Comment} from '../../comment';
 import {Glabel} from '../../glabel';
-import {LabelService} from '../../label/label.service';
-import {ActivatedRoute} from '@angular/router';
 import {throwError} from 'rxjs';
 import {WebSocketService} from '../../notification/web-socket-service';
 
@@ -40,9 +38,7 @@ export class ViewCardComponent implements OnInit {
                 members: GUser[],
                 content: Comment[],
                 boardName: string
-              },
-              private labelService: LabelService,
-              private route: ActivatedRoute) {
+              }) {
   }
 
   ngOnInit(): void {
@@ -89,7 +85,6 @@ export class ViewCardComponent implements OnInit {
       if (err.status === 200) {
         $this.members.push(member);
         $this.data.card.members = $this.members;
-
         // thông báo cho thành viên được thêm
         const msg = ' add you to card ' + $this.data.card.cardName + ' at board ' + $this.data.boardName;
         $this.webSocketService.$sendOne($this.data.card.cardId, msg, member.username);
@@ -107,8 +102,9 @@ export class ViewCardComponent implements OnInit {
       height: '453px',
       width: '305px'
     });
-    addAttachment.afterClosed().subscribe(() => {
+    addAttachment.afterClosed().subscribe(result => {
       console.log('close box check');
+      console.log(result);
       this.getAllAttachments(this.cardId);
     });
   }
@@ -148,5 +144,6 @@ export class ViewCardComponent implements OnInit {
       console.log(err);
       throwError(err);
     });
+
   }
 }

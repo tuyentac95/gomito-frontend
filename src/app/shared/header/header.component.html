@@ -30,11 +30,14 @@
           </button>
         </li>
         <li>
-          <button mat-icon-button>
-            <mat-icon matBadge="{{webSocketService.hasNewNotification}}" matBadgeColor="warn"
-                      (click)="toggleBadgeVisibility()">notifications
-            </mat-icon>
-          </button>
+          <button mat-icon-button [matMenuTriggerFor]="notification"><mat-icon matBadge="{{unread}}" matBadgeColor="warn"
+                                            (click)="toggleBadgeVisibility()">notifications</mat-icon></button>
+          <mat-menu #notification="matMenu">
+            <mat-card *ngFor="let notification of notifications" class="show-notification"
+                      [ngStyle]="{'background-color': notification.status === 1 ? '#C2BAC8' : '#F5F6F7'}">
+              <span>{{notification.message}}</span>
+            </mat-card>
+          </mat-menu>
         </li>
         <li>
           <button mat-icon-button [matMenuTriggerFor]="menu">

@@ -5,7 +5,7 @@
     </mat-form-field>
   </mat-grid-tile>
 
-  <mat-grid-tile [rowspan]="5" [colspan]="1">
+  <mat-grid-tile [rowspan]="3" [colspan]="1">
     <div fxLayout="column" class="side-tool">
       <button mat-raised-button color="primary" (click)="addAttachment()" class="add-item">Attachment</button>
       <!--    Danh sách label để thêm vào card trong viewcard-->
@@ -60,18 +60,19 @@
   </mat-grid-tile>
 </mat-grid-list>
 
-<div>
-  <app-view-attachment [items]="attachments"></app-view-attachment>
+<div >
+  <app-view-attachment  [items]="attachments"></app-view-attachment>
 </div>
 <div>
-  <mat-form-field class="add-comment" appearance="standard">
-    <label>
-      <input matInput type="text" placeholder="Comment" [(ngModel)]="newComment">
-    </label>
+  <mat-form-field class="add-comment" appearance="outline">
+    <mat-label>Add new comment</mat-label>
+    <div>
+      <textarea matInput type="text" placeholder="Comment" [(ngModel)]="newComment"></textarea>
+    </div>
+    <div class="btn-block">
+      <button mat-raised-button color="primary" [disabled]="!newComment" (click)="createComment(newComment)">Save</button>
+    </div>
   </mat-form-field>
-<!--  <div fxLayoutAlign="flex-end">-->
-    <button mat-raised-button color="primary" (click)="createComment(newComment)">Save</button>
-<!--  </div>-->
 </div>
 <div>
   <app-view-comment [items]="comments"></app-view-comment>
