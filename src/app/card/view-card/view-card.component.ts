@@ -140,6 +140,10 @@ export class ViewCardComponent implements OnInit {
     this.commentService.createComment(createContend).subscribe(result => {
       console.log(result);
       this.comments.push(result);
+
+      // thông báo cho thành viên trong nhóm
+      const msg = ' was commented on ' + this.data.card.cardName + ' at board ' + this.data.boardName;
+      this.webSocketService.$sendAll(this.data.card.cardId, msg);
     }, err => {
       console.log(err);
       throwError(err);
