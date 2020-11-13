@@ -19,7 +19,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 @NgModule({
   declarations: [
     HeaderComponent,
-    BoardCreateComponent
+    BoardCreateComponent,
   ],
   imports: [
     CommonModule,

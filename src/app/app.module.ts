@@ -38,7 +38,6 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {ViewCardComponent} from './card/view-card/view-card.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {LabelComponent} from './label/label.component';
-
 import {AddAttachmentComponent} from './attachment/add-attachment/add-attachment.component';
 import {DeleteAttachmentComponent} from './attachment/delete-attachment/delete-attachment.component';
 import {EditAttachmentComponent} from './attachment/edit-attachment/edit-attachment.component';
@@ -53,7 +52,6 @@ import { ViewCommentComponent } from './comment/view-comment/view-comment.compon
 import { EditCommentComponent } from './comment/edit-comment/edit-comment.component';
 import { DeleteCommentComponent } from './comment/delete-comment/delete-comment.component';
 import { NotificationComponent } from './notification/notification.component';
-// import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +76,6 @@ import { NotificationComponent } from './notification/notification.component';
     EditCommentComponent,
     DeleteCommentComponent,
     NotificationComponent,
-    // GBoardComponent
   ],
   imports: [
     BrowserModule,
