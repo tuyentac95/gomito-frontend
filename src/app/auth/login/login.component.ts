@@ -5,7 +5,7 @@ import {AuthService} from '../auth.service';
 import {LocalStorageService} from 'ngx-webstorage';
 import {throwError} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -56,6 +56,8 @@ export class LoginComponent implements OnInit {
         this.localStorage.store('userId', data.userId);
         this.localStorage.store('refreshToken', data.refreshToken);
         this.localStorage.store('expiresAt', data.expiresAt);
+
+
       } else if (data.status === 404) {
         this.messageUsername = 'Tài khoản không tìm thấy!';
         this.router.navigate(['login']);

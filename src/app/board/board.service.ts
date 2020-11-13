@@ -25,4 +25,8 @@ export class BoardService {
     const id = this.localStorage.retrieve('userId');
     return this.httpClient.get<GBoard[]>('http://localhost:8080/api/users/' + id);
   }
+
+  getBoardInfo(boardId: number): Observable<GBoard> {
+    return this.httpClient.get<GBoard>('http://localhost:8080/api/boards/' + boardId + '/getInfo');
+  }
 }
