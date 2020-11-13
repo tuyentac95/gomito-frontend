@@ -10,8 +10,6 @@ import {Attachment} from '../../attachment';
 import {CommentService} from '../../comment/comment.service';
 import {Comment} from '../../comment';
 import {Glabel} from '../../glabel';
-import {LabelService} from '../../label/label.service';
-import {ActivatedRoute} from '@angular/router';
 import {throwError} from 'rxjs';
 import {WebSocketService} from '../../notification/web-socket-service';
 
@@ -40,9 +38,7 @@ export class ViewCardComponent implements OnInit {
                 members: GUser[],
                 content: Comment[],
                 boardName: string
-              },
-              private labelService: LabelService,
-              private route: ActivatedRoute) {
+              }) {
   }
 
   ngOnInit(): void {

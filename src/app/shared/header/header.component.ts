@@ -9,6 +9,8 @@ import {GCard} from '../../gCard';
 import {CardService} from '../../card/card.service';
 import {WebSocketService} from '../../notification/web-socket-service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {NotificationModel} from '../../notification/notification-model';
+import {NotificationService} from '../../notification/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +20,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class HeaderComponent implements OnInit {
   search: string;
   cards: GCard[];
+  notifications: NotificationModel[];
+  unread: number;
 
   constructor(public createForm: MatDialog,
               private authService: AuthService,
@@ -25,11 +29,16 @@ export class HeaderComponent implements OnInit {
               private localStorage: LocalStorageService,
               private cardService: CardService,
               public webSocketService: WebSocketService,
-              private snackBar: MatSnackBar) { }
+              private snackBar: MatSnackBar,
+              private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.search = '';
     this.cards = [];
+    this.notifications = [];
+    this.unread = null;
+
+    this.getAllNotifications();
     // bật socket
     const ws = this.webSocketService;
     const $this = this;
@@ -45,6 +54,7 @@ export class HeaderComponent implements OnInit {
         console.log(newNotification);
         ws.hasNewNotification = String(Number(ws.hasNewNotification) + 1);
         console.log(ws.hasNewNotification);
+        $this.unread += Number(ws.hasNewNotification);
         $this.alertNotification(newNotification);
       });
     }, ws.errorCallBack);
@@ -94,7 +104,12 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleBadgeVisibility(): void {
+    this.unread = null;
     this.webSocketService.hasNewNotification = '';
+    this.notificationService.markRead(this.notifications).subscribe(data => {
+    }, err => {
+      console.log(err);
+    });
   }
 
   public alertNotification(notification): void {
@@ -103,6 +118,19 @@ export class HeaderComponent implements OnInit {
       horizontalPosition: 'right',
       verticalPosition: 'bottom',
       panelClass: ['custom-class']
+    });
+  }
+
+  private getAllNotifications(): void {
+    this.notificationService.getAllNotifications().subscribe(result => {
+      this.notifications = result;
+      for (const notification of this.notifications) {
+        if (notification.status === 0) {
+          this.unread++;
+        }
+      }
+    }, err => {
+      throwError(err);
     });
   }
 }
