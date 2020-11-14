@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Glabel} from "../glabel";
-import {G} from "@angular/cdk/keycodes";
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Glabel} from '../glabel';
+import {G} from '@angular/cdk/keycodes';
 
 @Injectable({
   providedIn: 'root'

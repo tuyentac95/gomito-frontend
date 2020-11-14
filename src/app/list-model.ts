@@ -1,4 +1,5 @@
 import {GCard} from './gCard';
+import {Glabel} from './glabel';
 
 export class ListModel {
   listName?: string;
