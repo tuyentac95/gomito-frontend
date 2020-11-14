@@ -21,6 +21,7 @@ export class ViewAttachmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
 
 
@@ -30,12 +31,15 @@ export class ViewAttachmentComponent implements OnInit {
       attachmentId: id
     };
     const deleteAttachment = this.create.open(DeleteAttachmentComponent, {
-      data: deleteAttach,
+      data: deleteAttach.attachmentId,
       width: '250px'
     });
+    console.log('check delete 0 ' + deleteAttachment);
     deleteAttachment.afterClosed().subscribe(result => {
       console.log('check delete ' + result);
-      this.attachmentService.deleteAttachment(result).subscribe(data => {});
+      this.attachmentService.deleteAttachment(result).subscribe(data => {
+        console.log(data);
+      });
     });
   }
 
@@ -43,8 +47,8 @@ export class ViewAttachmentComponent implements OnInit {
   openEdit(id: number, name: string) {
     // tslint:disable-next-line:one-variable-per-declaration
     const updateAttachment: Attachment = {
-        attachmentId: id,
-        attachmentName: name
+      attachmentId: id,
+      attachmentName: name
     };
     const editAttachment = this.create.open(EditAttachmentComponent, {
       data: updateAttachment,
@@ -65,4 +69,7 @@ export class ViewAttachmentComponent implements OnInit {
     });
   }
 
+  // tslint:disable-next-line:typedef
+//   openImage(img: string)
+//
 }

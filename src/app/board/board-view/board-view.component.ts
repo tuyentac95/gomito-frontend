@@ -161,11 +161,12 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
-  openCreateCard(id: number, index: number): void {
+  openCreateCard(id: number, gUser: number, index: number): void {
     const newCard: GCard = {
       cardName: '',
       listId: id
     };
+    console.log('check create card' + newCard);
     const createCard = this.create.open(CreateCardComponent, {
       data: newCard,
       width: '250px'

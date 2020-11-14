@@ -25,6 +25,7 @@ export class ViewCardComponent implements OnInit {
   attachments: Attachment[];
   comments: Comment[];
   newComment: string;
+  guser: GUser;
 
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
               private cardService: CardService,
@@ -53,6 +54,7 @@ export class ViewCardComponent implements OnInit {
       throwError(err);
     });
   }
+
   private getAllComments(cardId: number): void {
     this.commentService.getCommentByCardId(cardId).subscribe(result => {
       console.log(result);
@@ -63,7 +65,7 @@ export class ViewCardComponent implements OnInit {
     });
   }
 
-  private getAllAttachments(cardId: number): void {
+  private getAllAttachments(cardId: number ): void {
     this.attachmentService.getAttachment(cardId).subscribe(result => {
       console.log('check result');
       this.attachments = result;
@@ -125,18 +127,19 @@ export class ViewCardComponent implements OnInit {
     });
   }
 
+
   // tslint:disable-next-line:typedef
   createComment(cont) {
     const createContend: Comment = {
       content: cont,
       cardId: this.cardId,
+      guser: this.guser
     };
     console.log(createContend);
     this.newComment = '';
     this.commentService.createComment(createContend).subscribe(result => {
       console.log(result);
       this.comments.push(result);
-
       // thông báo cho thành viên trong nhóm
       const msg = ' was commented on ' + this.data.card.cardName + ' at board ' + this.data.boardName;
       this.webSocketService.$sendAll(this.data.card.cardId, msg);

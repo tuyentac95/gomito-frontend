@@ -64,6 +64,10 @@
   <app-view-attachment  [items]="attachments"></app-view-attachment>
 </div>
 <div>
+<!--    <img *ngIf="this.guser.avatarUrl != null; else elseBlock" src="{{this.guser.avatarUrl}}" class="member">-->
+<!--    <ng-template #elseBlock>-->
+<!--      <button mat-mini-fab class="member">{{this.guser.username.charAt(0).toUpperCase()}}</button>-->
+<!--    </ng-template>-->
   <mat-form-field class="add-comment" appearance="outline">
     <mat-label>Add new comment</mat-label>
     <div>

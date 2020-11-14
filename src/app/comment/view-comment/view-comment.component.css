@@ -13,3 +13,23 @@ p {
   width: 450px;
 }
 
+.member {
+  margin-left: 5px;
+  background-color: #C2BAC8;
+  font-size: 20px;
+  width: 45px;
+  height: 45px;
+  justify-content: center;
+}
+
+.member-avatar {
+  background-color: #C2BAC8;
+  font-size: 10px;
+  color: #FAFBFC;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  float: left;
+  margin-right: 10px;
+}
+

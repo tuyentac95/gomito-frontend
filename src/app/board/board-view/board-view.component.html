@@ -76,7 +76,7 @@
             <div class="example-box" (click)="openCreateCard(list.listId, i)"> + Add new card</div>
           </div>
         </div>
-        <div class="add-card-box" *ngIf="list.cards.length > 0" (click)="openCreateCard(list.listId, i)"> + Add new
+        <div class="add-card-box" *ngIf="list.cards.length > 0" (click)="openCreateCard(list.listId,listMembers, i)"> + Add new
           card
         </div>
       </div>
