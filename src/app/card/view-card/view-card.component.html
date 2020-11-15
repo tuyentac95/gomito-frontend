@@ -13,7 +13,7 @@
       <mat-menu #menu="matMenu">
         <tr *ngFor="let label of data.labels">
           <mat-button-toggle (click)="addLabelToCard(label)"
-                             class="choose-label">{{label.labelName}}</mat-button-toggle>
+                             class="choose-label" [style]="{'background':label.color}">{{label.labelName}}</mat-button-toggle>
         </tr>
       </mat-menu>
       <button mat-raised-button color="primary" [mat-dialog-close]="data.card" class="add-item">Update</button>
@@ -46,8 +46,9 @@
 
   <mat-grid-tile [rowspan]="1" [colspan]="2" fxLayoutAlign="flex-start">
     <div class="show-label">
-      <mat-button-toggle class="labels"
-                         *ngFor="let label of data.card.labels">{{label.labelName}}</mat-button-toggle>
+      <div class="labels"
+                         *ngFor="let label of data.card.labels" [style]="{'background':label.color}">{{label.labelName}}</div>
+
     </div>
   </mat-grid-tile>
 

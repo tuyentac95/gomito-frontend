@@ -54,6 +54,7 @@ import { EditCommentComponent } from './comment/edit-comment/edit-comment.compon
 import { DeleteCommentComponent } from './comment/delete-comment/delete-comment.component';
 import { NotificationComponent } from './notification/notification.component';
 import { HomeComponent } from './home/home.component';
+import { AddMemberVerifyTokenComponent } from './add-member-verify-token/add-member-verify-token.component';
 // import { GBoardComponent } from './gboard/gboard.component';
 
 @NgModule({
@@ -80,6 +81,7 @@ import { HomeComponent } from './home/home.component';
     DeleteCommentComponent,
     NotificationComponent,
     HomeComponent,
+    AddMemberVerifyTokenComponent,
     // GBoardComponent
   ],
   imports: [

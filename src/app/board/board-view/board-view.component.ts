@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {MatDialog} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {ListUpdateComponent} from '../../list/list-update/list-update.component';
 import {ListModel} from '../../list-model';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -17,6 +17,7 @@ import {LabelService} from '../../label/label.service';
 import {UserService} from '../../user/user.service';
 import {WebSocketService} from '../../notification/web-socket-service';
 import {BoardService} from '../board.service';
+import {AuthService} from "../../auth/auth.service";
 
 
 @Component({
@@ -37,6 +38,7 @@ export class BoardViewComponent implements OnInit {
   memberInfo: string;
   boardId: number;
   boardName: string;
+  private messageUsername: string;
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
@@ -47,7 +49,8 @@ export class BoardViewComponent implements OnInit {
               private userService: UserService,
               private router: Router,
               private webSocketService: WebSocketService,
-              private boardService: BoardService) {
+              private boardService: BoardService,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -284,14 +287,14 @@ export class BoardViewComponent implements OnInit {
         console.log($this.listModels[listIndex].cards[result.cardIndex]);
         $this.listModels[listIndex].cards[result.cardIndex].cardName = result.cardName;
         $this.listModels[listIndex].cards[result.cardIndex].members = data.members;
+        $this.listModels[listIndex].cards[result.cardIndex].labels = data.labels;
         alert('Update success');
         console.log(result);
       });
     });
   }
 
-  // tslint:disable-next-line:typedef
-  private getLabel() {
+  private getLabel(): void {
     // Lấy boardId từ URL
     const id = this.route.snapshot.params.boardId;
 
@@ -338,6 +341,7 @@ export class BoardViewComponent implements OnInit {
 
   saveLabel(): void {
     this.newLabel.boardId = this.boardId;
+    console.log(this.newLabel.color);
     this.labelService.createLabel(this.newLabel).subscribe(data => {
       this.labels.push(data);
       console.log(data);

@@ -12,6 +12,7 @@ import {Comment} from '../../comment';
 import {Glabel} from '../../glabel';
 import {throwError} from 'rxjs';
 import {WebSocketService} from '../../notification/web-socket-service';
+import {LabelService} from '../../label/label.service';
 
 
 @Component({
@@ -27,12 +28,14 @@ export class ViewCardComponent implements OnInit {
   newComment: string;
   guser: GUser;
 
+  labels: Glabel[];
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
               private cardService: CardService,
               private attachmentService: AttachmentService,
               private create: MatDialog,
               private commentService: CommentService,
               private webSocketService: WebSocketService,
+              private labelService: LabelService,
               @Inject(MAT_DIALOG_DATA) public data: {
                 card: GCard,
                 labels: Glabel[],
@@ -46,10 +49,9 @@ export class ViewCardComponent implements OnInit {
     this.newComment = '';
     this.cardId = this.data.card.cardId;
     const $this = this;
-    console.log('kiem tra cardid: ' + this.cardId);
-    console.log('kiem tra cardid: ' + this.guser);
     this.getAllAttachments(this.cardId);
     this.getAllComments(this.cardId);
+    this.getAllLabels(this.cardId);
     this.cardService.getMembersOfCard(this.cardId).subscribe(result => {
       $this.members = result;
     }, err => {
@@ -66,8 +68,16 @@ export class ViewCardComponent implements OnInit {
       throwError(err);
     });
   }
-
-  private getAllAttachments(cardId: number ): void {
+  private getAllLabels(cardId: number): void {
+    this.labelService.getAllLabels(cardId).subscribe(result => {
+      console.log(result);
+      this.labels = result;
+    }, err => {
+      console.log(err);
+      throwError(err);
+    });
+  }
+  private getAllAttachments(cardId: number): void {
     this.attachmentService.getAttachment(cardId).subscribe(result => {
       console.log('check result');
       this.attachments = result;
@@ -128,19 +138,17 @@ export class ViewCardComponent implements OnInit {
       console.log(err);
     });
   }
-
-
-  // tslint:disable-next-line:typedef
-  createComment(cont) {
+  createComment(cont): void {
     const createContend: Comment = {
       content: cont,
-      cardId: this.cardId
+      cardId: this.cardId,
     };
     console.log(createContend);
     this.newComment = '';
     this.commentService.createComment(createContend).subscribe(result => {
       console.log(result);
       this.comments.push(result);
+
       // thông báo cho thành viên trong nhóm
       const msg = ' was commented on ' + this.data.card.cardName + ' at board ' + this.data.boardName;
       this.webSocketService.$sendAll(this.data.card.cardId, msg);
