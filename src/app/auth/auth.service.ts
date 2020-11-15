@@ -31,6 +31,11 @@ export class AuthService {
     return this.http.post<LoginResponse>('http://localhost:8080/auth/login', loginRequest);
   }
 
+  // @ts-ignore
+  verifyToken(token: string): Observable<any> {
+    return this.http.get('http://localhost:8080/auth/accountVerification/' + token);
+  }
+
   // tslint:disable-next-line:typedef
   getJwtToken(){
     return this.localStorage.retrieve('authenticationToken');
