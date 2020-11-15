@@ -36,6 +36,10 @@ export class AuthService {
     return this.http.get('http://localhost:8080/auth/accountVerification/' + token);
   }
 
+  addMemberVerifyToken(token: string): Observable<any>{
+    return this.http.get('http://localhost:8080/api/users/join/' + token);
+  }
+
   // tslint:disable-next-line:typedef
   getJwtToken(){
     return this.localStorage.retrieve('authenticationToken');

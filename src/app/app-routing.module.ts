@@ -9,6 +9,7 @@ import {ChangePasswordComponent} from './change-password/change-password.compone
 import {LoginComponent} from './auth/login/login.component';
 import {AuthGuardGuard} from './guard/auth-guard.guard';
 import {HomeComponent} from './home/home.component';
+import {AddMemberVerifyTokenComponent} from "./add-member-verify-token/add-member-verify-token.component";
 
 const routes: Routes = [
   {path: '', component: HomeComponent },
@@ -23,8 +24,8 @@ const routes: Routes = [
   {path: 'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
   {path: 'reset-password', component: ResetPasswordComponent, canActivate: [AuthGuardGuard]},
-  {path: 'redirect', redirectTo: 'dashboard' , pathMatch: 'full', canActivate: [AuthGuardGuard]}
-
+  {path: 'redirect', redirectTo: 'dashboard' , pathMatch: 'full', canActivate: [AuthGuardGuard]},
+  {path: 'add-member-verify-token/:token', component: AddMemberVerifyTokenComponent}
 ];
 
 @NgModule({

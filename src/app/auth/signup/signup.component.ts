@@ -53,16 +53,4 @@ export class SignupComponent implements OnInit {
       throwError(err);
     });
   }
-
-  redirectLogin():void{
-    this.token = this.authService.getJwtToken();
-    this.authService.verifyToken(this.token).subscribe(data => {
-      if (data.status === 200) {
-        this.router.navigate(['/login'], {queryParams: {isRegistered: 'true'}});
-      } else if (data.status === 404) {
-        this.message = 'Tài khoản không tìm thấy!';
-        this.router.navigate(['login']);
-      }
-    });
-  }
 }

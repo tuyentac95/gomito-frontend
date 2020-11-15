@@ -17,6 +17,7 @@ import {LabelService} from '../../label/label.service';
 import {UserService} from '../../user/user.service';
 import {WebSocketService} from '../../notification/web-socket-service';
 import {BoardService} from '../board.service';
+import {AuthService} from "../../auth/auth.service";
 
 
 @Component({
@@ -37,6 +38,7 @@ export class BoardViewComponent implements OnInit {
   memberInfo: string;
   boardId: number;
   boardName: string;
+  private messageUsername: string;
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
@@ -47,7 +49,8 @@ export class BoardViewComponent implements OnInit {
               private userService: UserService,
               private router: Router,
               private webSocketService: WebSocketService,
-              private boardService: BoardService) {
+              private boardService: BoardService,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -64,6 +67,7 @@ export class BoardViewComponent implements OnInit {
     this.listMembers = [];
     this.getLabel();
     this.getAllMembers(this.boardId);
+
   }
 
   // tslint:disable-next-line:typedef
