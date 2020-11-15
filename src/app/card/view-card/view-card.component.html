@@ -16,6 +16,7 @@
                              class="choose-label">{{label.labelName}}</mat-button-toggle>
         </tr>
       </mat-menu>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data.card" class="add-item">Update</button>
     </div>
   </mat-grid-tile>
 
@@ -56,12 +57,11 @@
         <textarea matInput type="text" placeholder="Description" [(ngModel)]="data.card.description"></textarea>
       </label>
     </mat-form-field>
-    <button mat-raised-button color="primary" [mat-dialog-close]="data.card">Update</button>
   </mat-grid-tile>
 </mat-grid-list>
 
 <div >
-  <app-view-attachment  [items]="attachments"></app-view-attachment>
+  <app-view-attachment  [items]="attachments" [cardId]="cardId"></app-view-attachment>
 </div>
 
 <div>

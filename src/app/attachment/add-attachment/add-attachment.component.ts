@@ -67,4 +67,9 @@ export class AddAttachmentComponent implements OnInit {
       this.selectedImage = null;
     }
   }
+
+  // tslint:disable-next-line:typedef
+  updateSuccess() {
+    confirm('Update Success');
+  }
 }

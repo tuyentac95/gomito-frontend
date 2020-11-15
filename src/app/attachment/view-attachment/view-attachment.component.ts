@@ -14,33 +14,35 @@ import {throwError} from 'rxjs';
 })
 export class ViewAttachmentComponent implements OnInit {
   @Input() items: Attachment[];
-  cardId: number;
+  @Input() cardId: number;
 
   constructor(private attachmentService: AttachmentService,
               private create: MatDialog) {
   }
 
   ngOnInit(): void {
-
+    this.getAttachmentList();
   }
 
+  // tslint:disable-next-line:typedef
+  private getAttachmentList(){
+      // @ts-ignore
+    this.attachmentService.getAttachment(this.cardId).subscribe(data => {
+      this.items = data;
+      console.log(this.items);
+    });
+  }
 
   // tslint:disable-next-line:typedef
   openDelete(id: number) {
-    const deleteAttach: Attachment = {
-      attachmentId: id
-    };
-    const deleteAttachment = this.create.open(DeleteAttachmentComponent, {
-      data: deleteAttach.attachmentId,
-      width: '250px'
-    });
-    console.log('check delete 0 ' + deleteAttachment);
-    deleteAttachment.afterClosed().subscribe(result => {
-      console.log('check delete ' + result);
-      this.attachmentService.deleteAttachment(result).subscribe(data => {
+      this.attachmentService.deleteAttachment(id).subscribe(data => {
         console.log(data);
+        this.getAttachmentList();
+      }, err => {
+        console.log(err.status);
+      }, () => {
+        confirm('Delete Success');
       });
-    });
   }
 
   // tslint:disable-next-line:typedef
