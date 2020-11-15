@@ -52,7 +52,7 @@ export class BoardViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.updateSubscription = interval(3000).subscribe(this.boardId = Number(this.route.snapshot.params.boardId));
+    this.boardId = Number(this.route.snapshot.params.boardId);
     this.boardName = '';
     this.getBoardInfo(this.boardId);
     this.listModels = [];
