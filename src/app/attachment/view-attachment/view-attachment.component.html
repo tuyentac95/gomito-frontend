@@ -1,12 +1,16 @@
 <div *ngFor="let item of items" class="view-atm">
     <div  class="example-card" >
     <mat-card fxLayout="row">
-      <div fxLayout="row">
-        <img class="view-image" [src]="item.attachmentUrl" alt="">
+      <div fxLayout="row" class="thumbnail">
+        <a href="{{item.attachmentUrl}}" class="temp">
+          <img *ngIf="item.attachmentName.split('.')[item.attachmentName.split('.').length-1] == 'png' ||
+item.attachmentName.split('.')[item.attachmentName.split('.').length-1] == 'jpg'; else elseBlock" class="view-image" [src]="item.attachmentUrl" alt="">
+          <ng-template  #elseBlock>{{item.attachmentName.split('.')[item.attachmentName.split('.').length-1]}}</ng-template>
+      </a>
       </div>
       <div fxLayout="column">
         <mat-card-content class="attachment-content">
-          <p>{{item.attachmentName}}</p>
+          <p><a href="{{item.attachmentUrl}}">{{item.attachmentName}}</a></p>
         </mat-card-content>
       </div>
     </mat-card>

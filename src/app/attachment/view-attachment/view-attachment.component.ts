@@ -14,37 +14,43 @@ import {throwError} from 'rxjs';
 })
 export class ViewAttachmentComponent implements OnInit {
   @Input() items: Attachment[];
-  cardId: number;
+  @Input() cardId: number;
 
   constructor(private attachmentService: AttachmentService,
               private create: MatDialog) {
   }
 
   ngOnInit(): void {
+    this.getAttachmentList();
   }
 
+  // tslint:disable-next-line:typedef
+  private getAttachmentList(){
+      // @ts-ignore
+    this.attachmentService.getAttachment(this.cardId).subscribe(data => {
+      this.items = data;
+      console.log(this.items);
+    });
+  }
 
   // tslint:disable-next-line:typedef
   openDelete(id: number) {
-    const deleteAttach: Attachment = {
-      attachmentId: id
-    };
-    const deleteAttachment = this.create.open(DeleteAttachmentComponent, {
-      data: deleteAttach,
-      width: '250px'
-    });
-    deleteAttachment.afterClosed().subscribe(result => {
-      console.log('check delete ' + result);
-      this.attachmentService.deleteAttachment(result).subscribe(data => {});
-    });
+      this.attachmentService.deleteAttachment(id).subscribe(data => {
+        console.log(data);
+        this.getAttachmentList();
+      }, err => {
+        console.log(err.status);
+      }, () => {
+        confirm('Delete Success');
+      });
   }
 
   // tslint:disable-next-line:typedef
   openEdit(id: number, name: string) {
     // tslint:disable-next-line:one-variable-per-declaration
     const updateAttachment: Attachment = {
-        attachmentId: id,
-        attachmentName: name
+      attachmentId: id,
+      attachmentName: name
     };
     const editAttachment = this.create.open(EditAttachmentComponent, {
       data: updateAttachment,
@@ -65,4 +71,7 @@ export class ViewAttachmentComponent implements OnInit {
     });
   }
 
+  // tslint:disable-next-line:typedef
+//   openImage(img: string)
+//
 }

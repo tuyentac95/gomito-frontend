@@ -26,6 +26,8 @@ export class ViewCardComponent implements OnInit {
   attachments: Attachment[];
   comments: Comment[];
   newComment: string;
+  guser: GUser;
+
   labels: Glabel[];
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
               private cardService: CardService,
@@ -56,6 +58,7 @@ export class ViewCardComponent implements OnInit {
       throwError(err);
     });
   }
+
   private getAllComments(cardId: number): void {
     this.commentService.getCommentByCardId(cardId).subscribe(result => {
       console.log(result);

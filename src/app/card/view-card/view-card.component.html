@@ -16,6 +16,7 @@
                              class="choose-label" [style]="{'background':label.color}">{{label.labelName}}</mat-button-toggle>
         </tr>
       </mat-menu>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data.card" class="add-item">Update</button>
     </div>
   </mat-grid-tile>
 
@@ -57,14 +58,20 @@
         <textarea matInput type="text" placeholder="Description" [(ngModel)]="data.card.description"></textarea>
       </label>
     </mat-form-field>
-    <button mat-raised-button color="primary" [mat-dialog-close]="data.card">Update</button>
   </mat-grid-tile>
 </mat-grid-list>
 
 <div >
-  <app-view-attachment  [items]="attachments"></app-view-attachment>
+  <app-view-attachment  [items]="attachments" [cardId]="cardId"></app-view-attachment>
 </div>
+
 <div>
+<!--  <div>-->
+<!--    <img *ngIf="guser.avatarUrl != null; else elseBlock" src="{{guser.avatarUrl}}" class="member-avatar-ctm">-->
+<!--    <ng-template #elseBlock>-->
+<!--      <button mat-mini-fab class="member-avatar-ctm">{{guser.username.charAt(0).toUpperCase()}}</button>-->
+<!--    </ng-template>-->
+<!--  </div>-->
   <mat-form-field class="add-comment" appearance="outline">
     <mat-label>Add new comment</mat-label>
     <div>

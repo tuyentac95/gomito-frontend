@@ -6,8 +6,8 @@
   <div>
     <input type="file" id="avatar" formControlName="avatar" #fileUpLoader (change)="showPreview($event)">
     <br/>
-    <div>
-      <button mat-raised-button [mat-dialog-close]="data.attach" >Update</button>
+    <div class="btn-update">
+      <button mat-raised-button [mat-dialog-close]="data.attach" [disabled]="!updated" (click)="updateSuccess()">Update</button>
     </div>
     <br/>
   </div>
