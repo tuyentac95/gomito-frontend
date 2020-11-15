@@ -46,6 +46,8 @@ export class ViewCardComponent implements OnInit {
     this.newComment = '';
     this.cardId = this.data.card.cardId;
     const $this = this;
+    console.log('kiem tra cardid: ' + this.cardId);
+    console.log('kiem tra cardid: ' + this.guser);
     this.getAllAttachments(this.cardId);
     this.getAllComments(this.cardId);
     this.cardService.getMembersOfCard(this.cardId).subscribe(result => {
@@ -132,8 +134,7 @@ export class ViewCardComponent implements OnInit {
   createComment(cont) {
     const createContend: Comment = {
       content: cont,
-      cardId: this.cardId,
-      guser: this.guser
+      cardId: this.cardId
     };
     console.log(createContend);
     this.newComment = '';

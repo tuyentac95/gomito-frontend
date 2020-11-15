@@ -2,11 +2,13 @@
     <div  class="example-card" >
     <mat-card fxLayout="row">
       <div fxLayout="row" class="thumbnail">
-        <img class="view-image" [src]="item.attachmentUrl" alt="">
+        <a href="{{item.attachmentUrl}}">
+          <img  class="view-image" [src]="item.attachmentUrl" alt="">
+      </a>
       </div>
       <div fxLayout="column">
         <mat-card-content class="attachment-content">
-          <p>{{item.attachmentName}}</p>
+          <p><a href="{{item.attachmentUrl}}">{{item.attachmentName}}</a></p>
         </mat-card-content>
       </div>
     </mat-card>

@@ -23,9 +23,15 @@ export class AddAttachmentComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  submit(){
+  submit(): void{
     if (this.selectedImage !== null){
-      const filePath = `attachment/$(this.selectedImage.name.split('.').slice(0, -1).join('.'))_${new Date().getTime()}`;
+      // console.log(this.selectedImage.name);
+      // console.log(this.selectedImage.name.split('.'));
+      const fileName = this.selectedImage.name.split('.');
+      // console.log(fileName[fileName.length - 1]);
+      // console.log(this.selectedImage.name.split('.').slice(0, -1));
+      // console.log(this.selectedImage.name.split('.').slice(0, -1).join('.'));
+      const filePath = `attachment/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}.${fileName[fileName.length - 1]}`;
       const fileRef = this.storage.ref(filePath);
       const $this = this;
       const attName = this.selectedImage.name;

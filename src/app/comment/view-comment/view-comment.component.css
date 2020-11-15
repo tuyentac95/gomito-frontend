@@ -14,11 +14,12 @@ p {
 }
 
 .member {
-  margin-left: 5px;
   background-color: #C2BAC8;
-  font-size: 20px;
-  width: 45px;
-  height: 45px;
+  font-size: 10px;
+  width: 25px;
+  height: 25px;
+  float: left;
+  margin-right: 10px;
   justify-content: center;
 }
 

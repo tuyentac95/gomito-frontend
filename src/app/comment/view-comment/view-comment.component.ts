@@ -19,8 +19,7 @@ export class ViewCommentComponent implements OnInit {
               private create: MatDialog) { }
 
   ngOnInit(): void {
-    console.log('Kiem tra du lieu ' + this.items);
-    console.log('Kiem tra du lieu ' + this.comments);
+    console.log('Kiểm tra items: ' + this.items);
   }
 
   // tslint:disable-next-line:typedef
