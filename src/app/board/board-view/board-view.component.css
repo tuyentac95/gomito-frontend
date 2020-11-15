@@ -170,3 +170,8 @@ mat-divider {
 mat-button-toggle{
   margin-left: 100px;
 }
+
+.select-color {
+  width: 25px;
+  height: 25px;
+}

@@ -3,6 +3,13 @@
 }
 
 .comment-view {
-  /*border: 1px black solid;*/
   width: 500px;
+  margin-bottom: 15px;
+  text-overflow: clip;
+  word-wrap: break-word;
 }
+
+p {
+  width: 450px;
+}
+
