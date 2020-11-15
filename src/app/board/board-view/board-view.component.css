@@ -175,3 +175,16 @@ mat-button-toggle{
   width: 25px;
   height: 25px;
 }
+
+.card-label {
+  width: 100%;
+  min-height: 10px;
+}
+
+.mark-label {
+  width: 18%;
+  height: 8px;
+  margin: 2px;
+  float: left;
+  border-radius: 20%;
+}

@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {MatDialog} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {ListUpdateComponent} from '../../list/list-update/list-update.component';
 import {ListModel} from '../../list-model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ListService} from '../../list/list.service';
 import {CardService} from '../../card/card.service';
 import {GCard} from '../../gCard';
-import {throwError} from 'rxjs';
+import {Subscription, throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {ViewCardComponent} from '../../card/view-card/view-card.component';
@@ -25,7 +25,7 @@ import {BoardService} from '../board.service';
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
-  cards: GCard[];
+  private updateSubscription: Subscription;
   newLabel: Glabel = new Glabel();
   labels: Glabel[];
   listModels: ListModel[];
@@ -47,7 +47,8 @@ export class BoardViewComponent implements OnInit {
               private userService: UserService,
               private router: Router,
               private webSocketService: WebSocketService,
-              private boardService: BoardService) {
+              private boardService: BoardService,
+             ) {
   }
 
   ngOnInit(): void {
@@ -64,6 +65,7 @@ export class BoardViewComponent implements OnInit {
     this.listMembers = [];
     this.getLabel();
     this.getAllMembers(this.boardId);
+
   }
 
   // tslint:disable-next-line:typedef
@@ -283,14 +285,13 @@ export class BoardViewComponent implements OnInit {
         console.log($this.listModels[listIndex].cards[result.cardIndex]);
         $this.listModels[listIndex].cards[result.cardIndex].cardName = result.cardName;
         $this.listModels[listIndex].cards[result.cardIndex].members = data.members;
+        $this.listModels[listIndex].cards[result.cardIndex].labels = data.labels;
         alert('Update success');
         console.log(result);
       });
     });
   }
-
-  // tslint:disable-next-line:typedef
-  private getLabel() {
+  private getLabel(): void {
     // Lấy boardId từ URL
     const id = this.route.snapshot.params.boardId;
 

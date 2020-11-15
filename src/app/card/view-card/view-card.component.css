@@ -62,11 +62,13 @@
 }
 
 .labels {
-  height: 50px;
-  width: 100px;
+  height: 25px;
+  width: 18%;
   margin-left: 5px;
-  margin-top: 25px;
+  margin-top: 5px;
   float: left;
+  border-radius: 4px;
+  text-align: center;
 }
 
 .atm-border {
