@@ -41,6 +41,18 @@ export class LoginComponent implements OnInit {
       if (params.isRegistered) {
         this.openSnackBar();
       }
+      if(params.verifyToken != ''){
+        this.authService.verifyToken(params.verifyToken).subscribe(data => {
+          console.log("ok");
+        },err => {
+          if (err.status === 200) {
+            this.messageUsername = 'Tài khoản đã được xác thực!';
+          } else if (err.status === 404) {
+            this.messageUsername = 'Tài khoản không tìm thấy!';
+            this.router.navigate(['login']);
+          }
+        });
+      }
     });
   }
 

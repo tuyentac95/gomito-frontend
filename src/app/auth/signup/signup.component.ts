@@ -16,6 +16,8 @@ export class SignupComponent implements OnInit {
   signupRequest: SignupRequest;
   signupForm: FormGroup;
   message: string;
+  //Vừa thêm để chuyển hướng khi gửi mail thành công
+  private token: string;
 
   constructor(private authService: AuthService,
               private router: Router,
@@ -34,6 +36,7 @@ export class SignupComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(50)])
     });
+
   }
 
   signup(): void{
