@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {AttachmentService} from '../service/attachment.service';
 import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
@@ -11,16 +11,20 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
   styleUrls: ['./add-attachment.component.css']
 })
 export class AddAttachmentComponent implements OnInit {
+  @Input() items: Attachment[];
   imgSrc: string;
   selectedImage: any = null;
+  updated = false;
+
   constructor(private attachment: AttachmentService,
               private storage: AngularFireStorage,
               @Inject(MAT_DIALOG_DATA) public data: {
-                attach: any;
+                attach: Attachment;
                 cardId: number
               }) { }
 
   ngOnInit(): void {
+    // this.getAllAttachmentList();
   }
 
   submit(): void{
@@ -44,8 +48,10 @@ export class AddAttachmentComponent implements OnInit {
               attachmentName: attName,
               cardId: $this.data.cardId
             };
-            $this.attachment.createAttachment(createAttachment).subscribe(data => {
+            $this.attachment.createAttachment(createAttachment).subscribe(result => {
               console.log('update ava ok');
+              this.data.attach = result;
+              this.updated = true;
             });
           });
         })
@@ -68,6 +74,12 @@ export class AddAttachmentComponent implements OnInit {
     }
   }
 
+  // tslint:disable-next-line:typedef
+  getAllAttachmentList(){
+    this.attachment.getAttachment(this.data.cardId).subscribe(data => {
+        this.items = data;
+    });
+  }
   // tslint:disable-next-line:typedef
   updateSuccess() {
     confirm('Update Success');
