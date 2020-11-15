@@ -12,7 +12,6 @@ import {Comment} from '../../comment';
 import {Glabel} from '../../glabel';
 import {throwError} from 'rxjs';
 import {WebSocketService} from '../../notification/web-socket-service';
-import {LabelComponent} from '../../label/label.component';
 import {LabelService} from '../../label/label.service';
 
 
@@ -28,7 +27,6 @@ export class ViewCardComponent implements OnInit {
   comments: Comment[];
   newComment: string;
   labels: Glabel[];
-  labelColor: string;
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
               private cardService: CardService,
               private attachmentService: AttachmentService,

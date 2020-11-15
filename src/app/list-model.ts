@@ -8,4 +8,5 @@ export class ListModel {
   cards?: GCard[];
   listIndex?: number;
   dropListId?: number;
+  labels?: Glabel[];
 }
