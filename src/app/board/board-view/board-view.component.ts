@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {MatDialog} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {ListUpdateComponent} from '../../list/list-update/list-update.component';
 import {ListModel} from '../../list-model';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -67,7 +67,6 @@ export class BoardViewComponent implements OnInit {
     this.listMembers = [];
     this.getLabel();
     this.getAllMembers(this.boardId);
-
   }
 
   // tslint:disable-next-line:typedef
@@ -287,14 +286,14 @@ export class BoardViewComponent implements OnInit {
         console.log($this.listModels[listIndex].cards[result.cardIndex]);
         $this.listModels[listIndex].cards[result.cardIndex].cardName = result.cardName;
         $this.listModels[listIndex].cards[result.cardIndex].members = data.members;
+        $this.listModels[listIndex].cards[result.cardIndex].labels = data.labels;
         alert('Update success');
         console.log(result);
       });
     });
   }
 
-  // tslint:disable-next-line:typedef
-  private getLabel() {
+  private getLabel(): void {
     // Lấy boardId từ URL
     const id = this.route.snapshot.params.boardId;
 

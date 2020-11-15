@@ -12,6 +12,7 @@ import {Comment} from '../../comment';
 import {Glabel} from '../../glabel';
 import {throwError} from 'rxjs';
 import {WebSocketService} from '../../notification/web-socket-service';
+import {LabelService} from '../../label/label.service';
 
 
 @Component({
@@ -25,13 +26,14 @@ export class ViewCardComponent implements OnInit {
   attachments: Attachment[];
   comments: Comment[];
   newComment: string;
-
+  labels: Glabel[];
   constructor(public dialogRef: MatDialogRef<ViewCardComponent>,
               private cardService: CardService,
               private attachmentService: AttachmentService,
               private create: MatDialog,
               private commentService: CommentService,
               private webSocketService: WebSocketService,
+              private labelService: LabelService,
               @Inject(MAT_DIALOG_DATA) public data: {
                 card: GCard,
                 labels: Glabel[],
@@ -47,6 +49,7 @@ export class ViewCardComponent implements OnInit {
     const $this = this;
     this.getAllAttachments(this.cardId);
     this.getAllComments(this.cardId);
+    this.getAllLabels(this.cardId);
     this.cardService.getMembersOfCard(this.cardId).subscribe(result => {
       $this.members = result;
     }, err => {
@@ -62,7 +65,15 @@ export class ViewCardComponent implements OnInit {
       throwError(err);
     });
   }
-
+  private getAllLabels(cardId: number): void {
+    this.labelService.getAllLabels(cardId).subscribe(result => {
+      console.log(result);
+      this.labels = result;
+    }, err => {
+      console.log(err);
+      throwError(err);
+    });
+  }
   private getAllAttachments(cardId: number): void {
     this.attachmentService.getAttachment(cardId).subscribe(result => {
       console.log('check result');
@@ -124,9 +135,7 @@ export class ViewCardComponent implements OnInit {
       console.log(err);
     });
   }
-
-  // tslint:disable-next-line:typedef
-  createComment(cont) {
+  createComment(cont): void {
     const createContend: Comment = {
       content: cont,
       cardId: this.cardId,
