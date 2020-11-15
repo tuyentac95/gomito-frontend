@@ -7,7 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ListService} from '../../list/list.service';
 import {CardService} from '../../card/card.service';
 import {GCard} from '../../gCard';
-import {throwError} from 'rxjs';
+import {Subscription, throwError} from 'rxjs';
 import {CreatListComponent} from '../../list/creat-list/creat-list.component';
 import {CreateCardComponent} from '../../card/create-card/create-card.component';
 import {ViewCardComponent} from '../../card/view-card/view-card.component';
@@ -25,7 +25,7 @@ import {BoardService} from '../board.service';
   styleUrls: ['./board-view.component.css']
 })
 export class BoardViewComponent implements OnInit {
-  cards: GCard[];
+  private updateSubscription: Subscription;
   newLabel: Glabel = new Glabel();
   labels: Glabel[];
   listModels: ListModel[];
@@ -52,7 +52,7 @@ export class BoardViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.boardId = Number(this.route.snapshot.params.boardId);
+    // this.updateSubscription = interval(3000).subscribe(this.boardId = Number(this.route.snapshot.params.boardId));
     this.boardName = '';
     this.getBoardInfo(this.boardId);
     this.listModels = [];
@@ -65,6 +65,7 @@ export class BoardViewComponent implements OnInit {
     this.listMembers = [];
     this.getLabel();
     this.getAllMembers(this.boardId);
+
   }
 
   // tslint:disable-next-line:typedef
@@ -284,6 +285,7 @@ export class BoardViewComponent implements OnInit {
         console.log($this.listModels[listIndex].cards[result.cardIndex]);
         $this.listModels[listIndex].cards[result.cardIndex].cardName = result.cardName;
         $this.listModels[listIndex].cards[result.cardIndex].members = data.members;
+        $this.listModels[listIndex].cards[result.cardIndex].labels = data.labels;
         alert('Update success');
         console.log(result);
       });
