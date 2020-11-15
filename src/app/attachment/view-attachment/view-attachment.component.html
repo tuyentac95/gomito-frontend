@@ -2,8 +2,10 @@
     <div  class="example-card" >
     <mat-card fxLayout="row">
       <div fxLayout="row" class="thumbnail">
-        <a href="{{item.attachmentUrl}}">
-          <img  class="view-image" [src]="item.attachmentUrl" alt="">
+        <a href="{{item.attachmentUrl}}" class="temp">
+          <img *ngIf="item.attachmentName.split('.')[item.attachmentName.split('.').length-1] == 'png' ||
+item.attachmentName.split('.')[item.attachmentName.split('.').length-1] == 'jpg'; else elseBlock" class="view-image" [src]="item.attachmentUrl" alt="">
+          <ng-template  #elseBlock>{{item.attachmentName.split('.')[item.attachmentName.split('.').length-1]}}</ng-template>
       </a>
       </div>
       <div fxLayout="column">
