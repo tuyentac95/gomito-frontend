@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {MatDialog} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {ListUpdateComponent} from '../../list/list-update/list-update.component';
 import {ListModel} from '../../list-model';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -17,6 +17,7 @@ import {LabelService} from '../../label/label.service';
 import {UserService} from '../../user/user.service';
 import {WebSocketService} from '../../notification/web-socket-service';
 import {BoardService} from '../board.service';
+import {AuthService} from '../../auth/auth.service';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class BoardViewComponent implements OnInit {
   memberInfo: string;
   boardId: number;
   boardName: string;
+  private messageUsername: string;
 
   constructor(public create: MatDialog,
               private route: ActivatedRoute,
@@ -47,7 +49,8 @@ export class BoardViewComponent implements OnInit {
               private userService: UserService,
               private router: Router,
               private webSocketService: WebSocketService,
-              private boardService: BoardService) {
+              private boardService: BoardService,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -74,6 +77,10 @@ export class BoardViewComponent implements OnInit {
       this.cardService.updateIndex(event.container.data).subscribe(data => {
         console.log('Update Card Index Success');
       }, err => {
+        if (err.status === 200) {
+          this.originList = [];
+          this.getList();
+        }
         throwError(err);
       });
     } else {
@@ -124,6 +131,8 @@ export class BoardViewComponent implements OnInit {
       }, err => {
         if (err.status === 200) {
           console.log('Update New List Card');
+          this.originList = [];
+          this.getList();
 
           // thông báo cho các members trong board
           const msg = ' move card ' + dropCard.cardName + ' to list ' + $listName;
@@ -140,6 +149,10 @@ export class BoardViewComponent implements OnInit {
     this.listService.updateIndex(event.container.data).subscribe(data => {
       console.log('Update Index OK');
     }, err => {
+      if (err.status) {
+        this.originList = [];
+        this.getList();
+      }
       throwError(err);
     })
     ;
@@ -169,6 +182,7 @@ export class BoardViewComponent implements OnInit {
       cardName: '',
       listId: id
     };
+    console.log('check create card' + newCard);
     const createCard = this.create.open(CreateCardComponent, {
       data: newCard,
       width: '250px'
@@ -286,14 +300,16 @@ export class BoardViewComponent implements OnInit {
         console.log($this.listModels[listIndex].cards[result.cardIndex]);
         $this.listModels[listIndex].cards[result.cardIndex].cardName = result.cardName;
         $this.listModels[listIndex].cards[result.cardIndex].members = data.members;
+        $this.listModels[listIndex].cards[result.cardIndex].labels = data.labels;
         alert('Update success');
         console.log(result);
+        $this.originList = [];
+        $this.getList();
       });
     });
   }
 
-  // tslint:disable-next-line:typedef
-  private getLabel() {
+  private getLabel(): void {
     // Lấy boardId từ URL
     const id = this.route.snapshot.params.boardId;
 
@@ -371,7 +387,11 @@ export class BoardViewComponent implements OnInit {
     } else if ($this.filterMembers.length === 0) {
       console.log($this.filterLabels);
       for (const list of $this.originList) {
+        console.log($this.originList);
         const index = $this.originList.indexOf(list);
+        console.log(index);
+        console.log($this.listModels);
+        console.log($this.listModels[index]);
         $this.listModels[index].cards = [];
         for (const card of list.cards) {
           for (const label1 of card.labels) {

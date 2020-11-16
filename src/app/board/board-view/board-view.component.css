@@ -192,3 +192,16 @@ mat-button-toggle{
   background-color: #C2BAC8;
   margin-right: 5px;
 }
+
+.card-label {
+  width: 100%;
+  min-height: 10px;
+}
+
+.mark-label {
+  width: 18%;
+  height: 8px;
+  margin: 2px;
+  float: left;
+  border-radius: 20%;
+}

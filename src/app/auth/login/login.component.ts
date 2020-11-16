@@ -6,6 +6,7 @@ import {LocalStorageService} from 'ngx-webstorage';
 import {throwError} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {WebSocketService} from '../../notification/web-socket-service';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,8 @@ export class LoginComponent implements OnInit {
               private router: Router,
               private localStorage: LocalStorageService,
               private route: ActivatedRoute,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private webSocket: WebSocketService) {
   }
 
   ngOnInit(): void {
@@ -40,6 +42,18 @@ export class LoginComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params.isRegistered) {
         this.openSnackBar();
+      }
+      if (params.verifyToken !== ''){
+        this.authService.verifyToken(params.verifyToken).subscribe(data => {
+          console.log('ok');
+        }, err => {
+          if (err.status === 200) {
+            this.messageUsername = 'Tài khoản đã được xác thực!';
+          } else if (err.status === 404) {
+            this.messageUsername = 'Tài khoản không tìm thấy!';
+            this.router.navigate(['login']);
+          }
+        });
       }
     });
   }

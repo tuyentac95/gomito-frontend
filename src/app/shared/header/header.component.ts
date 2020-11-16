@@ -104,6 +104,11 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleBadgeVisibility(): void {
+    this.notificationService.getAllNotifications().subscribe(result => {
+      this.notifications = result;
+    }, err => {
+      throwError(err);
+    });
     this.unread = null;
     this.webSocketService.hasNewNotification = '';
     this.notificationService.markRead(this.notifications).subscribe(data => {

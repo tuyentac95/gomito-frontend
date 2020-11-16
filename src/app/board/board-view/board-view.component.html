@@ -37,53 +37,58 @@
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
+
 <mat-drawer-container>
 
-    <!--  Tạo mới một DropList kéo thả các đối tượng theo chiều ngang (horizontal)
+  <!--  Tạo mới một DropList kéo thả các đối tượng theo chiều ngang (horizontal)
         đưa listModels gán vào data của DropList này-->
-    <div cdkDropList cdkDropListOrientation="horizontal"
-         (cdkDropListDropped)="dropList($event)" [cdkDropListData]="listModels">
-      <!--    Tạo ra một DropListGroup để nhóm các cái DropList bên trong có thể kéo thả-->
-      <!--    các card qua lại giữa các list-->
-      <div cdkDropListGroup>
+  <div cdkDropList cdkDropListOrientation="horizontal"
+       (cdkDropListDropped)="dropList($event)" [cdkDropListData]="listModels">
 
-        <div class="scroll">
-        <!--      Duyệt qua các list trong mảng listModels-->
-        <div class="example-container" *ngFor="let list of listModels; index as i" cdkDrag>
-          <h2 (click)="openEditList(list.listId, list.listName)">{{list.listName}}</h2>
+    <!--    Tạo ra một DropListGroup để nhóm các cái DropList bên trong có thể kéo thả-->
+    <!--    các card qua lại giữa các list-->
+    <div cdkDropListGroup>
 
-          <!--        Lấy ra danh sách các card từ cards của từng list đưa vào data của DropList con-->
-          <div
-            cdkDropList
-            [cdkDropListData]="list.cards"
-            class="example-list"
-            (cdkDropListDropped)="dropCard($event, list.listId, list.listName, list.listIndex)">
+      <!--      Duyệt qua các list trong mảng listModels-->
+      <div class="example-container" *ngFor="let list of listModels; index as i" cdkDrag>
+        <h2 (click)="openEditList(list.listId, list.listName)">{{list.listName}}</h2>
 
-            <!--          Duyệt qua từng card trong cái cards của list-->
-            <div class="example-box" *ngFor="let item of list.cards" cdkDrag (click)="viewCard(item.cardId, i)" fxLayout="column">
-              <span class="card-name">{{item.cardName}}</span>
-              <div class="member-ava" fxLayout="row" fxLayoutAlign="flex-end">
-                <div *ngFor="let mem of item.members">
-                  <img *ngIf="mem.avatarUrl != null; else elseBlock" src="{{mem.avatarUrl}}" class="member">
-                  <ng-template #elseBlock>
-                    <button mat-mini-fab class="member">{{mem.username.charAt(0).toUpperCase()}}</button>
-                  </ng-template>
-                </div>
+        <!--        Lấy ra danh sách các card từ cards của từng list đưa vào data của DropList con-->
+        <div
+          cdkDropList
+          [cdkDropListData]="list.cards"
+          class="example-list"
+          (cdkDropListDropped)="dropCard($event, list.listId, list.listName, list.listIndex)">
+
+          <!--          Duyệt qua từng card trong cái cards của list-->
+
+
+          <div class="example-box" *ngFor="let item of list.cards" cdkDrag (click)="viewCard(item.cardId, i)" fxLayout="column">
+            <div class="card-label">
+            <div class="mark-label"
+                               *ngFor="let label of item.labels" [style]="{'background':label.color}"> </div>
+            </div>
+            <span class="card-name">{{item.cardName}}</span>
+            <div class="member-ava" fxLayout="row" fxLayoutAlign="flex-end">
+              <div *ngFor="let mem of item.members">
+                <img *ngIf="mem.avatarUrl != null; else elseBlock" src="{{mem.avatarUrl}}" class="member">
+                <ng-template #elseBlock>
+                  <button mat-mini-fab class="member">{{mem.username.charAt(0).toUpperCase()}}</button>
+                </ng-template>
               </div>
             </div>
-            <div *ngIf="list.cards.length == 0">
-              <div class="example-box" (click)="openCreateCard(list.listId, i)"> + Add new card</div>
-            </div>
           </div>
-          <div class="add-card-box" *ngIf="list.cards.length > 0" (click)="openCreateCard(list.listId, i)"> + Add new
-            card
+          <div *ngIf="list.cards.length == 0">
+            <div class="example-box" (click)="openCreateCard(list.listId, i)"> + Add new card</div>
           </div>
         </div>
-        <div class="add-list-box" (click)="openCreateList()"> + Add new list</div>
-
+        <div class="add-card-box" *ngIf="list.cards.length > 0" (click)="openCreateCard(list.listId, i)"> + Add new
+          card
         </div>
       </div>
+      <div class="add-list-box" (click)="openCreateList()"> + Add new list</div>
     </div>
+  </div>
 
   <!--Display labels-->
   <mat-drawer #drawer class="example-sidenav" mode="side" position="end">
@@ -106,5 +111,4 @@
 
   </mat-drawer>
 </mat-drawer-container>
-
 

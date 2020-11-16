@@ -38,6 +38,16 @@
   float: left;
   margin-left: 5px;
 }
+.member-avatar-ctm {
+  background-color: #C2BAC8;
+  font-size: 23px;
+  color: #FAFBFC;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  float: left;
+  margin-right: 10px;
+}
 
 .add-item {
   width: 90%;
@@ -62,11 +72,13 @@
 }
 
 .labels {
-  height: 50px;
-  width: 100px;
+  height: 25px;
+  width: 18%;
   margin-left: 5px;
-  margin-top: 25px;
+  margin-top: 5px;
   float: left;
+  border-radius: 4px;
+  text-align: center;
 }
 
 .atm-border {
