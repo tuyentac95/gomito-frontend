@@ -13,7 +13,7 @@
           <input matInput placeholder="Username" [formControlName]="'username'" name="username">
         </mat-form-field>
         <span *ngIf="!signupForm.get('username').valid && signupForm.get('username').touched">
-          Username must have 6-50 characters!
+          Username must have 4-50 characters!
         </span>
 
         <mat-form-field class="example-full-width">

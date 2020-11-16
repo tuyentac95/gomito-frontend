@@ -56,6 +56,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { HomeComponent } from './home/home.component';
 import { AddMemberVerifyTokenComponent } from './add-member-verify-token/add-member-verify-token.component';
 // import { GBoardComponent } from './gboard/gboard.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -113,7 +114,8 @@ import { AddMemberVerifyTokenComponent } from './add-member-verify-token/add-mem
     ReactiveFormsModule,
     MatGridListModule,
     MatSnackBarModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    ScrollingModule
   ],
   // providers: [],
   providers: [

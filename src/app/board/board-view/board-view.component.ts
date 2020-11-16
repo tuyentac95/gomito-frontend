@@ -17,7 +17,7 @@ import {LabelService} from '../../label/label.service';
 import {UserService} from '../../user/user.service';
 import {WebSocketService} from '../../notification/web-socket-service';
 import {BoardService} from '../board.service';
-import {AuthService} from "../../auth/auth.service";
+import {AuthService} from '../../auth/auth.service';
 
 
 @Component({
@@ -77,6 +77,10 @@ export class BoardViewComponent implements OnInit {
       this.cardService.updateIndex(event.container.data).subscribe(data => {
         console.log('Update Card Index Success');
       }, err => {
+        if (err.status === 200) {
+          this.originList = [];
+          this.getList();
+        }
         throwError(err);
       });
     } else {
@@ -91,17 +95,20 @@ export class BoardViewComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
 
-      // let newListId = 0;
       const dropCard: GCard = {
         cardName: '',
         cardId: 0
       };
       for (const $newC of containerData) {
         let checkCard = true;
-        for (const $oldC of this.originList[$listIndex].cards) {
-          if ($newC.cardId === $oldC.cardId) {
-            checkCard = false;
-            break;
+        for (const l of this.originList) {
+          if (l.listId === $listId) {
+            for (const $oldC of l.cards) {
+              if ($newC.cardId === $oldC.cardId) {
+                checkCard = false;
+                break;
+              }
+            }
           }
         }
         if (checkCard) {
@@ -124,6 +131,8 @@ export class BoardViewComponent implements OnInit {
       }, err => {
         if (err.status === 200) {
           console.log('Update New List Card');
+          this.originList = [];
+          this.getList();
 
           // thông báo cho các members trong board
           const msg = ' move card ' + dropCard.cardName + ' to list ' + $listName;
@@ -140,6 +149,10 @@ export class BoardViewComponent implements OnInit {
     this.listService.updateIndex(event.container.data).subscribe(data => {
       console.log('Update Index OK');
     }, err => {
+      if (err.status) {
+        this.originList = [];
+        this.getList();
+      }
       throwError(err);
     })
     ;
@@ -164,7 +177,7 @@ export class BoardViewComponent implements OnInit {
     });
   }
 
-  openCreateCard(id: number, gUser: number, index: number): void {
+  openCreateCard(id: number, index: number): void {
     const newCard: GCard = {
       cardName: '',
       listId: id
@@ -290,6 +303,8 @@ export class BoardViewComponent implements OnInit {
         $this.listModels[listIndex].cards[result.cardIndex].labels = data.labels;
         alert('Update success');
         console.log(result);
+        $this.originList = [];
+        $this.getList();
       });
     });
   }
@@ -372,7 +387,11 @@ export class BoardViewComponent implements OnInit {
     } else if ($this.filterMembers.length === 0) {
       console.log($this.filterLabels);
       for (const list of $this.originList) {
+        console.log($this.originList);
         const index = $this.originList.indexOf(list);
+        console.log(index);
+        console.log($this.listModels);
+        console.log($this.listModels[index]);
         $this.listModels[index].cards = [];
         for (const card of list.cards) {
           for (const label1 of card.labels) {
