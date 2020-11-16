@@ -54,7 +54,7 @@ import { EditCommentComponent } from './comment/edit-comment/edit-comment.compon
 import { DeleteCommentComponent } from './comment/delete-comment/delete-comment.component';
 import { NotificationComponent } from './notification/notification.component';
 import { HomeComponent } from './home/home.component';
-// import { GBoardComponent } from './gboard/gboard.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -80,39 +80,39 @@ import { HomeComponent } from './home/home.component';
     DeleteCommentComponent,
     NotificationComponent,
     HomeComponent,
-    // GBoardComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    SharedModule,
-    MatSidenavModule,
-    MatDividerModule,
-    MatIconModule,
-    MatMenuModule,
-    MatToolbarModule,
-    MatListModule,
-    MatCardModule,
-    FlexLayoutModule,
-    DragDropModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatOptionModule,
-    MatButtonModule,
-    MatSelectModule,
-    HttpClientModule,
-    FormsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireStorageModule,
-    AngularFireDatabaseModule,
-    NgxWebstorageModule.forRoot(),
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatGridListModule,
-    MatSnackBarModule,
-    MatButtonToggleModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        SharedModule,
+        MatSidenavModule,
+        MatDividerModule,
+        MatIconModule,
+        MatMenuModule,
+        MatToolbarModule,
+        MatListModule,
+        MatCardModule,
+        FlexLayoutModule,
+        DragDropModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatOptionModule,
+        MatButtonModule,
+        MatSelectModule,
+        HttpClientModule,
+        FormsModule,
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireStorageModule,
+        AngularFireDatabaseModule,
+        NgxWebstorageModule.forRoot(),
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatGridListModule,
+        MatSnackBarModule,
+        MatButtonToggleModule,
+        ScrollingModule
+    ],
   // providers: [],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},

@@ -1,12 +1,13 @@
 mat-drawer-container {
   background-color: #cccccc;
   height: 100%;
+  overflow: scroll;
 }
 
 .example-container {
   width: 300px;
   max-width: 100%;
-  margin: 15px 10px 25px 20px;
+  margin: 15px 10px 25px 10px;
   display: inline-block;
   vertical-align: top;
   background-color: midnightblue;
@@ -174,4 +175,20 @@ mat-button-toggle{
 .select-color {
   width: 25px;
   height: 25px;
+}
+
+.wrapper {
+  height: 500px;
+  border: 1px solid black;
+  display: flex;
+  overflow-x: auto;
+}
+
+.wrapper .item {
+  /*min-width: 110px;*/
+  /*height: 110px;*/
+  /*line-height: 110px;*/
+  text-align: center;
+  background-color: #C2BAC8;
+  margin-right: 5px;
 }

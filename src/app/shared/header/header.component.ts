@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit {
         console.log(newNotification);
         ws.hasNewNotification = String(Number(ws.hasNewNotification) + 1);
         console.log(ws.hasNewNotification);
-        $this.unread += Number(ws.hasNewNotification);
+        $this.unread += 1;
         $this.alertNotification(newNotification);
       });
     }, ws.errorCallBack);
